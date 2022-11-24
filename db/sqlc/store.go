@@ -6,8 +6,8 @@ import (
 	"fmt"
 )
 
-// Store defines all functions to execute db queries and transactions
-type Store interface {
+// IStore defines all functions to execute db queries and transactions
+type IStore interface {
 	IStoreInstruction
 	CreateUserTx(ctx context.Context, arg CreateUserTxParams) (CreateUserTxResult, error)
 }
@@ -19,7 +19,7 @@ type SQLStore struct {
 }
 
 // NewStore creates a new store
-func NewStore(db *sql.DB) Store {
+func NewStore(db *sql.DB) IStore {
 	return &SQLStore{
 		db:      db,
 		Queries: New(db),
