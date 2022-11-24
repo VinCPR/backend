@@ -41,8 +41,9 @@ func NewServer(config util.Config, store db.IStore) (*Server, error) {
 	server := &Server{config: config, tokenMaker: tokenMaker, store: store}
 	router := gin.Default()
 	router.Use(CORS())
+	router.POST("/users", server.createUser)
+	router.POST("/users/login", server.loginUser)
 	// authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
-
 	server.router = router
 	return server, nil
 }
