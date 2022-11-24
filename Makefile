@@ -31,7 +31,7 @@ server:
 	go run cmd/main.go
 
 gen-swagger:
-	swag init --parseDependency --parseInternal -g ./cmd/server/main.go
+	swag init --parseDependency --parseInternal -g ./cmd/main.go
 
 .PHONY: postgres createdb dropdb migrateup migratedown migrateup1 migratedown1 sqlc test server gen-swagger
 

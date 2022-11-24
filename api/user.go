@@ -89,6 +89,16 @@ type loginUserResponse struct {
 	User                  userResponse `json:"user"`
 }
 
+// loginUserRequest
+// @Summary upsert new user
+// @Description upsert wallet address
+// @Tags Authentication
+// @Accept	json
+// @Produce  json
+// @Param body body loginUserRequest true "login request requires username, password"
+// @Security ApiKeyAuth
+// @Success 200 {object} loginUserResponse "ok"
+// @Router /v1/users/login [post]
 func (server *Server) loginUser(ctx *gin.Context) {
 	var req loginUserRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
