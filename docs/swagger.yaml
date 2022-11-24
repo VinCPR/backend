@@ -1,0 +1,151 @@
+definitions:
+  api.createUserRequest:
+    properties:
+      password:
+        minLength: 10
+        type: string
+      role_name:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - role_name
+    - username
+    type: object
+  api.loginUserRequest:
+    properties:
+      password:
+        minLength: 6
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  api.loginUserResponse:
+    properties:
+      access_token:
+        type: string
+      access_token_expires_at:
+        type: string
+      refresh_token:
+        type: string
+      refresh_token_expires_at:
+        type: string
+      session_id:
+        type: string
+      user:
+        $ref: '#/definitions/api.userResponse'
+    type: object
+  api.userResponse:
+    properties:
+      created_at:
+        type: string
+      role_name:
+        type: string
+      username:
+        type: string
+    type: object
+  github.com_VinCPR_backend_api.createUserRequest:
+    properties:
+      password:
+        minLength: 10
+        type: string
+      role_name:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - role_name
+    - username
+    type: object
+  github.com_VinCPR_backend_api.loginUserRequest:
+    properties:
+      password:
+        minLength: 6
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  github.com_VinCPR_backend_api.loginUserResponse:
+    properties:
+      access_token:
+        type: string
+      access_token_expires_at:
+        type: string
+      refresh_token:
+        type: string
+      refresh_token_expires_at:
+        type: string
+      session_id:
+        type: string
+      user:
+        $ref: '#/definitions/github.com_VinCPR_backend_api.userResponse'
+    type: object
+  github.com_VinCPR_backend_api.userResponse:
+    properties:
+      created_at:
+        type: string
+      role_name:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/users:
+    post:
+      consumes:
+      - application/json
+      description: upsert wallet address
+      parameters:
+      - description: upsert new user request requires username, password, and role
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/github.com_VinCPR_backend_api.createUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/github.com_VinCPR_backend_api.userResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: upsert new user
+      tags:
+      - Authentication
+  /v1/users/login:
+    post:
+      consumes:
+      - application/json
+      description: upsert wallet address
+      parameters:
+      - description: login request requires username, password
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/github.com_VinCPR_backend_api.loginUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/github.com_VinCPR_backend_api.loginUserResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: upsert new user
+      tags:
+      - Authentication
+swagger: "2.0"
