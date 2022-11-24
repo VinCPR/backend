@@ -25,6 +25,16 @@ type userResponse struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
+// createUser
+// @Summary upsert new user
+// @Description upsert wallet address
+// @Tags Authentication
+// @Accept	json
+// @Produce  json
+// @Param body body createUserRequest true "upsert new user request requires username, password, and role"
+// @Security ApiKeyAuth
+// @Success 200 {object} userResponse "ok"
+// @Router /v1/users [post]
 func (server *Server) createUser(ctx *gin.Context) {
 	var req createUserRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {

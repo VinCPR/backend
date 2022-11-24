@@ -30,7 +30,10 @@ sqlc:
 server:
 	go run cmd/main.go
 
-.PHONY: postgres createdb dropdb migrateup migratedown migrateup1 migratedown1 sqlc test server
+gen-swagger:
+	swag init --parseDependency --parseInternal -g ./cmd/server/main.go
+
+.PHONY: postgres createdb dropdb migrateup migratedown migrateup1 migratedown1 sqlc test server gen-swagger
 
 #remove-infras:
 #	docker-compose stop
