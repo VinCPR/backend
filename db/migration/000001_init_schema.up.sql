@@ -2,7 +2,7 @@ CREATE TABLE "user" (
   "id" bigserial PRIMARY KEY,
   "username" varchar(20) NOT NULL,
   "hashed_password" varchar NOT NULL,
-  "role_id" bigint,
+  "role_id" bigint NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now()),
   "updated_at" timestamptz NOT NULL
 );
@@ -24,8 +24,8 @@ CREATE TABLE "permission" (
 );
 
 CREATE TABLE "role_permission" (
-  "role_id" bigint,
-  "permission_id" bigint,
+  "role_id" bigint NOT NULL,
+  "permission_id" bigint NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now()),
   "updated_at" timestamptz NOT NULL
 );

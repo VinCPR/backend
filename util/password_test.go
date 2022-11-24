@@ -9,7 +9,7 @@ import (
 
 func TestPassword(t *testing.T) {
 	password := RandomStr(20)
-	passwordEncoded, err := HassPassword(password)
+	passwordEncoded, err := HashPassword(password)
 
 	require.NoError(t, err)
 	err = CheckPassword(password, passwordEncoded)
