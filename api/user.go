@@ -2,6 +2,7 @@ package api
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -25,18 +26,33 @@ type userResponse struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
+type loginUserRequest struct {
+	Username string `json:"username" binding:"required,alphanum"`
+	Password string `json:"password" binding:"required,min=10"`
+}
+
+type loginUserResponse struct {
+	SessionID             uuid.UUID    `json:"session_id"`
+	AccessToken           string       `json:"access_token"`
+	AccessTokenExpiresAt  time.Time    `json:"access_token_expires_at"`
+	RefreshToken          string       `json:"refresh_token"`
+	RefreshTokenExpiresAt time.Time    `json:"refresh_token_expires_at"`
+	User                  userResponse `json:"user"`
+}
+
 // createUser
 // @Summary upsert new user
 // @Description upsert wallet address
 // @Tags Authentication
 // @Accept	json
 // @Produce  json
-// @Param body body createUserRequest true "upsert new user request requires username, password, and role"
+// @Param body body createUserRequest true "create new user request requires username, password, and role"
 // @Security ApiKeyAuth
 // @Success 200 {object} userResponse "ok"
 // @Router /v1/users [post]
 func (server *Server) createUser(ctx *gin.Context) {
 	var req createUserRequest
+	fmt.Println(ctx.Request)
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
@@ -73,20 +89,6 @@ func (server *Server) createUser(ctx *gin.Context) {
 		CreatedAt: user.CreatedAt,
 	}
 	ctx.JSON(http.StatusOK, rsp)
-}
-
-type loginUserRequest struct {
-	Username string `json:"username" binding:"required,alphanum"`
-	Password string `json:"password" binding:"required,min=6"`
-}
-
-type loginUserResponse struct {
-	SessionID             uuid.UUID    `json:"session_id"`
-	AccessToken           string       `json:"access_token"`
-	AccessTokenExpiresAt  time.Time    `json:"access_token_expires_at"`
-	RefreshToken          string       `json:"refresh_token"`
-	RefreshTokenExpiresAt time.Time    `json:"refresh_token_expires_at"`
-	User                  userResponse `json:"user"`
 }
 
 // loginUserRequest

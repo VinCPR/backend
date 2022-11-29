@@ -36,7 +36,7 @@ const docTemplate = `{
                 "summary": "upsert new user",
                 "parameters": [
                     {
-                        "description": "upsert new user request requires username, password, and role",
+                        "description": "create new user request requires username, password, and role",
                         "name": "body",
                         "in": "body",
                         "required": true,
@@ -125,7 +125,7 @@ const docTemplate = `{
             "properties": {
                 "password": {
                     "type": "string",
-                    "minLength": 6
+                    "minLength": 10
                 },
                 "username": {
                     "type": "string"
@@ -198,7 +198,7 @@ const docTemplate = `{
             "properties": {
                 "password": {
                     "type": "string",
-                    "minLength": 6
+                    "minLength": 10
                 },
                 "username": {
                     "type": "string"
