@@ -1,8 +1,5 @@
 DB_URL?=postgresql://root:secret@localhost:5432/softcon?sslmode=disable
 
-test:
-	@PROJECT_PATH=$(shell pwd) go test -cover ./...
-
 postgres:
 	docker run --name softcon_postgres -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:15.1-alpine
 
@@ -24,11 +21,14 @@ migratedown:
 migratedown1:
 	migrate -path db/migration -database "$(DB_URL)" -verbose down 1
 
-sqlc:
-	sqlc generate
+test:
+	@PROJECT_PATH=$(shell pwd) go test -cover ./...
 
 server:
 	go run cmd/main.go
+
+sqlc:
+	sqlc generate
 
 gen-swagger:
 	swag init --parseDependency --parseInternal -g ./cmd/main.go
