@@ -16,7 +16,7 @@ definitions:
   api.loginUserRequest:
     properties:
       password:
-        minLength: 6
+        minLength: 10
         type: string
       username:
         type: string
@@ -65,7 +65,7 @@ definitions:
   github.com_VinCPR_backend_api.loginUserRequest:
     properties:
       password:
-        minLength: 6
+        minLength: 10
         type: string
       username:
         type: string
@@ -106,7 +106,7 @@ paths:
       - application/json
       description: upsert wallet address
       parameters:
-      - description: upsert new user request requires username, password, and role
+      - description: create new user request requires username, password, and role
         in: body
         name: body
         required: true

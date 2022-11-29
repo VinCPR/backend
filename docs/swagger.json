@@ -24,7 +24,7 @@
                 "summary": "upsert new user",
                 "parameters": [
                     {
-                        "description": "upsert new user request requires username, password, and role",
+                        "description": "create new user request requires username, password, and role",
                         "name": "body",
                         "in": "body",
                         "required": true,
@@ -113,7 +113,7 @@
             "properties": {
                 "password": {
                     "type": "string",
-                    "minLength": 6
+                    "minLength": 10
                 },
                 "username": {
                     "type": "string"
@@ -186,7 +186,7 @@
             "properties": {
                 "password": {
                     "type": "string",
-                    "minLength": 6
+                    "minLength": 10
                 },
                 "username": {
                     "type": "string"

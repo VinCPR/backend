@@ -10,29 +10,6 @@ import (
 	"github.com/google/uuid"
 )
 
-type Permission struct {
-	ID             int64     `json:"id"`
-	PermissionName string    `json:"permission_name"`
-	Description    string    `json:"description"`
-	CreatedAt      time.Time `json:"created_at"`
-	UpdatedAt      time.Time `json:"updated_at"`
-}
-
-type Role struct {
-	ID          int64     `json:"id"`
-	RoleName    string    `json:"role_name"`
-	Description string    `json:"description"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
-}
-
-type RolePermission struct {
-	RoleID       int64     `json:"role_id"`
-	PermissionID int64     `json:"permission_id"`
-	CreatedAt    time.Time `json:"created_at"`
-	UpdatedAt    time.Time `json:"updated_at"`
-}
-
 type Session struct {
 	ID           uuid.UUID `json:"id"`
 	Username     string    `json:"username"`
@@ -50,5 +27,4 @@ type User struct {
 	HashedPassword string    `json:"hashed_password"`
 	RoleID         int64     `json:"role_id"`
 	CreatedAt      time.Time `json:"created_at"`
-	UpdatedAt      time.Time `json:"updated_at"`
 }
