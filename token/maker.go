@@ -4,10 +4,10 @@ import (
 	"time"
 )
 
-// IMaker is an interface for managing tokens
-type IMaker interface {
+// ITokenMaker is an interface for managing tokens
+type ITokenMaker interface {
 	// CreateToken creates a new token for a specific username and duration
-	CreateToken(username string, duration time.Duration) (string, *Payload, error)
+	CreateToken(email string, duration time.Duration) (string, *Payload, error)
 
 	// VerifyToken checks if the token is valid or not
 	VerifyToken(token string) (*Payload, error)

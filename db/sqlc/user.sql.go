@@ -11,65 +11,65 @@ import (
 
 const createUser = `-- name: CreateUser :one
 INSERT INTO "user" (
-    username,
+    email,
     hashed_password,
-    role_id
+    role_name
 ) VALUES (
     $1 , $2 , $3
-) RETURNING id, username, hashed_password, role_id, created_at
+) RETURNING id, email, hashed_password, role_name, created_at
 `
 
 type CreateUserParams struct {
-	Username       string `json:"username"`
+	Email          string `json:"email"`
 	HashedPassword string `json:"hashed_password"`
-	RoleID         int64  `json:"role_id"`
+	RoleName       string `json:"role_name"`
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
-	row := q.db.QueryRowContext(ctx, createUser, arg.Username, arg.HashedPassword, arg.RoleID)
+	row := q.db.QueryRow(ctx, createUser, arg.Email, arg.HashedPassword, arg.RoleName)
 	var i User
 	err := row.Scan(
 		&i.ID,
-		&i.Username,
+		&i.Email,
 		&i.HashedPassword,
-		&i.RoleID,
+		&i.RoleName,
 		&i.CreatedAt,
 	)
 	return i, err
 }
 
-const getUser = `-- name: GetUser :one
-SELECT id, username, hashed_password, role_id, created_at FROM "user"
-WHERE username = $1 LIMIT 1
+const getUserByEmail = `-- name: GetUserByEmail :one
+SELECT id, email, hashed_password, role_name, created_at FROM "user"
+WHERE email = $1 LIMIT 1
 `
 
-func (q *Queries) GetUser(ctx context.Context, username string) (User, error) {
-	row := q.db.QueryRowContext(ctx, getUser, username)
+func (q *Queries) GetUserByEmail(ctx context.Context, email string) (User, error) {
+	row := q.db.QueryRow(ctx, getUserByEmail, email)
 	var i User
 	err := row.Scan(
 		&i.ID,
-		&i.Username,
+		&i.Email,
 		&i.HashedPassword,
-		&i.RoleID,
+		&i.RoleName,
 		&i.CreatedAt,
 	)
 	return i, err
 }
 
-const listUsers = `-- name: ListUsers :many
-SELECT id, username, hashed_password, role_id, created_at FROM "user"
-ORDER BY username 
+const listUsersByID = `-- name: ListUsersByID :many
+SELECT id, email, hashed_password, role_name, created_at FROM "user"
+ORDER BY "id"
 LIMIT $1
 OFFSET $2
 `
 
-type ListUsersParams struct {
+type ListUsersByIDParams struct {
 	Limit  int32 `json:"limit"`
 	Offset int32 `json:"offset"`
 }
 
-func (q *Queries) ListUsers(ctx context.Context, arg ListUsersParams) ([]User, error) {
-	rows, err := q.db.QueryContext(ctx, listUsers, arg.Limit, arg.Offset)
+func (q *Queries) ListUsersByID(ctx context.Context, arg ListUsersByIDParams) ([]User, error) {
+	rows, err := q.db.Query(ctx, listUsersByID, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
@@ -79,17 +79,14 @@ func (q *Queries) ListUsers(ctx context.Context, arg ListUsersParams) ([]User, e
 		var i User
 		if err := rows.Scan(
 			&i.ID,
-			&i.Username,
+			&i.Email,
 			&i.HashedPassword,
-			&i.RoleID,
+			&i.RoleName,
 			&i.CreatedAt,
 		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
