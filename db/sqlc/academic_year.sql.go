@@ -25,7 +25,7 @@ type CreateAcademicYearParams struct {
 }
 
 func (q *Queries) CreateAcademicYear(ctx context.Context, arg CreateAcademicYearParams) (AcademicYear, error) {
-	row := q.db.QueryRowContext(ctx, createAcademicYear, arg.Name, arg.StartDate, arg.EndDate)
+	row := q.db.QueryRow(ctx, createAcademicYear, arg.Name, arg.StartDate, arg.EndDate)
 	var i AcademicYear
 	err := row.Scan(
 		&i.ID,
@@ -42,7 +42,7 @@ WHERE "name" = $1 LIMIT 1
 `
 
 func (q *Queries) GetAcademicYearByName(ctx context.Context, name string) (AcademicYear, error) {
-	row := q.db.QueryRowContext(ctx, getAcademicYearByName, name)
+	row := q.db.QueryRow(ctx, getAcademicYearByName, name)
 	var i AcademicYear
 	err := row.Scan(
 		&i.ID,
@@ -66,7 +66,7 @@ type ListUsersByNameParams struct {
 }
 
 func (q *Queries) ListUsersByName(ctx context.Context, arg ListUsersByNameParams) ([]User, error) {
-	rows, err := q.db.QueryContext(ctx, listUsersByName, arg.Limit, arg.Offset)
+	rows, err := q.db.Query(ctx, listUsersByName, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
@@ -84,9 +84,6 @@ func (q *Queries) ListUsersByName(ctx context.Context, arg ListUsersByNameParams
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err

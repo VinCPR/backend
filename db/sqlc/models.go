@@ -10,7 +10,7 @@ import (
 	"github.com/google/uuid"
 )
 
-type AcademicCalenderEvent struct {
+type AcademicCalendarEvent struct {
 	ID             int64     `json:"id"`
 	AcademicYearID int64     `json:"academic_year_id"`
 	Name           string    `json:"name"`

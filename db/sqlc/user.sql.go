@@ -26,7 +26,7 @@ type CreateUserParams struct {
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
-	row := q.db.QueryRowContext(ctx, createUser, arg.Email, arg.HashedPassword, arg.RoleName)
+	row := q.db.QueryRow(ctx, createUser, arg.Email, arg.HashedPassword, arg.RoleName)
 	var i User
 	err := row.Scan(
 		&i.ID,
@@ -44,7 +44,7 @@ WHERE email = $1 LIMIT 1
 `
 
 func (q *Queries) GetUserByEmail(ctx context.Context, email string) (User, error) {
-	row := q.db.QueryRowContext(ctx, getUserByEmail, email)
+	row := q.db.QueryRow(ctx, getUserByEmail, email)
 	var i User
 	err := row.Scan(
 		&i.ID,
@@ -69,7 +69,7 @@ type ListUsersByIDParams struct {
 }
 
 func (q *Queries) ListUsersByID(ctx context.Context, arg ListUsersByIDParams) ([]User, error) {
-	rows, err := q.db.QueryContext(ctx, listUsersByID, arg.Limit, arg.Offset)
+	rows, err := q.db.Query(ctx, listUsersByID, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
@@ -87,9 +87,6 @@ func (q *Queries) ListUsersByID(ctx context.Context, arg ListUsersByIDParams) ([
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err

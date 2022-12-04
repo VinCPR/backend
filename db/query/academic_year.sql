@@ -14,5 +14,3 @@ SELECT * FROM "user"
 ORDER BY "name"
 LIMIT $1
 OFFSET $2;
-
---

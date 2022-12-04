@@ -63,7 +63,7 @@ CREATE TABLE "academic_year" (
   "end_date" date NOT NULL
 );
 
-CREATE TABLE "academic_calender_event" (
+CREATE TABLE "academic_calendar_event" (
   "id" bigserial PRIMARY KEY,
   "academic_year_id" bigint NOT NULL,
   "name" varchar(100) NOT NULL,
@@ -168,7 +168,7 @@ ALTER TABLE "service_to_attending" ADD FOREIGN KEY ("service_id") REFERENCES "se
 
 ALTER TABLE "service_to_attending" ADD FOREIGN KEY ("attending_id") REFERENCES "attending" ("id");
 
-ALTER TABLE "academic_calender_event" ADD FOREIGN KEY ("academic_year_id") REFERENCES "academic_year" ("id");
+ALTER TABLE "academic_calendar_event" ADD FOREIGN KEY ("academic_year_id") REFERENCES "academic_year" ("id");
 
 ALTER TABLE "period" ADD FOREIGN KEY ("academic_year_id") REFERENCES "academic_year" ("id");
 
