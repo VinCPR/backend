@@ -8,6 +8,8 @@
 
 ## Quickstart
 
+### Create a new file `app.env` and copy from `app.env-example`
+
 ### Start postgres container
 ```shell
 $ make postgres
