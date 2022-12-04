@@ -12,8 +12,8 @@ import (
 
 type Server struct {
 	config     util.Config
-	tokenMaker token.IMaker
-	store      db.IStore
+	tokenMaker token.ITokenMaker
+	store      *db.Store
 	router     *gin.Engine
 }
 
@@ -32,7 +32,7 @@ func CORS() gin.HandlerFunc {
 	}
 }
 
-func NewServer(config util.Config, store db.IStore) (*Server, error) {
+func NewServer(config util.Config, store *db.Store) (*Server, error) {
 	tokenMaker, err := token.NewPasetoMaker(config.TokenSymmetricKey)
 	if err != nil {
 		return nil, fmt.Errorf("cannot initialize token maker")

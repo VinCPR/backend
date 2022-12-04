@@ -15,20 +15,20 @@ import (
 )
 
 type createUserRequest struct {
-	Username string `json:"username" binding:"required,alphanum"`
-	Password string `json:"password" binding:"required,min=10"`
-	RoleName string `json:"role_name" binding:"required"`
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required,min=8,max=64"`
+	RoleName string `json:"role_name" binding:"required,alpha"`
 }
 
 type userResponse struct {
-	Username  string    `json:"username"`
+	Email     string    `json:"email"`
 	RoleName  string    `json:"role_name"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
 type loginUserRequest struct {
-	Username string `json:"username" binding:"required,alphanum"`
-	Password string `json:"password" binding:"required,min=10"`
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required,min=8,max=64"`
 }
 
 type loginUserResponse struct {
@@ -65,7 +65,7 @@ func (server *Server) createUser(ctx *gin.Context) {
 	}
 
 	arg := db.CreateUserParams{
-		Username:       req.Username,
+		Email:          req.Email,
 		HashedPassword: hashedPassword,
 	}
 
@@ -82,10 +82,9 @@ func (server *Server) createUser(ctx *gin.Context) {
 		return
 	}
 
-	// TODO search role name here
 	rsp := userResponse{
-		Username:  user.Username,
-		RoleName:  "",
+		Email:     user.Email,
+		RoleName:  user.RoleName,
 		CreatedAt: user.CreatedAt,
 	}
 	ctx.JSON(http.StatusOK, rsp)
@@ -108,7 +107,7 @@ func (server *Server) loginUser(ctx *gin.Context) {
 		return
 	}
 
-	user, err := server.store.GetUser(ctx, req.Username)
+	user, err := server.store.GetUserByEmail(ctx, req.Email)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, errorResponse(err))
@@ -125,7 +124,7 @@ func (server *Server) loginUser(ctx *gin.Context) {
 	}
 
 	accessToken, accessPayload, err := server.tokenMaker.CreateToken(
-		user.Username,
+		user.Email,
 		server.config.AccessTokenDuration,
 	)
 	if err != nil {
@@ -134,7 +133,7 @@ func (server *Server) loginUser(ctx *gin.Context) {
 	}
 
 	refreshToken, refreshPayload, err := server.tokenMaker.CreateToken(
-		user.Username,
+		user.Email,
 		server.config.RefreshTokenDuration,
 	)
 	if err != nil {
@@ -144,7 +143,7 @@ func (server *Server) loginUser(ctx *gin.Context) {
 
 	session, err := server.store.CreateSession(ctx, db.CreateSessionParams{
 		ID:           refreshPayload.ID,
-		Username:     user.Username,
+		UserEmail:    user.Email,
 		RefreshToken: refreshToken,
 		UserAgent:    ctx.Request.UserAgent(),
 		ClientIp:     ctx.ClientIP(),
@@ -164,8 +163,8 @@ func (server *Server) loginUser(ctx *gin.Context) {
 		RefreshTokenExpiresAt: refreshPayload.ExpiredAt,
 		// TODO search role name here
 		User: userResponse{
-			Username:  user.Username,
-			RoleName:  "",
+			Email:     user.Email,
+			RoleName:  user.RoleName,
 			CreatedAt: user.CreatedAt,
 		},
 	}
