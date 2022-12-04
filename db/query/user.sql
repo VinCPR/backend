@@ -1,18 +1,18 @@
 -- name: CreateUser :one
 INSERT INTO "user" (
-    username,
+    email,
     hashed_password,
-    role_id
+    role_name
 ) VALUES (
     $1 , $2 , $3
 ) RETURNING *;
 
--- name: GetUser :one
+-- name: GetUserByEmail :one
 SELECT * FROM "user"
-WHERE username = $1 LIMIT 1;
+WHERE email = $1 LIMIT 1;
 
--- name: ListUsers :many
+-- name: ListUsersByID :many
 SELECT * FROM "user"
-ORDER BY username 
+ORDER BY "id"
 LIMIT $1
 OFFSET $2;
