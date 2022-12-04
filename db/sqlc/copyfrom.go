@@ -9,13 +9,13 @@ import (
 	"context"
 )
 
-// iteratorForCreateAcademicCalendarEvents implements pgx.CopyFromSource.
-type iteratorForCreateAcademicCalendarEvents struct {
-	rows                 []CreateAcademicCalendarEventsParams
+// iteratorForCreateEvents implements pgx.CopyFromSource.
+type iteratorForCreateEvents struct {
+	rows                 []CreateEventsParams
 	skippedFirstNextCall bool
 }
 
-func (r *iteratorForCreateAcademicCalendarEvents) Next() bool {
+func (r *iteratorForCreateEvents) Next() bool {
 	if len(r.rows) == 0 {
 		return false
 	}
@@ -27,7 +27,7 @@ func (r *iteratorForCreateAcademicCalendarEvents) Next() bool {
 	return len(r.rows) > 0
 }
 
-func (r iteratorForCreateAcademicCalendarEvents) Values() ([]interface{}, error) {
+func (r iteratorForCreateEvents) Values() ([]interface{}, error) {
 	return []interface{}{
 		r.rows[0].AcademicYearID,
 		r.rows[0].Name,
@@ -37,10 +37,10 @@ func (r iteratorForCreateAcademicCalendarEvents) Values() ([]interface{}, error)
 	}, nil
 }
 
-func (r iteratorForCreateAcademicCalendarEvents) Err() error {
+func (r iteratorForCreateEvents) Err() error {
 	return nil
 }
 
-func (q *Queries) CreateAcademicCalendarEvents(ctx context.Context, arg []CreateAcademicCalendarEventsParams) (int64, error) {
-	return q.db.CopyFrom(ctx, []string{"academic_calendar_event"}, []string{"academic_year_id", "name", "type", "start_date", "end_date"}, &iteratorForCreateAcademicCalendarEvents{rows: arg})
+func (q *Queries) CreateEvents(ctx context.Context, arg []CreateEventsParams) (int64, error) {
+	return q.db.CopyFrom(ctx, []string{"academic_calendar_event"}, []string{"academic_year_id", "name", "type", "start_date", "end_date"}, &iteratorForCreateEvents{rows: arg})
 }
