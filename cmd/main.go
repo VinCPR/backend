@@ -1,8 +1,10 @@
 package main
 
 import (
-	"database/sql"
+	"context"
 	"log"
+
+	"github.com/jackc/pgx/v4"
 
 	db "github.com/VinCPR/backend/db/sqlc"
 	"github.com/VinCPR/backend/util"
@@ -16,7 +18,7 @@ func main() {
 		log.Fatal("Cannot read config file", err)
 	}
 
-	conn, err := sql.Open(config.DBDriver, config.DBSource)
+	conn, err := pgx.Connect(context.Background(), config.DBUrl)
 	if err != nil {
 		log.Fatal("cannot connect to db", err)
 	}
