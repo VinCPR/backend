@@ -2,7 +2,6 @@ package api
 
 import (
 	"database/sql"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -47,12 +46,10 @@ type loginUserResponse struct {
 // @Accept	json
 // @Produce  json
 // @Param body body createUserRequest true "create new user request requires username, password, and role"
-// @Security ApiKeyAuth
 // @Success 200 {object} userResponse "ok"
-// @Router /v1/users [post]
+// @Router /users [post]
 func (server *Server) createUser(ctx *gin.Context) {
 	var req createUserRequest
-	fmt.Println(ctx.Request)
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
@@ -97,9 +94,8 @@ func (server *Server) createUser(ctx *gin.Context) {
 // @Accept	json
 // @Produce  json
 // @Param body body loginUserRequest true "login request requires username, password"
-// @Security ApiKeyAuth
 // @Success 200 {object} loginUserResponse "ok"
-// @Router /v1/users/login [post]
+// @Router /users/login [post]
 func (server *Server) loginUser(ctx *gin.Context) {
 	var req loginUserRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {

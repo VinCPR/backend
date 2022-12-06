@@ -60,7 +60,8 @@ CREATE TABLE "academic_year" (
   "id" bigserial PRIMARY KEY,
   "name" varchar(100) NOT NULL,
   "start_date" date NOT NULL,
-  "end_date" date NOT NULL
+  "end_date" date NOT NULL,
+  "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "academic_calendar_event" (

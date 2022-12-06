@@ -16,13 +16,42 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/v1/users": {
+        "/academic_year": {
             "post": {
-                "security": [
+                "description": "create new academic year",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AcademicCalendar"
+                ],
+                "summary": "create new academic year",
+                "parameters": [
                     {
-                        "ApiKeyAuth": []
+                        "description": "input requires academic year name, start date, end date",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createAcademicYearRequest"
+                        }
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createAcademicYearResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "post": {
                 "description": "upsert wallet address",
                 "consumes": [
                     "application/json"
@@ -55,13 +84,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/users/login": {
+        "/users/login": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "description": "upsert wallet address",
                 "consumes": [
                     "application/json"
@@ -96,75 +120,38 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "api.createUserRequest": {
+        "github.com_VinCPR_backend_api.createAcademicYearRequest": {
             "type": "object",
             "required": [
-                "password",
-                "role_name",
-                "username"
+                "endDate",
+                "name",
+                "startDate"
             ],
             "properties": {
-                "password": {
-                    "type": "string",
-                    "minLength": 10
-                },
-                "role_name": {
+                "endDate": {
                     "type": "string"
                 },
-                "username": {
+                "name": {
                     "type": "string"
-                }
-            }
-        },
-        "api.loginUserRequest": {
-            "type": "object",
-            "required": [
-                "password",
-                "username"
-            ],
-            "properties": {
-                "password": {
-                    "type": "string",
-                    "minLength": 10
                 },
-                "username": {
+                "startDate": {
                     "type": "string"
                 }
             }
         },
-        "api.loginUserResponse": {
+        "github.com_VinCPR_backend_api.createAcademicYearResponse": {
             "type": "object",
             "properties": {
-                "access_token": {
+                "createdAt": {
                     "type": "string"
                 },
-                "access_token_expires_at": {
+                "endDate": {
                     "type": "string"
                 },
-                "refresh_token": {
+                "name": {
                     "type": "string"
                 },
-                "refresh_token_expires_at": {
-                    "type": "string"
-                },
-                "session_id": {
-                    "type": "string"
-                },
-                "user": {
-                    "$ref": "#/definitions/api.userResponse"
-                }
-            }
-        },
-        "api.userResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "role_name": {
-                    "type": "string"
-                },
-                "username": {
+                "startDate": {
                     "type": "string"
                 }
             }
@@ -172,19 +159,20 @@ const docTemplate = `{
         "github.com_VinCPR_backend_api.createUserRequest": {
             "type": "object",
             "required": [
+                "email",
                 "password",
-                "role_name",
-                "username"
+                "role_name"
             ],
             "properties": {
-                "password": {
-                    "type": "string",
-                    "minLength": 10
-                },
-                "role_name": {
+                "email": {
                     "type": "string"
                 },
-                "username": {
+                "password": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 8
+                },
+                "role_name": {
                     "type": "string"
                 }
             }
@@ -192,16 +180,17 @@ const docTemplate = `{
         "github.com_VinCPR_backend_api.loginUserRequest": {
             "type": "object",
             "required": [
-                "password",
-                "username"
+                "email",
+                "password"
             ],
             "properties": {
+                "email": {
+                    "type": "string"
+                },
                 "password": {
                     "type": "string",
-                    "minLength": 10
-                },
-                "username": {
-                    "type": "string"
+                    "maxLength": 64,
+                    "minLength": 8
                 }
             }
         },
@@ -234,10 +223,10 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
-                "role_name": {
+                "email": {
                     "type": "string"
                 },
-                "username": {
+                "role_name": {
                     "type": "string"
                 }
             }

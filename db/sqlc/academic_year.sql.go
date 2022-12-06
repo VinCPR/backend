@@ -15,7 +15,7 @@ INSERT INTO "academic_year" (
     "name", "start_date", "end_date"
 ) VALUES(
     $1, $2, $3
-) RETURNING id, name, start_date, end_date
+) RETURNING id, name, start_date, end_date, created_at
 `
 
 type CreateAcademicYearParams struct {
@@ -32,12 +32,13 @@ func (q *Queries) CreateAcademicYear(ctx context.Context, arg CreateAcademicYear
 		&i.Name,
 		&i.StartDate,
 		&i.EndDate,
+		&i.CreatedAt,
 	)
 	return i, err
 }
 
 const getAcademicYearByName = `-- name: GetAcademicYearByName :one
-SELECT id, name, start_date, end_date FROM "academic_year"
+SELECT id, name, start_date, end_date, created_at FROM "academic_year"
 WHERE "name" = $1 LIMIT 1
 `
 
@@ -49,6 +50,7 @@ func (q *Queries) GetAcademicYearByName(ctx context.Context, name string) (Acade
 		&i.Name,
 		&i.StartDate,
 		&i.EndDate,
+		&i.CreatedAt,
 	)
 	return i, err
 }
