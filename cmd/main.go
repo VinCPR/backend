@@ -19,6 +19,7 @@ func main() {
 		log.Fatal("Cannot read config file", err)
 	}
 	docs.SwaggerInfo.BasePath = config.BasePath
+	docs.SwaggerInfo.Host = config.HTTPServerAddress
 	conn, err := pgx.Connect(context.Background(), config.DBUrl)
 	if err != nil {
 		log.Fatal("cannot connect to db", err)
