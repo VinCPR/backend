@@ -1,77 +1,54 @@
 definitions:
-  api.createUserRequest:
+  github.com_VinCPR_backend_api.createAcademicYearRequest:
     properties:
-      password:
-        minLength: 10
+      endDate:
         type: string
-      role_name:
+      name:
         type: string
-      username:
+      startDate:
         type: string
     required:
-    - password
-    - role_name
-    - username
+    - endDate
+    - name
+    - startDate
     type: object
-  api.loginUserRequest:
+  github.com_VinCPR_backend_api.createAcademicYearResponse:
     properties:
-      password:
-        minLength: 10
+      createdAt:
         type: string
-      username:
+      endDate:
         type: string
-    required:
-    - password
-    - username
-    type: object
-  api.loginUserResponse:
-    properties:
-      access_token:
+      name:
         type: string
-      access_token_expires_at:
-        type: string
-      refresh_token:
-        type: string
-      refresh_token_expires_at:
-        type: string
-      session_id:
-        type: string
-      user:
-        $ref: '#/definitions/api.userResponse'
-    type: object
-  api.userResponse:
-    properties:
-      created_at:
-        type: string
-      role_name:
-        type: string
-      username:
+      startDate:
         type: string
     type: object
   github.com_VinCPR_backend_api.createUserRequest:
     properties:
+      email:
+        type: string
       password:
-        minLength: 10
+        maxLength: 64
+        minLength: 8
         type: string
       role_name:
         type: string
-      username:
-        type: string
     required:
+    - email
     - password
     - role_name
-    - username
     type: object
   github.com_VinCPR_backend_api.loginUserRequest:
     properties:
-      password:
-        minLength: 10
+      email:
         type: string
-      username:
+      password:
+        maxLength: 64
+        minLength: 8
         type: string
     required:
+    - email
     - password
-    - username
     type: object
   github.com_VinCPR_backend_api.loginUserResponse:
     properties:
@@ -92,15 +69,37 @@ definitions:
     properties:
       created_at:
         type: string
-      role_name:
+      email:
         type: string
-      username:
+      role_name:
         type: string
     type: object
 info:
   contact: {}
 paths:
-  /v1/users:
+  /academic_year:
+    post:
+      consumes:
+      - application/json
+      description: create new academic year
+      parameters:
+      - description: input requires academic year name, start date, end date
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/github.com_VinCPR_backend_api.createAcademicYearRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/github.com_VinCPR_backend_api.createAcademicYearResponse'
+      summary: create new academic year
+      tags:
+      - AcademicCalendar
+  /users:
     post:
       consumes:
       - application/json
@@ -119,12 +118,10 @@ paths:
           description: ok
           schema:
             $ref: '#/definitions/github.com_VinCPR_backend_api.userResponse'
-      security:
-      - ApiKeyAuth: []
       summary: upsert new user
       tags:
       - Authentication
-  /v1/users/login:
+  /users/login:
     post:
       consumes:
       - application/json
@@ -143,8 +140,6 @@ paths:
           description: ok
           schema:
             $ref: '#/definitions/github.com_VinCPR_backend_api.loginUserResponse'
-      security:
-      - ApiKeyAuth: []
       summary: upsert new user
       tags:
       - Authentication

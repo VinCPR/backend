@@ -7,6 +7,7 @@ import (
 	"github.com/jackc/pgx/v4"
 
 	db "github.com/VinCPR/backend/db/sqlc"
+	"github.com/VinCPR/backend/docs"
 	"github.com/VinCPR/backend/util"
 
 	"github.com/VinCPR/backend/api"
@@ -17,7 +18,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Cannot read config file", err)
 	}
-
+	docs.SwaggerInfo.BasePath = config.BasePath
 	conn, err := pgx.Connect(context.Background(), config.DBUrl)
 	if err != nil {
 		log.Fatal("cannot connect to db", err)
