@@ -28,8 +28,5 @@ go.work
 test/logs
 test/result
 
-# Environment Variables
-*.env
-
 # Miscellaneous
 api
