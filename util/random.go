@@ -34,3 +34,12 @@ func RandomString(n int) string {
 func RandomName() string {
 	return RandomString(6)
 }
+
+// RandomDate generates a random date
+func RandomDate() time.Time {
+	min := time.Date(2022, 1, 0, 0, 0, 0, 0, time.UTC).Unix()
+	max := time.Date(2030, 1, 0, 0, 0, 0, 0, time.UTC).Unix()
+	delta := max - min
+	sec := rand.Int63n(delta) + min
+	return time.Unix(sec, 0)
+}
