@@ -4,6 +4,8 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 
 	db "github.com/VinCPR/backend/db/sqlc"
 	"github.com/VinCPR/backend/token"
@@ -42,6 +44,9 @@ func NewServer(config util.Config, store *db.Store) (*Server, error) {
 	router := gin.Default()
 	router.Use(CORS())
 	routerV1 := router.Group(config.BasePath)
+	{
+		routerV1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
 	// Authentication
 	{
 		routerV1.POST("/users", server.createUser)
