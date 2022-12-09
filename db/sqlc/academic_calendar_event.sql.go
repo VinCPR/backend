@@ -58,7 +58,8 @@ type CreateEventsParams struct {
 const listEventsByAcademicYearID = `-- name: ListEventsByAcademicYearID :many
 SELECT id, academic_year_id, name, type, start_date, end_date, created_at FROM "academic_calendar_event"
 WHERE "academic_year_id" = $1
-ORDER BY "start_date"`
+ORDER BY "start_date"
+`
 
 func (q *Queries) ListEventsByAcademicYearID(ctx context.Context, academicYearID int64) ([]AcademicCalendarEvent, error) {
 	rows, err := q.db.Query(ctx, listEventsByAcademicYearID, academicYearID)

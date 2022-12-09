@@ -12,10 +12,10 @@ import (
 )
 
 func createRandomEvent(t *testing.T) AcademicCalendarEvent {
-	AcademicYear := util.RandomInt(2022, 2030)
+	AcademicYear := createRandomAcademicYear(t)
 	RandDate := util.RandomDate()
 	arg := CreateEventParams{
-		AcademicYearID: AcademicYear,
+		AcademicYearID: AcademicYear.ID,
 		Name:           util.RandomName(),
 		Type:           util.RandomString(6),
 		StartDate:      RandDate,
@@ -46,8 +46,8 @@ func TestListEventsByAcademicYearID(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		createRandomEvent(t)
 	}
-
-	events, err := testQueries.ListEventsByAcademicYearID(context.Background(), util.RandomInt(2022, 2030))
+	AcademicYear := util.RandomInt(2022, 2030)
+	events, err := testQueries.ListEventsByAcademicYearID(context.Background(), AcademicYear)
 	require.NoError(t, err)
 
 	events_copy := events
@@ -57,7 +57,11 @@ func TestListEventsByAcademicYearID(t *testing.T) {
 
 	for i := 0; i < len(events); i++ {
 		require.NotEmpty(t, events)
-		require.Equal(t, events[i].AcademicYearID, events_copy[i].AcademicYearID)
+		require.Equal(t, events[i].AcademicYearID, AcademicYear)
 		require.Equal(t, events[i].Name, events_copy[i].Name)
+		require.Equal(t, events[i].Type, events_copy[i].Type)
+		require.Equal(t, events[i].EndDate, events_copy[i].EndDate)
+		require.Equal(t, events[i].StartDate, events_copy[i].StartDate)
+		require.Equal(t, events[i].CreatedAt, events_copy[i].CreatedAt)
 	}
 }

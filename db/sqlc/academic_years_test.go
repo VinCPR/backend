@@ -3,7 +3,6 @@ package db
 import (
 	"context"
 	"math/rand"
-	"sort"
 	"testing"
 
 	"github.com/VinCPR/backend/util"
@@ -17,7 +16,6 @@ func createRandomAcademicYear(t *testing.T) AcademicYear {
 		StartDate: RandDate,
 		EndDate:   RandDate.AddDate(0, 0, 7*rand.Intn(13)),
 	}
-
 	academic_year, err := testQueries.CreateAcademicYear(context.Background(), arg)
 	require.NoError(t, err)
 	require.NotEmpty(t, academic_year)
@@ -47,47 +45,27 @@ func TestGetAcademicYearByName(t *testing.T) {
 	require.Equal(t, academic_year1.EndDate, academic_year2.EndDate)
 }
 
-func createRandomUser(t *testing.T) User {
-	arg := CreateUserParams{
-		Email:          util.RandomString(6),
-		HashedPassword: util.RandomString(6),
-		RoleName:       util.RandomString(6),
-	}
+// func TestListAcademicYearByName(t *testing.T) {
+// 	for i := 0; i < 10; i++ {
+// 		createRandomAcademicYear(t)
 
-	user, err := testQueries.CreateUser(context.Background(), arg)
-	require.NoError(t, err)
-	require.NotEmpty(t, user)
+// 		arg := ListAcademicYearByNameParams{
+// 			Limit:  5,
+// 			Offset: 0,
+// 		}
 
-	require.Equal(t, arg.Email, user.Email)
-	require.Equal(t, arg.HashedPassword, user.HashedPassword)
-	require.Equal(t, arg.RoleName, user.RoleName)
+// 		academic_years, err := testQueries.ListAcademicYearByName(context.Background(), arg)
+// 		require.NoError(t, err)
+// 		require.NotEmpty(t, academic_years)
+// 		academic_years_copy := academic_years
+// 		sort.Slice(academic_years, func(i, j int) bool {
+// 			return academic_years[i].Name < academic_years[j].Name
+// 		})
 
-	require.NotZero(t, user.ID)
-	require.NotZero(t, user.CreatedAt)
-	return user
-}
-
-func TestListUsersByName(t *testing.T) {
-	for i := 0; i < 10; i++ {
-		createRandomUser(t)
-	}
-
-	arg := ListUsersByNameParams{
-		Limit:  5,
-		Offset: 0,
-	}
-
-	users, err := testQueries.ListUsersByName(context.Background(), arg)
-	require.NoError(t, err)
-	require.NotEmpty(t, users)
-	users_copy := users
-	sort.Slice(users, func(i, j int) bool {
-		return users[i].RoleName < users[j].RoleName
-	})
-
-	for i := 0; i < len(users); i++ {
-		require.NotEmpty(t, users)
-		require.Equal(t, users[i].ID, users_copy[i].ID)
-		require.Equal(t, users[i].Email, users_copy[i].Email)
-	}
-}
+// 		for i := 0; i < len(academic_years); i++ {
+// 			require.NotEmpty(t, academic_years)
+// 			require.Equal(t, academic_years[i].ID, academic_years_copy[i].ID)
+// 			require.Equal(t, academic_years[i].Email, academic_years_copy[i].Email)
+// 		}
+// 	}
+// }
