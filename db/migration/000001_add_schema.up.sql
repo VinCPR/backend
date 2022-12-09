@@ -19,8 +19,8 @@ CREATE TABLE "student" (
 CREATE TABLE "attending" (
   "id" bigserial PRIMARY KEY,
   "user_id" bigserial NOT NULL,
-  "firstName" varchar(50) NOT NULL,
-  "lastName" varchar(50) NOT NULL,
+  "first_name" varchar(50) NOT NULL,
+  "last_name" varchar(50) NOT NULL,
   "mobile" varchar(20) NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );

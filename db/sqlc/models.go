@@ -31,8 +31,8 @@ type AcademicYear struct {
 type Attending struct {
 	ID        int64     `json:"id"`
 	UserID    int64     `json:"user_id"`
-	FirstName string    `json:"firstName"`
-	LastName  string    `json:"lastName"`
+	FirstName string    `json:"first_name"`
+	LastName  string    `json:"last_name"`
 	Mobile    string    `json:"mobile"`
 	CreatedAt time.Time `json:"created_at"`
 }

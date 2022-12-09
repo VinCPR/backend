@@ -2,6 +2,7 @@ package util
 
 import (
 	"math/rand"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -40,4 +41,19 @@ func RandomDate() time.Time {
 	date := time.Unix(time.Date(2022, 1, 1, 0, 0, 0, 0, time.UTC).Unix(), 0).
 		UTC().AddDate(0, 0, rand.Intn(1000))
 	return date
+}
+
+// RandomEmail generates a random email
+func RandomEmail() string {
+	return RandomString(5) + "@gmail.com"
+}
+
+// RandomStudentID generates a random student id
+func RandomStudentID() string {
+	return "V2021" + strconv.FormatInt(RandomInt(10_000, 99_999), 10)
+}
+
+// RandomMobile generate a random mobile phone number
+func RandomMobile() string {
+	return strconv.FormatInt(RandomInt(1_000_000_000, 9_999_999_999), 10)
 }
