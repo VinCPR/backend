@@ -13,6 +13,4 @@ INSERT INTO "academic_calendar_event" (
 -- name: ListEventsByAcademicYearID :many
 SELECT * FROM "academic_calendar_event"
 WHERE "academic_year_id" = $1
-ORDER BY "start_date"
-LIMIT $2
-OFFSET $3;
+ORDER BY "start_date";

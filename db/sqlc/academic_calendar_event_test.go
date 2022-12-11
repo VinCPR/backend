@@ -7,19 +7,20 @@ import (
 	"testing"
 	_ "time"
 
-	"github.com/VinCPR/backend/util"
 	"github.com/stretchr/testify/require"
+
+	"github.com/VinCPR/backend/util"
 )
 
 func createRandomEvent(t *testing.T) AcademicCalendarEvent {
-	AcademicYear := createRandomAcademicYear(t)
-	RandDate := util.RandomDate()
+	academicYear := createRandomAcademicYear(t)
+	randDate := util.RandomDate()
 	arg := CreateEventParams{
-		AcademicYearID: AcademicYear.ID,
+		AcademicYearID: academicYear.ID,
 		Name:           util.RandomName(),
 		Type:           util.RandomString(6),
-		StartDate:      RandDate,
-		EndDate:        RandDate.AddDate(0, 0, 7*rand.Intn(13)),
+		StartDate:      randDate,
+		EndDate:        randDate.AddDate(0, 0, 7*rand.Intn(13)),
 	}
 
 	event, err := testQueries.CreateEvent(context.Background(), arg)
@@ -42,26 +43,42 @@ func TestCreateEvent(t *testing.T) {
 }
 
 func TestListEventsByAcademicYearID(t *testing.T) {
-
-	for i := 0; i < 10; i++ {
-		createRandomEvent(t)
+	var (
+		n            = 10
+		academicYear = createRandomAcademicYear(t)
+		args         = make([]CreateEventsParams, 0)
+	)
+	{ // Test create multiple events
+		for i := 0; i < n; i++ {
+			randDate := util.RandomDate()
+			args = append(args, CreateEventsParams{
+				AcademicYearID: academicYear.ID,
+				Name:           util.RandomName(),
+				Type:           util.RandomString(6),
+				StartDate:      randDate,
+				EndDate:        randDate.AddDate(0, 0, 7*rand.Intn(13)),
+			})
+		}
+		eventsLen, err := testQueries.CreateEvents(context.Background(), args)
+		require.NoError(t, err)
+		require.EqualValues(t, n, eventsLen)
 	}
-	AcademicYear := util.RandomInt(2022, 2030)
-	events, err := testQueries.ListEventsByAcademicYearID(context.Background(), AcademicYear)
-	require.NoError(t, err)
+	{
+		sort.Slice(args, func(i, j int) bool {
+			return args[i].StartDate.Before(args[j].StartDate)
+		})
+		events, err := testQueries.ListEventsByAcademicYearID(context.Background(), academicYear.ID)
+		require.NoError(t, err)
+		require.Len(t, events, n)
+		for i := 0; i < n; i++ {
+			require.Equal(t, args[i].AcademicYearID, events[i].AcademicYearID)
+			require.Equal(t, args[i].Name, events[i].Name)
+			require.Equal(t, args[i].StartDate, events[i].StartDate)
+			require.Equal(t, args[i].EndDate, events[i].EndDate)
+			require.Equal(t, args[i].Type, events[i].Type)
 
-	events_copy := events
-	sort.Slice(events, func(i, j int) bool {
-		return events[i].StartDate.Before(events[j].StartDate)
-	})
-
-	for i := 0; i < len(events); i++ {
-		require.NotEmpty(t, events)
-		require.Equal(t, events[i].AcademicYearID, AcademicYear)
-		require.Equal(t, events[i].Name, events_copy[i].Name)
-		require.Equal(t, events[i].Type, events_copy[i].Type)
-		require.Equal(t, events[i].EndDate, events_copy[i].EndDate)
-		require.Equal(t, events[i].StartDate, events_copy[i].StartDate)
-		require.Equal(t, events[i].CreatedAt, events_copy[i].CreatedAt)
+			require.NotZero(t, events[i].ID)
+			require.NotZero(t, events[i].CreatedAt)
+		}
 	}
 }

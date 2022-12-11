@@ -59,18 +59,10 @@ const listEventsByAcademicYearID = `-- name: ListEventsByAcademicYearID :many
 SELECT id, academic_year_id, name, type, start_date, end_date, created_at FROM "academic_calendar_event"
 WHERE "academic_year_id" = $1
 ORDER BY "start_date"
-LIMIT $2
-OFFSET $3
 `
 
-type ListEventsByAcademicYearIDParams struct {
-	AcademicYearID int64 `json:"academic_year_id"`
-	Limit          int32 `json:"limit"`
-	Offset         int32 `json:"offset"`
-}
-
-func (q *Queries) ListEventsByAcademicYearID(ctx context.Context, arg ListEventsByAcademicYearIDParams) ([]AcademicCalendarEvent, error) {
-	rows, err := q.db.Query(ctx, listEventsByAcademicYearID, arg.AcademicYearID, arg.Limit, arg.Offset)
+func (q *Queries) ListEventsByAcademicYearID(ctx context.Context, academicYearID int64) ([]AcademicCalendarEvent, error) {
+	rows, err := q.db.Query(ctx, listEventsByAcademicYearID, academicYearID)
 	if err != nil {
 		return nil, err
 	}
