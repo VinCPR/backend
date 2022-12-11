@@ -54,3 +54,41 @@ func (q *Queries) GetAcademicYearByName(ctx context.Context, name string) (Acade
 	)
 	return i, err
 }
+
+const listAcademicYearByName = `-- name: ListAcademicYearByName :many
+SELECT id, name, start_date, end_date, created_at FROM "academic_year"
+ORDER BY "name"
+LIMIT $1
+OFFSET $2
+`
+
+type ListAcademicYearByNameParams struct {
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
+}
+
+func (q *Queries) ListAcademicYearByName(ctx context.Context, arg ListAcademicYearByNameParams) ([]AcademicYear, error) {
+	rows, err := q.db.Query(ctx, listAcademicYearByName, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []AcademicYear{}
+	for rows.Next() {
+		var i AcademicYear
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.StartDate,
+			&i.EndDate,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
