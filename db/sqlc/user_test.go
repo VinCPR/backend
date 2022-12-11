@@ -6,8 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/VinCPR/backend/util"
 	"github.com/stretchr/testify/require"
+
+	"github.com/VinCPR/backend/util"
 )
 
 func createRandomUser(t *testing.T) User {
@@ -50,7 +51,7 @@ func TestGetUserByEmail(t *testing.T) {
 }
 
 func TestListUsersByID(t *testing.T) {
-	for i := 0; i < 5; i++ {
+	for i := 0; i < 15; i++ {
 		createRandomUser(t)
 	}
 

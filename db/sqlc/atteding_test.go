@@ -6,8 +6,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/VinCPR/backend/util"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/stretchr/testify/require"
+
+	"github.com/VinCPR/backend/util"
 )
 
 func createRandomAttending(t *testing.T, user User) Attending {
@@ -54,39 +56,29 @@ func TestGetAttendingByUserId(t *testing.T) {
 }
 
 func TestListAttendingsByName(t *testing.T) {
-	for i := 0; i < 5; i++ {
+	var n = 5
+	for i := 0; i < n; i++ {
 		user := createRandomUser(t)
 		createRandomAttending(t, user)
-
 	}
-	user := createRandomUser(t)
-	lastAttending := createRandomAttending(t, user)
-	argtest := ListAttendingsByNameParams{
-		Limit:  int32(lastAttending.ID),
+	allAttendings, err := testQueries.ListAttendingsByName(context.Background(), ListAttendingsByNameParams{
+		Limit:  100,
 		Offset: 0,
-	}
-
-	attendingList, err := testQueries.ListAttendingsByName(context.Background(), argtest)
+	})
 	require.NoError(t, err)
 
-	sort.Slice(attendingList, func(i, j int) bool {
-		return attendingList[i].FirstName < attendingList[j].FirstName ||
-			(attendingList[i].FirstName == attendingList[j].FirstName && attendingList[i].LastName < attendingList[j].LastName)
+	sort.SliceIsSorted(allAttendings, func(i, j int) bool {
+		return allAttendings[i].FirstName < allAttendings[j].FirstName ||
+			(allAttendings[i].FirstName == allAttendings[j].FirstName && allAttendings[i].LastName < allAttendings[j].LastName)
 	})
 
-	arg := ListAttendingsByNameParams{
-		Limit:  6,
+	attendings, err := testQueries.ListAttendingsByName(context.Background(), ListAttendingsByNameParams{
+		Limit:  int32(n),
 		Offset: 0,
-	}
-
-	attendings, err := testQueries.ListAttendingsByName(context.Background(), arg)
+	})
 	require.NoError(t, err)
-	require.Len(t, attendings, 6)
-	num := 0
-	for _, attending := range attendings {
-		require.NotEmpty(t, attending)
-		require.Equal(t, attending.FirstName, attendingList[num].FirstName)
-		require.Equal(t, attending.LastName, attendingList[num].LastName)
-		num++
-	}
+
+	require.Len(t, attendings, n)
+	require.EqualValues(t, attendings, allAttendings[:n])
+	spew.Dump(attendings)
 }
