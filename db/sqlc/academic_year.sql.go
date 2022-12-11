@@ -55,32 +55,32 @@ func (q *Queries) GetAcademicYearByName(ctx context.Context, name string) (Acade
 	return i, err
 }
 
-const listUsersByName = `-- name: ListUsersByName :many
-SELECT id, email, hashed_password, role_name, created_at FROM "user"
+const listAcademicYearByName = `-- name: ListAcademicYearByName :many
+SELECT id, name, start_date, end_date, created_at FROM "academic_year"
 ORDER BY "name"
 LIMIT $1
 OFFSET $2
 `
 
-type ListUsersByNameParams struct {
+type ListAcademicYearByNameParams struct {
 	Limit  int32 `json:"limit"`
 	Offset int32 `json:"offset"`
 }
 
-func (q *Queries) ListUsersByName(ctx context.Context, arg ListUsersByNameParams) ([]User, error) {
-	rows, err := q.db.Query(ctx, listUsersByName, arg.Limit, arg.Offset)
+func (q *Queries) ListAcademicYearByName(ctx context.Context, arg ListAcademicYearByNameParams) ([]AcademicYear, error) {
+	rows, err := q.db.Query(ctx, listAcademicYearByName, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []User{}
+	items := []AcademicYear{}
 	for rows.Next() {
-		var i User
+		var i AcademicYear
 		if err := rows.Scan(
 			&i.ID,
-			&i.Email,
-			&i.HashedPassword,
-			&i.RoleName,
+			&i.Name,
+			&i.StartDate,
+			&i.EndDate,
 			&i.CreatedAt,
 		); err != nil {
 			return nil, err

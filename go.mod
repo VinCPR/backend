@@ -13,6 +13,8 @@ require (
 	github.com/o1egl/paseto v1.0.0
 	github.com/spf13/viper v1.14.0
 	github.com/stretchr/testify v1.8.1
+	github.com/swaggo/files v0.0.0-20220728132757-551d4a08d97a
+	github.com/swaggo/gin-swagger v1.5.3
 	github.com/swaggo/swag v1.8.8
 	golang.org/x/crypto v0.3.0
 )
@@ -57,8 +59,6 @@ require (
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/subosito/gotenv v1.4.1 // indirect
-	github.com/swaggo/files v0.0.0-20220728132757-551d4a08d97a // indirect
-	github.com/swaggo/gin-swagger v1.5.3 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
 	golang.org/x/net v0.2.0 // indirect
 	golang.org/x/sys v0.3.0 // indirect

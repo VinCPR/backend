@@ -34,3 +34,10 @@ func RandomString(n int) string {
 func RandomName() string {
 	return RandomString(6)
 }
+
+// RandomDate generates a random date
+func RandomDate() time.Time {
+	date := time.Unix(time.Date(2022, 1, 1, 0, 0, 0, 0, time.UTC).Unix(), 0).
+		UTC().AddDate(0, 0, rand.Intn(1000))
+	return date
+}
