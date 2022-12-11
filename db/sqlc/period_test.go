@@ -6,18 +6,18 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/VinCPR/backend/util"
 	"github.com/stretchr/testify/require"
+
+	"github.com/VinCPR/backend/util"
 )
 
-func createRandomPeriod(t *testing.T) Period {
-	AcademicYear := createRandomAcademicYear(t)
-	RandDate := util.RandomDate()
+func createRandomPeriod(t *testing.T, academicYearID int64) Period {
+	randDate := util.RandomDate()
 	arg := CreatePeriodParams{
-		AcademicYearID: AcademicYear.ID,
+		AcademicYearID: academicYearID,
 		Name:           util.RandomName(),
-		StartDate:      RandDate,
-		EndDate:        RandDate.AddDate(0, 0, 7*rand.Intn(13)),
+		StartDate:      randDate,
+		EndDate:        randDate.AddDate(0, 0, 7*rand.Intn(13)),
 	}
 	period, err := testQueries.CreatePeriod(context.Background(), arg)
 	require.NoError(t, err)
@@ -33,11 +33,13 @@ func createRandomPeriod(t *testing.T) Period {
 }
 
 func TestCreatePeriod(t *testing.T) {
-	createRandomPeriod(t)
+	academicYear := createRandomAcademicYear(t)
+	createRandomPeriod(t, academicYear.ID)
 }
 
 func TestGetPeriodByID(t *testing.T) {
-	period1 := createRandomPeriod(t)
+	academicYear := createRandomAcademicYear(t)
+	period1 := createRandomPeriod(t, academicYear.ID)
 	period2, err := testQueries.GetPeriodByID(context.Background(), period1.ID)
 	require.NoError(t, err)
 	require.NotEmpty(t, period2)
@@ -50,23 +52,27 @@ func TestGetPeriodByID(t *testing.T) {
 }
 
 func TestListPeriodsByStartDate(t *testing.T) {
-	for i := 0; i < 10; i++ {
-		createRandomPeriod(t)
+	var (
+		academicYear   = createRandomAcademicYear(t)
+		createdPeriods = make([]Period, 0)
+		n              = 10
+	)
+	for i := 0; i < n; i++ {
+		createdPeriods = append(createdPeriods, createRandomPeriod(t, academicYear.ID))
 	}
-	AcademicYear := util.RandomInt(2022, 2030)
-	periods, err := testQueries.ListPeriodsByStartDate(context.Background(), AcademicYear)
-	require.NoError(t, err)
 
-	periods_copy := periods
-	sort.Slice(periods, func(i, j int) bool {
-		return periods[i].StartDate.Before(periods[j].StartDate)
+	periods, err := testQueries.ListPeriodsByStartDate(context.Background(), academicYear.ID)
+	require.NoError(t, err)
+	require.NotEmpty(t, periods)
+
+	sort.Slice(createdPeriods, func(i, j int) bool {
+		return createdPeriods[i].StartDate.Before(createdPeriods[j].StartDate)
 	})
 
-	for i := 0; i < len(periods); i++ {
-		require.NotEmpty(t, periods)
-		require.Equal(t, periods[i].AcademicYearID, AcademicYear)
-		require.Equal(t, periods[i].Name, periods_copy[i].Name)
-		require.Equal(t, periods[i].EndDate, periods_copy[i].EndDate)
-		require.Equal(t, periods[i].StartDate, periods_copy[i].StartDate)
+	for i := 0; i < n; i++ {
+		require.Equal(t, periods[i].AcademicYearID, academicYear.ID)
+		require.Equal(t, periods[i].Name, createdPeriods[i].Name)
+		require.Equal(t, periods[i].EndDate, createdPeriods[i].EndDate)
+		require.Equal(t, periods[i].StartDate, createdPeriods[i].StartDate)
 	}
 }
