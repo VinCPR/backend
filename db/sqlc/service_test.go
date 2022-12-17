@@ -6,8 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/VinCPR/backend/util"
 	"github.com/stretchr/testify/require"
+
+	"github.com/VinCPR/backend/util"
 )
 
 func createRandomService(t *testing.T, hospital Hospital, specialty Specialty) Service {
@@ -55,6 +56,8 @@ func TestGetService(t *testing.T) {
 	require.Equal(t, service1.Description, service2.Description)
 	require.WithinDuration(t, service1.CreatedAt, service2.CreatedAt, time.Second)
 }
+
+// TODO refactor test for list queries
 
 func TestListServicesBySpecialID(t *testing.T) {
 	for i := 0; i < 10; i++ {
