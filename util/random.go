@@ -57,3 +57,8 @@ func RandomStudentID() string {
 func RandomMobile() string {
 	return strconv.FormatInt(RandomInt(1_000_000_000, 9_999_999_999), 10)
 }
+
+// RandomAddress generates a random address
+func RandomAddress() string {
+	return strconv.FormatInt(RandomInt(1, 200), 10) + " " + RandomString(8)
+}

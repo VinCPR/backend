@@ -6,7 +6,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/stretchr/testify/require"
 
 	"github.com/VinCPR/backend/util"
@@ -60,25 +59,30 @@ func TestListAttendingsByName(t *testing.T) {
 	for i := 0; i < n; i++ {
 		user := createRandomUser(t)
 		createRandomAttending(t, user)
+
 	}
-	allAttendings, err := testQueries.ListAttendingsByName(context.Background(), ListAttendingsByNameParams{
-		Limit:  100,
+	user := createRandomUser(t)
+	lastAttending := createRandomAttending(t, user)
+	argtest := ListAttendingsByNameParams{
+		Limit:  int32(lastAttending.ID),
 		Offset: 0,
-	})
+	}
+
+	attendingList, err := testQueries.ListAttendingsByName(context.Background(), argtest)
 	require.NoError(t, err)
 
-	sort.SliceIsSorted(allAttendings, func(i, j int) bool {
-		return allAttendings[i].FirstName < allAttendings[j].FirstName ||
-			(allAttendings[i].FirstName == allAttendings[j].FirstName && allAttendings[i].LastName < allAttendings[j].LastName)
+	sort.SliceIsSorted(attendingList, func(i, j int) bool {
+		return attendingList[i].FirstName < attendingList[j].FirstName ||
+			(attendingList[i].FirstName == attendingList[j].FirstName && attendingList[i].LastName < attendingList[j].LastName)
 	})
 
-	attendings, err := testQueries.ListAttendingsByName(context.Background(), ListAttendingsByNameParams{
+	arg := ListAttendingsByNameParams{
 		Limit:  int32(n),
 		Offset: 0,
-	})
-	require.NoError(t, err)
+	}
 
+	attendings, err := testQueries.ListAttendingsByName(context.Background(), arg)
+	require.NoError(t, err)
 	require.Len(t, attendings, n)
-	require.EqualValues(t, attendings, allAttendings[:n])
-	spew.Dump(attendings)
+	require.EqualValues(t, attendings, attendingList[:n])
 }
