@@ -50,6 +50,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/academic_year/calendar": {
+            "get": {
+                "description": "return the list of events of an academic year",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AcademicCalendar"
+                ],
+                "summary": "return the list of events of an academic year",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "academic year name",
+                        "name": "academicYearName",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.getAcademicCalendarResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/academic_year/list": {
             "get": {
                 "description": "list created academic year",
@@ -162,7 +197,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "api.academicYearResponse": {
+        "github.com_VinCPR_backend_api.academicCalendarEventResponse": {
             "type": "object",
             "properties": {
                 "created_at": {
@@ -176,99 +211,8 @@ const docTemplate = `{
                 },
                 "start_date": {
                     "type": "string"
-                }
-            }
-        },
-        "api.createAcademicYearRequest": {
-            "type": "object",
-            "required": [
-                "end_date",
-                "name",
-                "start_date"
-            ],
-            "properties": {
-                "end_date": {
-                    "type": "string"
                 },
-                "name": {
-                    "type": "string"
-                },
-                "start_date": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.createUserRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "password",
-                "role_name"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string",
-                    "maxLength": 64,
-                    "minLength": 8
-                },
-                "role_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.loginUserRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "password"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string",
-                    "maxLength": 64,
-                    "minLength": 8
-                }
-            }
-        },
-        "api.loginUserResponse": {
-            "type": "object",
-            "properties": {
-                "access_token": {
-                    "type": "string"
-                },
-                "access_token_expires_at": {
-                    "type": "string"
-                },
-                "refresh_token": {
-                    "type": "string"
-                },
-                "refresh_token_expires_at": {
-                    "type": "string"
-                },
-                "session_id": {
-                    "type": "string"
-                },
-                "user": {
-                    "$ref": "#/definitions/api.userResponse"
-                }
-            }
-        },
-        "api.userResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "role_name": {
+                "type": {
                     "type": "string"
                 }
             }
@@ -327,6 +271,20 @@ const docTemplate = `{
                 },
                 "role_name": {
                     "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.getAcademicCalendarResponse": {
+            "type": "object",
+            "properties": {
+                "academic_calendar_events": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github.com_VinCPR_backend_api.academicCalendarEventResponse"
+                    }
+                },
+                "academic_year": {
+                    "$ref": "#/definitions/github.com_VinCPR_backend_api.academicYearResponse"
                 }
             }
         },

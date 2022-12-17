@@ -1,12 +1,15 @@
 package api
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/lib/pq"
+	"github.com/jackc/pgconn"
+	"github.com/jackc/pgerrcode"
+	"github.com/jackc/pgx/v4"
 
 	db "github.com/VinCPR/backend/db/sqlc"
 )
@@ -17,16 +20,24 @@ type createAcademicYearRequest struct {
 	EndDate   time.Time `json:"end_date" form:"end_date" binding:"required" time_format:"2006-01-02"`
 }
 
-type listAcademicYearsRequest struct {
-	Limit  int32 `json:"limit" binding:"required"`
-	Offset int32 `json:"offset" binding:"required"`
-}
-
 type academicYearResponse struct {
 	Name      string    `json:"name"`
 	StartDate time.Time `json:"start_date"`
 	EndDate   time.Time `json:"end_date"`
 	CreatedAt time.Time `json:"created_at"`
+}
+
+type academicCalendarEventResponse struct {
+	Name      string    `json:"name"`
+	Type      string    `json:"type"`
+	StartDate time.Time `json:"start_date"`
+	EndDate   time.Time `json:"end_date"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
+type getAcademicCalendarResponse struct {
+	AcademicYear           academicYearResponse            `json:"academic_year"`
+	AcademicCalendarEvents []academicCalendarEventResponse `json:"academic_calendar_events"`
 }
 
 // createAcademicYear
@@ -50,12 +61,10 @@ func (server *Server) createAcademicYear(ctx *gin.Context) {
 		EndDate:   req.EndDate,
 	})
 	if err != nil {
-		if pqErr, ok := err.(*pq.Error); ok {
-			switch pqErr.Code.Name() {
-			case "unique_violation":
-				ctx.JSON(http.StatusForbidden, errorResponse(err))
-				return
-			}
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) && pgErr.Code == pgerrcode.UniqueViolation {
+			ctx.JSON(http.StatusForbidden, errorResponse(err))
+			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
@@ -104,6 +113,7 @@ func (server *Server) listAcademicYears(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
+
 	academicYearsResponse := make([]academicYearResponse, 0)
 	for _, academicYear := range academicYears {
 		academicYearsResponse = append(academicYearsResponse, academicYearResponse{
@@ -115,3 +125,51 @@ func (server *Server) listAcademicYears(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, academicYearsResponse)
 }
+
+// getAcademicCalendar
+// @Summary return the list of events of an academic year
+// @Description return the list of events of an academic year
+// @Tags AcademicCalendar
+// @Accept	json
+// @Produce  json
+// @Param academicYearName query string true "academic year name"
+// @Success 200 {object} []getAcademicCalendarResponse "ok"
+// @Router /academic_year/calendar [get]
+func (server *Server) getAcademicCalendar(ctx *gin.Context) {
+	academicYearName := ctx.Query("academicYearName")
+
+	academicYear, err := server.store.GetAcademicYearByName(ctx, academicYearName)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			ctx.JSON(http.StatusBadRequest, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+	}
+
+	academicCalendarEvents, err := server.store.ListEventsByAcademicYearID(ctx, academicYear.ID)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+	}
+	eventResponse := make([]academicCalendarEventResponse, 0)
+	for _, event := range academicCalendarEvents {
+		eventResponse = append(eventResponse, academicCalendarEventResponse{
+			Name:      event.Name,
+			Type:      event.Type,
+			StartDate: event.StartDate,
+			EndDate:   event.EndDate,
+			CreatedAt: event.CreatedAt,
+		})
+	}
+	ctx.JSON(http.StatusOK, getAcademicCalendarResponse{
+		AcademicYear: academicYearResponse{
+			Name:      academicYear.Name,
+			StartDate: academicYear.StartDate,
+			EndDate:   academicYear.EndDate,
+			CreatedAt: academicYear.CreatedAt,
+		},
+		AcademicCalendarEvents: eventResponse,
+	})
+}
+
+// TODO insert academic calendar events API (only for admin)

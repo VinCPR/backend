@@ -1,5 +1,5 @@
 definitions:
-  api.academicYearResponse:
+  github.com_VinCPR_backend_api.academicCalendarEventResponse:
     properties:
       created_at:
         type: string
@@ -9,69 +9,7 @@ definitions:
         type: string
       start_date:
         type: string
-    type: object
-  api.createAcademicYearRequest:
-    properties:
-      end_date:
-        type: string
-      name:
-        type: string
-      start_date:
-        type: string
-    required:
-    - end_date
-    - name
-    - start_date
-    type: object
-  api.createUserRequest:
-    properties:
-      email:
-        type: string
-      password:
-        maxLength: 64
-        minLength: 8
-        type: string
-      role_name:
-        type: string
-    required:
-    - email
-    - password
-    - role_name
-    type: object
-  api.loginUserRequest:
-    properties:
-      email:
-        type: string
-      password:
-        maxLength: 64
-        minLength: 8
-        type: string
-    required:
-    - email
-    - password
-    type: object
-  api.loginUserResponse:
-    properties:
-      access_token:
-        type: string
-      access_token_expires_at:
-        type: string
-      refresh_token:
-        type: string
-      refresh_token_expires_at:
-        type: string
-      session_id:
-        type: string
-      user:
-        $ref: '#/definitions/api.userResponse'
-    type: object
-  api.userResponse:
-    properties:
-      created_at:
-        type: string
-      email:
-        type: string
-      role_name:
+      type:
         type: string
     type: object
   github.com_VinCPR_backend_api.academicYearResponse:
@@ -112,6 +50,15 @@ definitions:
     - email
     - password
     - role_name
+    type: object
+  github.com_VinCPR_backend_api.getAcademicCalendarResponse:
+    properties:
+      academic_calendar_events:
+        items:
+          $ref: '#/definitions/github.com_VinCPR_backend_api.academicCalendarEventResponse'
+        type: array
+      academic_year:
+        $ref: '#/definitions/github.com_VinCPR_backend_api.academicYearResponse'
     type: object
   github.com_VinCPR_backend_api.loginUserRequest:
     properties:
@@ -172,6 +119,29 @@ paths:
           schema:
             $ref: '#/definitions/github.com_VinCPR_backend_api.academicYearResponse'
       summary: create new academic year
+      tags:
+      - AcademicCalendar
+  /academic_year/calendar:
+    get:
+      consumes:
+      - application/json
+      description: return the list of events of an academic year
+      parameters:
+      - description: academic year name
+        in: query
+        name: academicYearName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            items:
+              $ref: '#/definitions/github.com_VinCPR_backend_api.getAcademicCalendarResponse'
+            type: array
+      summary: return the list of events of an academic year
       tags:
       - AcademicCalendar
   /academic_year/list:
