@@ -9,8 +9,8 @@ INSERT INTO "academic_year" (
 SELECT * FROM "academic_year"
 WHERE "name" = $1 LIMIT 1;
 
--- name: ListAcademicYearByName :many
+-- name: ListAcademicYearByEndDate :many
 SELECT * FROM "academic_year"
-ORDER BY "name"
+ORDER BY "end_date" DESC
 LIMIT $1
 OFFSET $2;
