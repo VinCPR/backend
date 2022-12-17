@@ -69,57 +69,13 @@ func (q *Queries) GetServiceToAttendingByServiceID(ctx context.Context, serviceI
 	return i, err
 }
 
-const listServicesToAttendingsByAll = `-- name: ListServicesToAttendingsByAll :many
-SELECT id, service_id, attending_id, created_at FROM "service_to_attending"
-ORDER BY "service_id","attending_id"
-LIMIT $1
-OFFSET $2
-`
-
-type ListServicesToAttendingsByAllParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
-}
-
-func (q *Queries) ListServicesToAttendingsByAll(ctx context.Context, arg ListServicesToAttendingsByAllParams) ([]ServiceToAttending, error) {
-	rows, err := q.db.Query(ctx, listServicesToAttendingsByAll, arg.Limit, arg.Offset)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	items := []ServiceToAttending{}
-	for rows.Next() {
-		var i ServiceToAttending
-		if err := rows.Scan(
-			&i.ID,
-			&i.ServiceID,
-			&i.AttendingID,
-			&i.CreatedAt,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
 const listServicesToAttendingsByAttendingID = `-- name: ListServicesToAttendingsByAttendingID :many
 SELECT id, service_id, attending_id, created_at FROM "service_to_attending"
 ORDER BY "attending_id"
-LIMIT $1
-OFFSET $2
 `
 
-type ListServicesToAttendingsByAttendingIDParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
-}
-
-func (q *Queries) ListServicesToAttendingsByAttendingID(ctx context.Context, arg ListServicesToAttendingsByAttendingIDParams) ([]ServiceToAttending, error) {
-	rows, err := q.db.Query(ctx, listServicesToAttendingsByAttendingID, arg.Limit, arg.Offset)
+func (q *Queries) ListServicesToAttendingsByAttendingID(ctx context.Context) ([]ServiceToAttending, error) {
+	rows, err := q.db.Query(ctx, listServicesToAttendingsByAttendingID)
 	if err != nil {
 		return nil, err
 	}
@@ -146,17 +102,40 @@ func (q *Queries) ListServicesToAttendingsByAttendingID(ctx context.Context, arg
 const listServicesToAttendingsByServiceID = `-- name: ListServicesToAttendingsByServiceID :many
 SELECT id, service_id, attending_id, created_at FROM "service_to_attending"
 ORDER BY "service_id"
-LIMIT $1
-OFFSET $2
 `
 
-type ListServicesToAttendingsByServiceIDParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
+func (q *Queries) ListServicesToAttendingsByServiceID(ctx context.Context) ([]ServiceToAttending, error) {
+	rows, err := q.db.Query(ctx, listServicesToAttendingsByServiceID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []ServiceToAttending{}
+	for rows.Next() {
+		var i ServiceToAttending
+		if err := rows.Scan(
+			&i.ID,
+			&i.ServiceID,
+			&i.AttendingID,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
-func (q *Queries) ListServicesToAttendingsByServiceID(ctx context.Context, arg ListServicesToAttendingsByServiceIDParams) ([]ServiceToAttending, error) {
-	rows, err := q.db.Query(ctx, listServicesToAttendingsByServiceID, arg.Limit, arg.Offset)
+const listServicesToAttendingsByServiceIDAndAttendingID = `-- name: ListServicesToAttendingsByServiceIDAndAttendingID :many
+SELECT id, service_id, attending_id, created_at FROM "service_to_attending"
+ORDER BY "service_id","attending_id"
+`
+
+func (q *Queries) ListServicesToAttendingsByServiceIDAndAttendingID(ctx context.Context) ([]ServiceToAttending, error) {
+	rows, err := q.db.Query(ctx, listServicesToAttendingsByServiceIDAndAttendingID)
 	if err != nil {
 		return nil, err
 	}

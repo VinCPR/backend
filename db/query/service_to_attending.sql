@@ -16,18 +16,12 @@ WHERE attending_id = $1 LIMIT 1;
 
 -- name: ListServicesToAttendingsByServiceID :many
 SELECT * FROM "service_to_attending"
-ORDER BY "service_id"
-LIMIT $1
-OFFSET $2;
+ORDER BY "service_id";
 
 -- name: ListServicesToAttendingsByAttendingID :many
 SELECT * FROM "service_to_attending"
-ORDER BY "attending_id"
-LIMIT $1
-OFFSET $2;
+ORDER BY "attending_id";
 
--- name: ListServicesToAttendingsByAll :many
+-- name: ListServicesToAttendingsByServiceIDAndAttendingID :many
 SELECT * FROM "service_to_attending"
-ORDER BY "service_id","attending_id"
-LIMIT $1
-OFFSET $2;
+ORDER BY "service_id","attending_id";
