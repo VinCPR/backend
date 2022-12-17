@@ -58,7 +58,7 @@ func (q *Queries) GetHospitalByName(ctx context.Context, name string) (Hospital,
 
 const listHospitalsByName = `-- name: ListHospitalsByName :many
 SELECT id, name, description, address, created_at FROM "hospital"
-ORDER BY name 
+ORDER BY "name"
 LIMIT $1
 OFFSET $2
 `

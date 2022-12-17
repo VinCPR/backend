@@ -41,7 +41,7 @@ func TestCreateService(t *testing.T) {
 
 }
 
-func TestGetServicel(t *testing.T) {
+func TestGetService(t *testing.T) {
 	hospital := createRandomHospital(t)
 	specialty := createRandomSpecialty(t)
 	service1 := createRandomService(t, hospital, specialty)
@@ -57,12 +57,13 @@ func TestGetServicel(t *testing.T) {
 }
 
 func TestListServicesBySpecialID(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		hospital := createRandomHospital(t)
+		specialty := createRandomSpecialty(t)
+		createRandomService(t, hospital, specialty)
+	}
 	hospital := createRandomHospital(t)
 	specialty := createRandomSpecialty(t)
-	for i := 0; i < 10; i++ {
-		createRandomService(t, hospital, specialty)
-
-	}
 	lastService := createRandomService(t, hospital, specialty)
 	var numOfServices = lastService.ID
 
@@ -99,12 +100,13 @@ func TestListServicesBySpecialID(t *testing.T) {
 }
 
 func TestListServicesByHospitalID(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		hospital := createRandomHospital(t)
+		specialty := createRandomSpecialty(t)
+		createRandomService(t, hospital, specialty)
+	}
 	hospital := createRandomHospital(t)
 	specialty := createRandomSpecialty(t)
-	for i := 0; i < 10; i++ {
-		createRandomService(t, hospital, specialty)
-
-	}
 	lastService := createRandomService(t, hospital, specialty)
 	var numOfServices = lastService.ID
 
@@ -141,12 +143,13 @@ func TestListServicesByHospitalID(t *testing.T) {
 }
 
 func TestListServicesBySpecialtyIDAndHospitalID(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		hospital := createRandomHospital(t)
+		specialty := createRandomSpecialty(t)
+		createRandomService(t, hospital, specialty)
+	}
 	hospital := createRandomHospital(t)
 	specialty := createRandomSpecialty(t)
-	for i := 0; i < 10; i++ {
-		createRandomService(t, hospital, specialty)
-
-	}
 	lastService := createRandomService(t, hospital, specialty)
 	var numOfServices = lastService.ID
 

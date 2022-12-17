@@ -7,12 +7,12 @@ INSERT INTO "hospital" (
     $1 , $2 , $3
 ) RETURNING *;
 
--- name: GetHospital :one
+-- name: GetHospitalByName :one
 SELECT * FROM "hospital"
 WHERE name = $1 LIMIT 1;
 
--- name: ListHospitals :many
+-- name: ListHospitalsByName :many
 SELECT * FROM "hospital"
-ORDER BY name 
+ORDER BY "name"
 LIMIT $1
 OFFSET $2;
