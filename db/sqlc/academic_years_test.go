@@ -53,17 +53,17 @@ func TestListAcademicYearByName(t *testing.T) {
 		createRandomAcademicYear(t)
 	}
 
-	arg := ListAcademicYearByNameParams{
+	arg := ListAcademicYearByEndDateParams{
 		Limit:  5,
 		Offset: 0,
 	}
 
-	academicYears, err := testQueries.ListAcademicYearByName(context.Background(), arg)
+	academicYears, err := testQueries.ListAcademicYearByEndDate(context.Background(), arg)
 	require.NoError(t, err)
 	require.NotEmpty(t, academicYears)
 	require.Len(t, academicYears, 5)
 	require.True(t, sort.SliceIsSorted(academicYears, func(i, j int) bool {
-		return academicYears[i].Name < academicYears[j].Name
+		return academicYears[i].EndDate.After(academicYears[j].EndDate)
 	}))
 	spew.Dump(academicYears)
 }

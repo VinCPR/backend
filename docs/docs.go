@@ -31,7 +31,7 @@ const docTemplate = `{
                 "summary": "create new academic year",
                 "parameters": [
                     {
-                        "description": "input requires academic year name, start date, end date",
+                        "description": "input required: academic year name, start date, end date",
                         "name": "body",
                         "in": "body",
                         "required": true,
@@ -44,7 +44,49 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createAcademicYearResponse"
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.academicYearResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/academic_year/list": {
+            "get": {
+                "description": "list created academic year",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AcademicCalendar"
+                ],
+                "summary": "list created academic year",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page number",
+                        "name": "pageNumber",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "page size",
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.academicYearResponse"
+                            }
                         }
                     }
                 }
@@ -120,38 +162,149 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "github.com_VinCPR_backend_api.createAcademicYearRequest": {
+        "api.academicYearResponse": {
             "type": "object",
-            "required": [
-                "endDate",
-                "name",
-                "startDate"
-            ],
             "properties": {
-                "endDate": {
+                "created_at": {
+                    "type": "string"
+                },
+                "end_date": {
                     "type": "string"
                 },
                 "name": {
                     "type": "string"
                 },
-                "startDate": {
+                "start_date": {
                     "type": "string"
                 }
             }
         },
-        "github.com_VinCPR_backend_api.createAcademicYearResponse": {
+        "api.createAcademicYearRequest": {
             "type": "object",
+            "required": [
+                "end_date",
+                "name",
+                "start_date"
+            ],
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "endDate": {
+                "end_date": {
                     "type": "string"
                 },
                 "name": {
                     "type": "string"
                 },
-                "startDate": {
+                "start_date": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.createUserRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password",
+                "role_name"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 8
+                },
+                "role_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.loginUserRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 8
+                }
+            }
+        },
+        "api.loginUserResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "access_token_expires_at": {
+                    "type": "string"
+                },
+                "refresh_token": {
+                    "type": "string"
+                },
+                "refresh_token_expires_at": {
+                    "type": "string"
+                },
+                "session_id": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/api.userResponse"
+                }
+            }
+        },
+        "api.userResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "role_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.academicYearResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.createAcademicYearRequest": {
+            "type": "object",
+            "required": [
+                "end_date",
+                "name",
+                "start_date"
+            ],
+            "properties": {
+                "end_date": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "start_date": {
                     "type": "string"
                 }
             }

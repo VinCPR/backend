@@ -54,6 +54,7 @@ func NewServer(config util.Config, store *db.Store) (*Server, error) {
 	}
 	{
 		routerV1.POST("/academic_year", server.createAcademicYear)
+		routerV1.GET("/academic_year/list", server.listAcademicYears)
 	}
 	// authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
 	server.router = router

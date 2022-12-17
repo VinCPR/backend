@@ -55,20 +55,20 @@ func (q *Queries) GetAcademicYearByName(ctx context.Context, name string) (Acade
 	return i, err
 }
 
-const listAcademicYearByName = `-- name: ListAcademicYearByName :many
+const listAcademicYearByEndDate = `-- name: ListAcademicYearByEndDate :many
 SELECT id, name, start_date, end_date, created_at FROM "academic_year"
-ORDER BY "name"
+ORDER BY "end_date" DESC
 LIMIT $1
 OFFSET $2
 `
 
-type ListAcademicYearByNameParams struct {
+type ListAcademicYearByEndDateParams struct {
 	Limit  int32 `json:"limit"`
 	Offset int32 `json:"offset"`
 }
 
-func (q *Queries) ListAcademicYearByName(ctx context.Context, arg ListAcademicYearByNameParams) ([]AcademicYear, error) {
-	rows, err := q.db.Query(ctx, listAcademicYearByName, arg.Limit, arg.Offset)
+func (q *Queries) ListAcademicYearByEndDate(ctx context.Context, arg ListAcademicYearByEndDateParams) ([]AcademicYear, error) {
+	rows, err := q.db.Query(ctx, listAcademicYearByEndDate, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
