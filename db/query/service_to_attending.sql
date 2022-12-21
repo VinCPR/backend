@@ -6,6 +6,9 @@ INSERT INTO "service_to_attending" (
     $1 , $2 
 ) RETURNING *;
 
+-- TODO: change list by service id -> many
+-- attending_id -> many
+
 -- name: GetServiceToAttendingByServiceID :one
 SELECT * FROM "service_to_attending"
 WHERE service_id = $1 LIMIT 1;
