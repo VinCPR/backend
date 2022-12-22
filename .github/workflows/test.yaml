@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - "main"
-      - "master"
       - "release*"
   pull_request:
 
@@ -20,7 +19,7 @@ jobs:
         env:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: secret
-          POSTGRES_DB: softcon
+          POSTGRES_DB: vincpr
         ports:
           - 5432:5432
         options: >-

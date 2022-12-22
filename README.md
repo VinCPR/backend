@@ -8,7 +8,10 @@
 
 ## Quickstart
 
-### Create a new file `app.env` and copy from `app.env-example`
+### Create common network for postgres and api
+```shell
+$ make network
+```
 
 ### Start postgres container
 ```shell
