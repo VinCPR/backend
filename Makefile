@@ -1,13 +1,16 @@
-DB_URL?=postgresql://root:secret@localhost:5432/softcon?sslmode=disable
+DB_URL?=postgresql://root:secret@localhost:5432/vincpr?sslmode=disable
+
+network:
+	docker network create vincpr_network
 
 postgres:
-	docker run --name softcon_postgres -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:15.1-alpine
+	docker run --name vincpr_postgres --network vincpr_network -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:15.1-alpine
 
 createdb:
-	docker exec -it softcon_postgres createdb --username=root --owner=root softcon
+	docker exec -it vincpr_postgres createdb --username=root --owner=root vincpr
 
 dropdb:
-	docker exec -it softcon_postgres dropdb softcon
+	docker exec -it vincpr_postgres dropdb vincpr
 
 migrateup:
 	migrate -path db/migration -database "$(DB_URL)" -verbose up
@@ -22,7 +25,7 @@ migratedown1:
 	migrate -path db/migration -database "$(DB_URL)" -verbose down 1
 
 test:
-	@PROJECT_PATH=$(shell pwd) go test -cover ./...
+	go test -cover ./...
 
 server:
 	go run cmd/main.go
@@ -33,7 +36,7 @@ sqlc:
 gen-swagger:
 	swag init --parseDependency --parseInternal -g ./cmd/main.go
 
-.PHONY: postgres createdb dropdb migrateup migratedown migrateup1 migratedown1 sqlc test server gen-swagger
+.PHONY: network postgres createdb dropdb migrateup migratedown migrateup1 migratedown1 sqlc test server gen-swagger
 
 #remove-infras:
 #	docker-compose stop
