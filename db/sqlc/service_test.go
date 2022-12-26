@@ -6,9 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/require"
-
 	"github.com/VinCPR/backend/util"
+	"github.com/stretchr/testify/require"
 )
 
 func createRandomService(t *testing.T, hospital Hospital, specialty Specialty) Service {
