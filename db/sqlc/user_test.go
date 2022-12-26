@@ -6,14 +6,9 @@ import (
 	"testing"
 	"time"
 
-<<<<<<< HEAD
 	"github.com/stretchr/testify/require"
 
 	"github.com/VinCPR/backend/util"
-=======
-	"github.com/VinCPR/backend/util"
-	"github.com/stretchr/testify/require"
->>>>>>> cfc0062 (add sql and test for hospital, specialty, service and service to attending)
 )
 
 func createRandomUser(t *testing.T) User {
@@ -56,11 +51,7 @@ func TestGetUserByEmail(t *testing.T) {
 }
 
 func TestListUsersByID(t *testing.T) {
-<<<<<<< HEAD
 	for i := 0; i < 15; i++ {
-=======
-	for i := 0; i < 5; i++ {
->>>>>>> cfc0062 (add sql and test for hospital, specialty, service and service to attending)
 		createRandomUser(t)
 	}
 
