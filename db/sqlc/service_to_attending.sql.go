@@ -53,13 +53,19 @@ func (q *Queries) GetServiceToAttendingByAttendingID(ctx context.Context, attend
 }
 
 const getServiceToAttendingByServiceID = `-- name: GetServiceToAttendingByServiceID :one
+<<<<<<< HEAD
 
+=======
+>>>>>>> cfc0062 (add sql and test for hospital, specialty, service and service to attending)
 SELECT id, service_id, attending_id, created_at FROM "service_to_attending"
 WHERE service_id = $1 LIMIT 1
 `
 
+<<<<<<< HEAD
 // TODO: change list by service id -> many
 // attending_id -> many
+=======
+>>>>>>> cfc0062 (add sql and test for hospital, specialty, service and service to attending)
 func (q *Queries) GetServiceToAttendingByServiceID(ctx context.Context, serviceID int64) (ServiceToAttending, error) {
 	row := q.db.QueryRow(ctx, getServiceToAttendingByServiceID, serviceID)
 	var i ServiceToAttending
@@ -72,6 +78,7 @@ func (q *Queries) GetServiceToAttendingByServiceID(ctx context.Context, serviceI
 	return i, err
 }
 
+<<<<<<< HEAD
 const listServicesToAttendingsByAttendingID = `-- name: ListServicesToAttendingsByAttendingID :many
 SELECT id, service_id, attending_id, created_at FROM "service_to_attending"
 ORDER BY "attending_id"
@@ -79,6 +86,59 @@ ORDER BY "attending_id"
 
 func (q *Queries) ListServicesToAttendingsByAttendingID(ctx context.Context) ([]ServiceToAttending, error) {
 	rows, err := q.db.Query(ctx, listServicesToAttendingsByAttendingID)
+=======
+const listServicesToAttendingsByAll = `-- name: ListServicesToAttendingsByAll :many
+SELECT id, service_id, attending_id, created_at FROM "service_to_attending"
+ORDER BY "service_id","attending_id"
+LIMIT $1
+OFFSET $2
+`
+
+type ListServicesToAttendingsByAllParams struct {
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
+}
+
+func (q *Queries) ListServicesToAttendingsByAll(ctx context.Context, arg ListServicesToAttendingsByAllParams) ([]ServiceToAttending, error) {
+	rows, err := q.db.Query(ctx, listServicesToAttendingsByAll, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []ServiceToAttending{}
+	for rows.Next() {
+		var i ServiceToAttending
+		if err := rows.Scan(
+			&i.ID,
+			&i.ServiceID,
+			&i.AttendingID,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listServicesToAttendingsByAttendingID = `-- name: ListServicesToAttendingsByAttendingID :many
+SELECT id, service_id, attending_id, created_at FROM "service_to_attending"
+ORDER BY "attending_id"
+LIMIT $1
+OFFSET $2
+`
+
+type ListServicesToAttendingsByAttendingIDParams struct {
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
+}
+
+func (q *Queries) ListServicesToAttendingsByAttendingID(ctx context.Context, arg ListServicesToAttendingsByAttendingIDParams) ([]ServiceToAttending, error) {
+	rows, err := q.db.Query(ctx, listServicesToAttendingsByAttendingID, arg.Limit, arg.Offset)
+>>>>>>> cfc0062 (add sql and test for hospital, specialty, service and service to attending)
 	if err != nil {
 		return nil, err
 	}
@@ -105,6 +165,7 @@ func (q *Queries) ListServicesToAttendingsByAttendingID(ctx context.Context) ([]
 const listServicesToAttendingsByServiceID = `-- name: ListServicesToAttendingsByServiceID :many
 SELECT id, service_id, attending_id, created_at FROM "service_to_attending"
 ORDER BY "service_id"
+<<<<<<< HEAD
 `
 
 func (q *Queries) ListServicesToAttendingsByServiceID(ctx context.Context) ([]ServiceToAttending, error) {
@@ -139,6 +200,19 @@ ORDER BY "service_id","attending_id"
 
 func (q *Queries) ListServicesToAttendingsByServiceIDAndAttendingID(ctx context.Context) ([]ServiceToAttending, error) {
 	rows, err := q.db.Query(ctx, listServicesToAttendingsByServiceIDAndAttendingID)
+=======
+LIMIT $1
+OFFSET $2
+`
+
+type ListServicesToAttendingsByServiceIDParams struct {
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
+}
+
+func (q *Queries) ListServicesToAttendingsByServiceID(ctx context.Context, arg ListServicesToAttendingsByServiceIDParams) ([]ServiceToAttending, error) {
+	rows, err := q.db.Query(ctx, listServicesToAttendingsByServiceID, arg.Limit, arg.Offset)
+>>>>>>> cfc0062 (add sql and test for hospital, specialty, service and service to attending)
 	if err != nil {
 		return nil, err
 	}
