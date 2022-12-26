@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: vincpr-api
-          image: 095420225348.dkr.ecr.eu-west-1.amazonaws.com/simplebank:latest
+          image: 845409721587.dkr.ecr.ap-southeast-1.amazonaws.com/vincpr_backend:9d3585081536bf32b955625f087c890e79336ea4
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
