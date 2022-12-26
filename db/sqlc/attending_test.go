@@ -6,14 +6,9 @@ import (
 	"testing"
 	"time"
 
-<<<<<<< HEAD
 	"github.com/stretchr/testify/require"
 
 	"github.com/VinCPR/backend/util"
-=======
-	"github.com/VinCPR/backend/util"
-	"github.com/stretchr/testify/require"
->>>>>>> cfc0062 (add sql and test for hospital, specialty, service and service to attending)
 )
 
 func createRandomAttending(t *testing.T, user User) Attending {
@@ -60,12 +55,8 @@ func TestGetAttendingByUserId(t *testing.T) {
 }
 
 func TestListAttendingsByName(t *testing.T) {
-<<<<<<< HEAD
 	var n = 5
 	for i := 0; i < n; i++ {
-=======
-	for i := 0; i < 5; i++ {
->>>>>>> cfc0062 (add sql and test for hospital, specialty, service and service to attending)
 		user := createRandomUser(t)
 		createRandomAttending(t, user)
 
@@ -80,37 +71,18 @@ func TestListAttendingsByName(t *testing.T) {
 	attendingList, err := testQueries.ListAttendingsByName(context.Background(), argtest)
 	require.NoError(t, err)
 
-<<<<<<< HEAD
 	sort.SliceIsSorted(attendingList, func(i, j int) bool {
-=======
-	sort.Slice(attendingList, func(i, j int) bool {
->>>>>>> cfc0062 (add sql and test for hospital, specialty, service and service to attending)
 		return attendingList[i].FirstName < attendingList[j].FirstName ||
 			(attendingList[i].FirstName == attendingList[j].FirstName && attendingList[i].LastName < attendingList[j].LastName)
 	})
 
 	arg := ListAttendingsByNameParams{
-<<<<<<< HEAD
 		Limit:  int32(n),
-=======
-		Limit:  6,
->>>>>>> cfc0062 (add sql and test for hospital, specialty, service and service to attending)
 		Offset: 0,
 	}
 
 	attendings, err := testQueries.ListAttendingsByName(context.Background(), arg)
 	require.NoError(t, err)
-<<<<<<< HEAD
 	require.Len(t, attendings, n)
 	require.EqualValues(t, attendings, attendingList[:n])
-=======
-	require.Len(t, attendings, 6)
-	num := 0
-	for _, attending := range attendings {
-		require.NotEmpty(t, attending)
-		require.Equal(t, attending.FirstName, attendingList[num].FirstName)
-		require.Equal(t, attending.LastName, attendingList[num].LastName)
-		num++
-	}
->>>>>>> cfc0062 (add sql and test for hospital, specialty, service and service to attending)
 }
