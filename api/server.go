@@ -60,6 +60,17 @@ func NewServer(config util.Config, store *db.Store) (*Server, error) {
 	{
 		routerV1.GET("/group/list", server.listGroupsByAcademicYear)
 	}
+	{
+		routerV1.GET("/hospital/list", server.listHospitalsByName)
+	}
+	{
+		routerV1.GET("/specialty/list", server.listSpecialtiesByName)
+	}
+	{
+		routerV1.GET("/service/list", server.listServicesbyHospitalID)
+		routerV1.GET("/service/list", server.listServicesbySpecialtyID)
+		routerV1.GET("/service/list", server.listServicesBySpecialtyIDAndHospitalID)
+	}
 	// authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
 	server.router = router
 	return server, nil
