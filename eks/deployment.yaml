@@ -19,4 +19,4 @@ spec:
           image: 845409721587.dkr.ecr.ap-southeast-1.amazonaws.com/vincpr_backend:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+          - containerPort: 8080
