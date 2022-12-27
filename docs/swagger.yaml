@@ -1,4 +1,74 @@
 definitions:
+  api.academicCalendarEventResponse:
+    properties:
+      created_at:
+        type: string
+      end_date:
+        type: string
+      name:
+        type: string
+      start_date:
+        type: string
+      type:
+        type: string
+    type: object
+  api.academicYearResponse:
+    properties:
+      created_at:
+        type: string
+      end_date:
+        type: string
+      name:
+        type: string
+      start_date:
+        type: string
+    type: object
+  api.blockResponse:
+    properties:
+      academic_year_id:
+        type: integer
+      created_at:
+        type: string
+      name:
+        type: string
+      period:
+        type: integer
+    type: object
+  api.createAcademicYearRequest:
+    properties:
+      end_date:
+        type: string
+      name:
+        type: string
+      start_date:
+        type: string
+    required:
+    - end_date
+    - name
+    - start_date
+    type: object
+  api.getAcademicCalendarResponse:
+    properties:
+      academic_calendar_events:
+        items:
+          $ref: '#/definitions/api.academicCalendarEventResponse'
+        type: array
+      academic_year:
+        $ref: '#/definitions/api.academicYearResponse'
+    type: object
+  api.periodResponse:
+    properties:
+      academic_year_id:
+        type: integer
+      created_at:
+        type: string
+      end_date:
+        type: string
+      name:
+        type: string
+      start_date:
+        type: string
+    type: object
   github.com_VinCPR_backend_api.academicCalendarEventResponse:
     properties:
       created_at:
@@ -22,6 +92,17 @@ definitions:
         type: string
       start_date:
         type: string
+    type: object
+  github.com_VinCPR_backend_api.blockResponse:
+    properties:
+      academic_year_id:
+        type: integer
+      created_at:
+        type: string
+      name:
+        type: string
+      period:
+        type: integer
     type: object
   github.com_VinCPR_backend_api.createAcademicYearRequest:
     properties:
@@ -60,6 +141,15 @@ definitions:
       academic_year:
         $ref: '#/definitions/github.com_VinCPR_backend_api.academicYearResponse'
     type: object
+  github.com_VinCPR_backend_api.groupResponse:
+    properties:
+      academic_year_id:
+        type: integer
+      created_at:
+        type: string
+      name:
+        type: string
+    type: object
   github.com_VinCPR_backend_api.loginUserRequest:
     properties:
       email:
@@ -86,6 +176,19 @@ definitions:
         type: string
       user:
         $ref: '#/definitions/github.com_VinCPR_backend_api.userResponse'
+    type: object
+  github.com_VinCPR_backend_api.periodResponse:
+    properties:
+      academic_year_id:
+        type: integer
+      created_at:
+        type: string
+      end_date:
+        type: string
+      name:
+        type: string
+      start_date:
+        type: string
     type: object
   github.com_VinCPR_backend_api.userResponse:
     properties:
@@ -172,6 +275,75 @@ paths:
       summary: list created academic year
       tags:
       - AcademicCalendar
+  /block/list:
+    get:
+      consumes:
+      - application/json
+      description: list blocks in that academic year
+      parameters:
+      - description: academic year name
+        in: query
+        name: academicYearName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            items:
+              $ref: '#/definitions/github.com_VinCPR_backend_api.blockResponse'
+            type: array
+      summary: list blocks in that academic year
+      tags:
+      - Blocks
+  /group/list:
+    get:
+      consumes:
+      - application/json
+      description: list groups in that academic year
+      parameters:
+      - description: academic year name
+        in: query
+        name: academicYearName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            items:
+              $ref: '#/definitions/github.com_VinCPR_backend_api.groupResponse'
+            type: array
+      summary: list groups in that academic year
+      tags:
+      - Groups
+  /period/list:
+    get:
+      consumes:
+      - application/json
+      description: list periods in that academic year
+      parameters:
+      - description: academic year name
+        in: query
+        name: academicYearName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            items:
+              $ref: '#/definitions/github.com_VinCPR_backend_api.periodResponse'
+            type: array
+      summary: list periods in that academic year
+      tags:
+      - Periods
   /users:
     post:
       consumes:

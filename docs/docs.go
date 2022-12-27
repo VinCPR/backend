@@ -127,6 +127,111 @@ const docTemplate = `{
                 }
             }
         },
+        "/block/list": {
+            "get": {
+                "description": "list blocks in that academic year",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Blocks"
+                ],
+                "summary": "list blocks in that academic year",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "academic year name",
+                        "name": "academicYearName",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.blockResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/group/list": {
+            "get": {
+                "description": "list groups in that academic year",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Groups"
+                ],
+                "summary": "list groups in that academic year",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "academic year name",
+                        "name": "academicYearName",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.groupResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/period/list": {
+            "get": {
+                "description": "list periods in that academic year",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Periods"
+                ],
+                "summary": "list periods in that academic year",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "academic year name",
+                        "name": "academicYearName",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.periodResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "post": {
                 "description": "upsert wallet address",
@@ -197,6 +302,113 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "api.academicCalendarEventResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.academicYearResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.blockResponse": {
+            "type": "object",
+            "properties": {
+                "academic_year_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "period": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.createAcademicYearRequest": {
+            "type": "object",
+            "required": [
+                "end_date",
+                "name",
+                "start_date"
+            ],
+            "properties": {
+                "end_date": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.getAcademicCalendarResponse": {
+            "type": "object",
+            "properties": {
+                "academic_calendar_events": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.academicCalendarEventResponse"
+                    }
+                },
+                "academic_year": {
+                    "$ref": "#/definitions/api.academicYearResponse"
+                }
+            }
+        },
+        "api.periodResponse": {
+            "type": "object",
+            "properties": {
+                "academic_year_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                }
+            }
+        },
         "github.com_VinCPR_backend_api.academicCalendarEventResponse": {
             "type": "object",
             "properties": {
@@ -231,6 +443,23 @@ const docTemplate = `{
                 },
                 "start_date": {
                     "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.blockResponse": {
+            "type": "object",
+            "properties": {
+                "academic_year_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "period": {
+                    "type": "integer"
                 }
             }
         },
@@ -288,6 +517,20 @@ const docTemplate = `{
                 }
             }
         },
+        "github.com_VinCPR_backend_api.groupResponse": {
+            "type": "object",
+            "properties": {
+                "academic_year_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "github.com_VinCPR_backend_api.loginUserRequest": {
             "type": "object",
             "required": [
@@ -325,6 +568,26 @@ const docTemplate = `{
                 },
                 "user": {
                     "$ref": "#/definitions/github.com_VinCPR_backend_api.userResponse"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.periodResponse": {
+            "type": "object",
+            "properties": {
+                "academic_year_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
                 }
             }
         },

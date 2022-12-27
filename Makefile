@@ -1,5 +1,8 @@
 DB_URL?=postgresql://root:secret@localhost:5432/vincpr?sslmode=disable
 
+run-all:
+	docker compose up
+
 network:
 	docker network create vincpr_network
 
@@ -36,15 +39,4 @@ sqlc:
 gen-swagger:
 	swag init --parseDependency --parseInternal -g ./cmd/main.go
 
-.PHONY: network postgres createdb dropdb migrateup migratedown migrateup1 migratedown1 sqlc test server gen-swagger
-
-#remove-infras:
-#	docker-compose stop
-#	docker-compose rm -f
-#
-#init-infras: remove-infras
-#	docker-compose up -d $(DB_CONTAINER)
-#	@echo "Waiting for database connection..."
-#	@while ! docker exec $(DB_CONTAINER) pg_isready -h localhost -p 5432 > /dev/null; do \
-#		sleep 1; \
-#	done
+.PHONY: run-all network postgres createdb dropdb migrateup migratedown migrateup1 migratedown1 sqlc test server gen-swagger
