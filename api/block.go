@@ -24,7 +24,6 @@ type blockResponse struct {
 // @Param academicYearName query string true "academic year name"
 // @Success 200 {object} []blockResponse "ok"
 // @Router /block/list [get]
-
 func (server *Server) listBlocksByAcademicYear(ctx *gin.Context) {
 	academicYearName := ctx.Query("academicYearName")
 
