@@ -45,15 +45,10 @@ func RandomDate() time.Time {
 
 // RandomEmail generates a random email
 func RandomEmail() string {
-	return RandomString(5) + "@gmail.com"
+	return RandomString(6) + "@gmail.com"
 }
 
-// RandomStudentID generates a random student id
-func RandomStudentID() string {
-	return "V2021" + strconv.FormatInt(RandomInt(10_000, 99_999), 10)
-}
-
-// RandomMobile generate a random mobile phone number
+// RandomS
 func RandomMobile() string {
 	return strconv.FormatInt(RandomInt(1_000_000_000, 9_999_999_999), 10)
 }
@@ -61,4 +56,9 @@ func RandomMobile() string {
 // RandomAddress generates a random address
 func RandomAddress() string {
 	return strconv.FormatInt(RandomInt(1, 200), 10) + " " + RandomString(8)
+}
+
+// RandomStudentID generates a random student id
+func RandomStudentID() string {
+	return "V2021" + strconv.FormatInt(RandomInt(10_000, 99_999), 10)
 }

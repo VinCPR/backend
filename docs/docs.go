@@ -232,6 +232,132 @@ const docTemplate = `{
                 }
             }
         },
+        "/service/list/hospital": {
+            "get": {
+                "description": "list created service",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Service"
+                ],
+                "summary": "list created service",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page number",
+                        "name": "pageNumber",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "page size",
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.ServiceResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/service/list/specialty": {
+            "get": {
+                "description": "list created service",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Service"
+                ],
+                "summary": "list created service",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page number",
+                        "name": "pageNumber",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "page size",
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.ServiceResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/service/list/specialty_and_hospital": {
+            "get": {
+                "description": "list created service",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Service"
+                ],
+                "summary": "list created service",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page number",
+                        "name": "pageNumber",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "page size",
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.ServiceResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "post": {
                 "description": "upsert wallet address",
@@ -302,6 +428,26 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "api.ServiceResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "hospitalID": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "specialtyID": {
+                    "type": "integer"
+                }
+            }
+        },
         "api.academicCalendarEventResponse": {
             "type": "object",
             "properties": {
@@ -339,23 +485,6 @@ const docTemplate = `{
                 }
             }
         },
-        "api.blockResponse": {
-            "type": "object",
-            "properties": {
-                "academic_year_id": {
-                    "type": "integer"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "period": {
-                    "type": "integer"
-                }
-            }
-        },
         "api.createAcademicYearRequest": {
             "type": "object",
             "required": [
@@ -389,23 +518,23 @@ const docTemplate = `{
                 }
             }
         },
-        "api.periodResponse": {
+        "github.com_VinCPR_backend_api.ServiceResponse": {
             "type": "object",
             "properties": {
-                "academic_year_id": {
-                    "type": "integer"
-                },
                 "created_at": {
                     "type": "string"
                 },
-                "end_date": {
+                "description": {
                     "type": "string"
+                },
+                "hospitalID": {
+                    "type": "integer"
                 },
                 "name": {
                     "type": "string"
                 },
-                "start_date": {
-                    "type": "string"
+                "specialtyID": {
+                    "type": "integer"
                 }
             }
         },

@@ -5,9 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/require"
-
 	"github.com/VinCPR/backend/util"
+	"github.com/stretchr/testify/require"
 )
 
 func createRandomSpecialty(t *testing.T) Specialty {

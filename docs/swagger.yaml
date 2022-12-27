@@ -1,4 +1,17 @@
 definitions:
+  api.ServiceResponse:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      hospitalID:
+        type: integer
+      name:
+        type: string
+      specialtyID:
+        type: integer
+    type: object
   api.academicCalendarEventResponse:
     properties:
       created_at:
@@ -23,17 +36,6 @@ definitions:
       start_date:
         type: string
     type: object
-  api.blockResponse:
-    properties:
-      academic_year_id:
-        type: integer
-      created_at:
-        type: string
-      name:
-        type: string
-      period:
-        type: integer
-    type: object
   api.createAcademicYearRequest:
     properties:
       end_date:
@@ -56,18 +58,18 @@ definitions:
       academic_year:
         $ref: '#/definitions/api.academicYearResponse'
     type: object
-  api.periodResponse:
+  github.com_VinCPR_backend_api.ServiceResponse:
     properties:
-      academic_year_id:
-        type: integer
       created_at:
         type: string
-      end_date:
+      description:
         type: string
+      hospitalID:
+        type: integer
       name:
         type: string
-      start_date:
-        type: string
+      specialtyID:
+        type: integer
     type: object
   github.com_VinCPR_backend_api.academicCalendarEventResponse:
     properties:
@@ -344,6 +346,90 @@ paths:
       summary: list periods in that academic year
       tags:
       - Periods
+  /service/list/hospital:
+    get:
+      consumes:
+      - application/json
+      description: list created service
+      parameters:
+      - description: page number
+        in: query
+        name: pageNumber
+        required: true
+        type: string
+      - description: page size
+        in: query
+        name: pageSize
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            items:
+              $ref: '#/definitions/github.com_VinCPR_backend_api.ServiceResponse'
+            type: array
+      summary: list created service
+      tags:
+      - Service
+  /service/list/specialty:
+    get:
+      consumes:
+      - application/json
+      description: list created service
+      parameters:
+      - description: page number
+        in: query
+        name: pageNumber
+        required: true
+        type: string
+      - description: page size
+        in: query
+        name: pageSize
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            items:
+              $ref: '#/definitions/github.com_VinCPR_backend_api.ServiceResponse'
+            type: array
+      summary: list created service
+      tags:
+      - Service
+  /service/list/specialty_and_hospital:
+    get:
+      consumes:
+      - application/json
+      description: list created service
+      parameters:
+      - description: page number
+        in: query
+        name: pageNumber
+        required: true
+        type: string
+      - description: page size
+        in: query
+        name: pageSize
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            items:
+              $ref: '#/definitions/github.com_VinCPR_backend_api.ServiceResponse'
+            type: array
+      summary: list created service
+      tags:
+      - Service
   /users:
     post:
       consumes:

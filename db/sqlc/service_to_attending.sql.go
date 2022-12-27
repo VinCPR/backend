@@ -53,7 +53,6 @@ func (q *Queries) GetServiceToAttendingByAttendingID(ctx context.Context, attend
 }
 
 const getServiceToAttendingByServiceID = `-- name: GetServiceToAttendingByServiceID :one
-
 SELECT id, service_id, attending_id, created_at FROM "service_to_attending"
 WHERE service_id = $1 LIMIT 1
 `
