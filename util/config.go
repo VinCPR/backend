@@ -13,6 +13,7 @@ type Config struct {
 	DBUrl                string        `mapstructure:"DB_URL"`
 	MigrationURL         string        `mapstructure:"MIGRATION_URL"`
 	HTTPServerAddress    string        `mapstructure:"HTTP_SERVER_ADDRESS"`
+	Host                 string        `mapstructure:"HOST"`
 	BasePath             string        `mapstructure:"BASE_PATH"`
 	TokenSymmetricKey    string        `mapstructure:"TOKEN_SYMMETRIC_KEY"`
 	AccessTokenDuration  time.Duration `mapstructure:"ACCESS_TOKEN_DURATION"`

@@ -25,7 +25,7 @@ func main() {
 	}
 
 	docs.SwaggerInfo.BasePath = config.BasePath
-	docs.SwaggerInfo.Host = config.HTTPServerAddress
+	docs.SwaggerInfo.Host = config.Host
 
 	if config.Environment == "development" {
 		log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})

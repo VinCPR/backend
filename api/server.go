@@ -73,9 +73,9 @@ func NewServer(config util.Config, store *db.Store) (*Server, error) {
 		routerV1.GET("/specialty/list", server.listSpecialtiesByName)
 	}
 	{
-		routerV1.GET("/servicebyspecialtyID/list", server.listServicesbySpecialtyID)
-		routerV1.GET("/servicebyhospitalID/list", server.listServicesbyHospitalID)
-		routerV1.GET("/servicebyspecialtyIDandhospitalID/list", server.listServicesBySpecialtyIDAndHospitalID)
+		routerV1.GET("/service/list/specialty", server.listServicesbySpecialtyID)
+		routerV1.GET("/service/list/hospital", server.listServicesbyHospitalID)
+		routerV1.GET("/service/list/specialty_and_hospital", server.listServicesBySpecialtyIDAndHospitalID)
 	}
 	// authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
 	server.router = router

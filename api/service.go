@@ -21,14 +21,13 @@ type ServiceResponse struct {
 // listServicesByHospitalID
 // @Summary list created service
 // @Description list created service
-// @Tags Service
+// @Tags Services
 // @Accept	json
 // @Produce  json
 // @Param pageNumber query string true "page number"
 // @Param pageSize query string true "page size"
 // @Success 200 {object} []ServiceResponse "ok"
-// @Router /service/list [get]
-
+// @Router /service/list/hospital [get]
 func (server *Server) listServicesbyHospitalID(ctx *gin.Context) {
 	pageNumber := ctx.Query("pageNumber")
 	pageSize := ctx.Query("pageSize")
@@ -72,14 +71,13 @@ func (server *Server) listServicesbyHospitalID(ctx *gin.Context) {
 // listServicesBySpecialtyID
 // @Summary list created service
 // @Description list created service
-// @Tags Service
+// @Tags Services
 // @Accept	json
 // @Produce  json
 // @Param pageNumber query string true "page number"
 // @Param pageSize query string true "page size"
 // @Success 200 {object} []ServiceResponse "ok"
-// @Router /service/list [get]
-
+// @Router /service/list/specialty [get]
 func (server *Server) listServicesbySpecialtyID(ctx *gin.Context) {
 	pageNumber := ctx.Query("pageNumber")
 	pageSize := ctx.Query("pageSize")
@@ -120,17 +118,16 @@ func (server *Server) listServicesbySpecialtyID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, ServicesResponse)
 }
 
-// listServicesBySpecialtyIDandHospitalID
+// listServicesBySpecialtyIDAndHospitalID
 // @Summary list created service
 // @Description list created service
-// @Tags Service
+// @Tags Services
 // @Accept	json
 // @Produce  json
 // @Param pageNumber query string true "page number"
 // @Param pageSize query string true "page size"
 // @Success 200 {object} []ServiceResponse "ok"
-// @Router /service/list [get]
-
+// @Router /service/list/specialty_and_hospital [get]
 func (server *Server) listServicesBySpecialtyIDAndHospitalID(ctx *gin.Context) {
 	pageNumber := ctx.Query("pageNumber")
 	pageSize := ctx.Query("pageSize")
