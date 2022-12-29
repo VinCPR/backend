@@ -67,21 +67,26 @@ func NewServer(config util.Config, store *db.Store) (*Server, error) {
 		routerV1.GET("/block/list", server.listBlocksByAcademicYear)
 	}
 	{
+		routerV1.POST("/hospital", server.createHospital)
 		routerV1.GET("/hospital/list", server.listHospitalsByName)
 	}
 	{
+		routerV1.POST("/specialty", server.createSpecialty)
 		routerV1.GET("/specialty/list", server.listSpecialtiesByName)
 	}
 	{
+		routerV1.POST("/service", server.createService)
 		routerV1.GET("/service/list/specialty", server.listServicesbySpecialtyID)
 		routerV1.GET("/service/list/hospital", server.listServicesbyHospitalID)
 		routerV1.GET("/service/list/specialty_and_hospital", server.listServicesBySpecialtyIDAndHospitalID)
 	}
 	{
+		routerV1.POST("/student", server.createStudent)
 		routerV1.GET("/student/list/name", server.listStudentsByName)
 		routerV1.GET("/student/list/studentID", server.listStudentsByStudentID)
 	}
 	{
+		routerV1.POST("/attending", server.createAttending)
 		routerV1.GET("/attending/list", server.listAttendingsByName)
 	}
 	// authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))

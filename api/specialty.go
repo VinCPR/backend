@@ -1,19 +1,62 @@
 package api
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgconn"
+	"github.com/jackc/pgerrcode"
 
 	db "github.com/VinCPR/backend/db/sqlc"
 )
+
+type createSpecialtyRequest struct {
+	Name        string `json:"name" binding:"required"`
+	Description string `json:"description" binding:"required"`
+}
 
 type SpecialtyResponse struct {
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
 	CreatedAt   time.Time `json:"created_at"`
+}
+
+// createSpecialty
+// @Summary create new specialty
+// @Description create new specialty
+// @Tags Specialty
+// @Accept	json
+// @Produce  json
+// @Param body body createSpecialtyRequest true "input required: specialty name, description, address"
+// @Success 200 {object} SpecialtyResponse "ok"
+// @Router /specialty [post]
+func (server *Server) createSpecialty(ctx *gin.Context) {
+	var req createSpecialtyRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	specialty, err := server.store.CreateSpecialty(ctx, db.CreateSpecialtyParams{
+		Name:        req.Name,
+		Description: req.Description,
+	})
+	if err != nil {
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) && pgErr.Code == pgerrcode.UniqueViolation {
+			ctx.JSON(http.StatusForbidden, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	ctx.JSON(http.StatusOK, SpecialtyResponse{
+		Name:        specialty.Name,
+		Description: specialty.Description,
+		CreatedAt:   specialty.CreatedAt,
+	})
 }
 
 // listSpecialties

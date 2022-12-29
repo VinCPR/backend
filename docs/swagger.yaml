@@ -1,4 +1,15 @@
 definitions:
+  api.HospitalResponse:
+    properties:
+      address:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+    type: object
   api.ServiceResponse:
     properties:
       created_at:
@@ -10,6 +21,30 @@ definitions:
       name:
         type: string
       specialtyID:
+        type: integer
+    type: object
+  api.SpecialtyResponse:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  api.StudentResponse:
+    properties:
+      created_at:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      mobile:
+        type: string
+      student_id:
+        type: string
+      user_id:
         type: integer
     type: object
   api.academicCalendarEventResponse:
@@ -36,6 +71,17 @@ definitions:
       start_date:
         type: string
     type: object
+  api.blockResponse:
+    properties:
+      academic_year_id:
+        type: integer
+      created_at:
+        type: string
+      name:
+        type: string
+      period:
+        type: integer
+    type: object
   api.createAcademicYearRequest:
     properties:
       end_date:
@@ -49,19 +95,21 @@ definitions:
     - name
     - start_date
     type: object
-  api.getAcademicCalendarResponse:
+  api.createHospitalRequest:
     properties:
-      academic_calendar_events:
-        items:
-          $ref: '#/definitions/api.academicCalendarEventResponse'
-        type: array
-      academic_year:
-        $ref: '#/definitions/api.academicYearResponse'
-    type: object
-  github.com_VinCPR_backend_api.ServiceResponse:
-    properties:
-      created_at:
+      address:
         type: string
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - address
+    - description
+    - name
+    type: object
+  api.createServiceRequest:
+    properties:
       description:
         type: string
       hospitalID:
@@ -70,56 +118,42 @@ definitions:
         type: string
       specialtyID:
         type: integer
+    required:
+    - description
+    - hospitalID
+    - name
+    - specialtyID
     type: object
-  github.com_VinCPR_backend_api.academicCalendarEventResponse:
+  api.createSpecialtyRequest:
     properties:
-      created_at:
-        type: string
-      end_date:
+      description:
         type: string
       name:
-        type: string
-      start_date:
-        type: string
-      type:
-        type: string
-    type: object
-  github.com_VinCPR_backend_api.academicYearResponse:
-    properties:
-      created_at:
-        type: string
-      end_date:
-        type: string
-      name:
-        type: string
-      start_date:
-        type: string
-    type: object
-  github.com_VinCPR_backend_api.blockResponse:
-    properties:
-      academic_year_id:
-        type: integer
-      created_at:
-        type: string
-      name:
-        type: string
-      period:
-        type: integer
-    type: object
-  github.com_VinCPR_backend_api.createAcademicYearRequest:
-    properties:
-      end_date:
-        type: string
-      name:
-        type: string
-      start_date:
         type: string
     required:
-    - end_date
+    - description
     - name
-    - start_date
     type: object
-  github.com_VinCPR_backend_api.createUserRequest:
+  api.createStudentRequest:
+    properties:
+      firstname:
+        type: string
+      lastname:
+        type: string
+      mobile:
+        type: string
+      student_id:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - firstname
+    - lastname
+    - mobile
+    - student_id
+    - user_id
+    type: object
+  api.createUserRequest:
     properties:
       email:
         type: string
@@ -134,16 +168,16 @@ definitions:
     - password
     - role_name
     type: object
-  github.com_VinCPR_backend_api.getAcademicCalendarResponse:
+  api.getAcademicCalendarResponse:
     properties:
       academic_calendar_events:
         items:
-          $ref: '#/definitions/github.com_VinCPR_backend_api.academicCalendarEventResponse'
+          $ref: '#/definitions/api.academicCalendarEventResponse'
         type: array
       academic_year:
-        $ref: '#/definitions/github.com_VinCPR_backend_api.academicYearResponse'
+        $ref: '#/definitions/api.academicYearResponse'
     type: object
-  github.com_VinCPR_backend_api.groupResponse:
+  api.groupResponse:
     properties:
       academic_year_id:
         type: integer
@@ -152,7 +186,7 @@ definitions:
       name:
         type: string
     type: object
-  github.com_VinCPR_backend_api.loginUserRequest:
+  api.loginUserRequest:
     properties:
       email:
         type: string
@@ -164,7 +198,7 @@ definitions:
     - email
     - password
     type: object
-  github.com_VinCPR_backend_api.loginUserResponse:
+  api.loginUserResponse:
     properties:
       access_token:
         type: string
@@ -177,9 +211,9 @@ definitions:
       session_id:
         type: string
       user:
-        $ref: '#/definitions/github.com_VinCPR_backend_api.userResponse'
+        $ref: '#/definitions/api.userResponse'
     type: object
-  github.com_VinCPR_backend_api.periodResponse:
+  api.periodResponse:
     properties:
       academic_year_id:
         type: integer
@@ -192,7 +226,7 @@ definitions:
       start_date:
         type: string
     type: object
-  github.com_VinCPR_backend_api.userResponse:
+  api.userResponse:
     properties:
       created_at:
         type: string
@@ -215,14 +249,14 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/github.com_VinCPR_backend_api.createAcademicYearRequest'
+          $ref: '#/definitions/api.createAcademicYearRequest'
       produces:
       - application/json
       responses:
         "200":
           description: ok
           schema:
-            $ref: '#/definitions/github.com_VinCPR_backend_api.academicYearResponse'
+            $ref: '#/definitions/api.academicYearResponse'
       summary: create new academic year
       tags:
       - AcademicCalendar
@@ -244,7 +278,7 @@ paths:
           description: ok
           schema:
             items:
-              $ref: '#/definitions/github.com_VinCPR_backend_api.getAcademicCalendarResponse'
+              $ref: '#/definitions/api.getAcademicCalendarResponse'
             type: array
       summary: return the list of events of an academic year
       tags:
@@ -272,7 +306,7 @@ paths:
           description: ok
           schema:
             items:
-              $ref: '#/definitions/github.com_VinCPR_backend_api.academicYearResponse'
+              $ref: '#/definitions/api.academicYearResponse'
             type: array
       summary: list created academic year
       tags:
@@ -295,7 +329,7 @@ paths:
           description: ok
           schema:
             items:
-              $ref: '#/definitions/github.com_VinCPR_backend_api.blockResponse'
+              $ref: '#/definitions/api.blockResponse'
             type: array
       summary: list blocks in that academic year
       tags:
@@ -318,11 +352,33 @@ paths:
           description: ok
           schema:
             items:
-              $ref: '#/definitions/github.com_VinCPR_backend_api.groupResponse'
+              $ref: '#/definitions/api.groupResponse'
             type: array
       summary: list groups in that academic year
       tags:
       - Groups
+  /hospital:
+    post:
+      consumes:
+      - application/json
+      description: create new hospital
+      parameters:
+      - description: 'input required: hospital name, description, address'
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/api.createHospitalRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/api.HospitalResponse'
+      summary: create new hospital
+      tags:
+      - Hospital
   /period/list:
     get:
       consumes:
@@ -341,11 +397,33 @@ paths:
           description: ok
           schema:
             items:
-              $ref: '#/definitions/github.com_VinCPR_backend_api.periodResponse'
+              $ref: '#/definitions/api.periodResponse'
             type: array
       summary: list periods in that academic year
       tags:
       - Periods
+  /service:
+    post:
+      consumes:
+      - application/json
+      description: create new service
+      parameters:
+      - description: 'input required: service hospitalID, specialtyID, name, description'
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/api.createServiceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/api.ServiceResponse'
+      summary: create new service
+      tags:
+      - Service
   /service/list/hospital:
     get:
       consumes:
@@ -369,11 +447,11 @@ paths:
           description: ok
           schema:
             items:
-              $ref: '#/definitions/github.com_VinCPR_backend_api.ServiceResponse'
+              $ref: '#/definitions/api.ServiceResponse'
             type: array
       summary: list created service
       tags:
-      - Service
+      - Services
   /service/list/specialty:
     get:
       consumes:
@@ -397,11 +475,11 @@ paths:
           description: ok
           schema:
             items:
-              $ref: '#/definitions/github.com_VinCPR_backend_api.ServiceResponse'
+              $ref: '#/definitions/api.ServiceResponse'
             type: array
       summary: list created service
       tags:
-      - Service
+      - Services
   /service/list/specialty_and_hospital:
     get:
       consumes:
@@ -425,11 +503,56 @@ paths:
           description: ok
           schema:
             items:
-              $ref: '#/definitions/github.com_VinCPR_backend_api.ServiceResponse'
+              $ref: '#/definitions/api.ServiceResponse'
             type: array
       summary: list created service
       tags:
-      - Service
+      - Services
+  /specialty:
+    post:
+      consumes:
+      - application/json
+      description: create new specialty
+      parameters:
+      - description: 'input required: specialty name, description, address'
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/api.createSpecialtyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/api.SpecialtyResponse'
+      summary: create new specialty
+      tags:
+      - Specialty
+  /student:
+    post:
+      consumes:
+      - application/json
+      description: create new student
+      parameters:
+      - description: 'input required: student user_id, student_id, firstname, lastname,
+          mobile'
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/api.createStudentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/api.StudentResponse'
+      summary: create new student
+      tags:
+      - Student
   /users:
     post:
       consumes:
@@ -441,14 +564,14 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/github.com_VinCPR_backend_api.createUserRequest'
+          $ref: '#/definitions/api.createUserRequest'
       produces:
       - application/json
       responses:
         "200":
           description: ok
           schema:
-            $ref: '#/definitions/github.com_VinCPR_backend_api.userResponse'
+            $ref: '#/definitions/api.userResponse'
       summary: upsert new user
       tags:
       - Authentication
@@ -463,14 +586,14 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/github.com_VinCPR_backend_api.loginUserRequest'
+          $ref: '#/definitions/api.loginUserRequest'
       produces:
       - application/json
       responses:
         "200":
           description: ok
           schema:
-            $ref: '#/definitions/github.com_VinCPR_backend_api.loginUserResponse'
+            $ref: '#/definitions/api.loginUserResponse'
       summary: upsert new user
       tags:
       - Authentication

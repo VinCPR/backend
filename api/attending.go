@@ -1,14 +1,24 @@
 package api
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgconn"
+	"github.com/jackc/pgerrcode"
 
 	db "github.com/VinCPR/backend/db/sqlc"
 )
+
+type createAttendingRequest struct {
+	UserID    int64  `json:"user_id" binding:"required"`
+	FirstName string `json:"firstname" binding:"required"`
+	LastName  string `json:"lastname" binding:"required"`
+	Mobile    string `json:"mobile" binding:"required"`
+}
 
 type AttendingResponse struct {
 	UserID    int64     `json:"user_id"`
@@ -16,6 +26,45 @@ type AttendingResponse struct {
 	LastName  string    `json:"last_name"`
 	Mobile    string    `json:"mobile"`
 	CreatedAt time.Time `json:"created_at"`
+}
+
+// createAttending
+// @Summary create new Attending
+// @Description create new Attending
+// @Tags Attending
+// @Accept	json
+// @Produce  json
+// @Param body body createAttendingRequest true "input required: attending user_id, firstname, lastname, mobile"
+// @Success 200 {object} AttendingResponse "ok"
+// @Router /attending [post]
+func (server *Server) createAttending(ctx *gin.Context) {
+	var req createAttendingRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	attending, err := server.store.CreateAttending(ctx, db.CreateAttendingParams{
+		UserID:    req.UserID,
+		FirstName: req.FirstName,
+		LastName:  req.LastName,
+		Mobile:    req.Mobile,
+	})
+	if err != nil {
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) && pgErr.Code == pgerrcode.UniqueViolation {
+			ctx.JSON(http.StatusForbidden, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	ctx.JSON(http.StatusOK, AttendingResponse{
+		UserID:    attending.UserID,
+		FirstName: attending.FirstName,
+		LastName:  attending.LastName,
+		Mobile:    attending.Mobile,
+		CreatedAt: attending.CreatedAt,
+	})
 }
 
 // listAttendingsByName
