@@ -35,42 +35,6 @@ func (q *Queries) CreateServiceToAttending(ctx context.Context, arg CreateServic
 	return i, err
 }
 
-const getServiceToAttendingByAttendingID = `-- name: GetServiceToAttendingByAttendingID :one
-SELECT id, service_id, attending_id, created_at FROM "service_to_attending"
-WHERE attending_id = $1 LIMIT 1
-`
-
-func (q *Queries) GetServiceToAttendingByAttendingID(ctx context.Context, attendingID int64) (ServiceToAttending, error) {
-	row := q.db.QueryRow(ctx, getServiceToAttendingByAttendingID, attendingID)
-	var i ServiceToAttending
-	err := row.Scan(
-		&i.ID,
-		&i.ServiceID,
-		&i.AttendingID,
-		&i.CreatedAt,
-	)
-	return i, err
-}
-
-const getServiceToAttendingByServiceID = `-- name: GetServiceToAttendingByServiceID :one
-SELECT id, service_id, attending_id, created_at FROM "service_to_attending"
-WHERE service_id = $1 LIMIT 1
-`
-
-// TODO: change list by service id -> many
-// attending_id -> many
-func (q *Queries) GetServiceToAttendingByServiceID(ctx context.Context, serviceID int64) (ServiceToAttending, error) {
-	row := q.db.QueryRow(ctx, getServiceToAttendingByServiceID, serviceID)
-	var i ServiceToAttending
-	err := row.Scan(
-		&i.ID,
-		&i.ServiceID,
-		&i.AttendingID,
-		&i.CreatedAt,
-	)
-	return i, err
-}
-
 const listServicesToAttendingsByAttendingID = `-- name: ListServicesToAttendingsByAttendingID :many
 SELECT id, service_id, attending_id, created_at FROM "service_to_attending"
 ORDER BY "attending_id"
