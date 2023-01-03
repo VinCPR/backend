@@ -56,6 +56,24 @@ func (q *Queries) GetBlockByID(ctx context.Context, id int64) (Block, error) {
 	return i, err
 }
 
+const getBlockByName = `-- name: GetBlockByName :one
+SELECT id, academic_year_id, name, period, created_at FROM "block"
+WHERE "name" = $1 LIMIT 1
+`
+
+func (q *Queries) GetBlockByName(ctx context.Context, name string) (Block, error) {
+	row := q.db.QueryRow(ctx, getBlockByName, name)
+	var i Block
+	err := row.Scan(
+		&i.ID,
+		&i.AcademicYearID,
+		&i.Name,
+		&i.Period,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const listBlocksByAcademicYear = `-- name: ListBlocksByAcademicYear :many
 SELECT id, academic_year_id, name, period, created_at FROM "block"
 WHERE "academic_year_id" = $1

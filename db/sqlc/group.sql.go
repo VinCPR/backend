@@ -52,6 +52,23 @@ func (q *Queries) GetGroupByID(ctx context.Context, id int64) (Group, error) {
 	return i, err
 }
 
+const getGroupByName = `-- name: GetGroupByName :one
+SELECT id, academic_year_id, name, created_at FROM "group"
+WHERE "name" = $1 LIMIT 1
+`
+
+func (q *Queries) GetGroupByName(ctx context.Context, name string) (Group, error) {
+	row := q.db.QueryRow(ctx, getGroupByName, name)
+	var i Group
+	err := row.Scan(
+		&i.ID,
+		&i.AcademicYearID,
+		&i.Name,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const listGroupsByName = `-- name: ListGroupsByName :many
 SELECT id, academic_year_id, name, created_at FROM "group"
 WHERE "academic_year_id" = $1

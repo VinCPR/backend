@@ -116,6 +116,7 @@ CREATE TABLE "student_to_group" (
 
 CREATE TABLE "clinical_rotation_event" (
   "id" bigserial PRIMARY KEY,
+  "academic_year_id" bigint NOT NULL,
   "group_id" bigint NOT NULL,
   "service_id" bigint NOT NULL,
   "start_date" date NOT NULL,
