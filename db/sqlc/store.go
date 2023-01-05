@@ -5,13 +5,13 @@ import (
 )
 
 type Store struct {
-	db *pgx.Conn
+	Db *pgx.Conn
 	*Queries
 }
 
 func NewStore(db *pgx.Conn) *Store {
 	return &Store{
-		db:      db,
+		Db:      db,
 		Queries: New(db),
 	}
 }
