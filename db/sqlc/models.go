@@ -46,12 +46,13 @@ type Block struct {
 }
 
 type ClinicalRotationEvent struct {
-	ID        int64     `json:"id"`
-	GroupID   int64     `json:"group_id"`
-	ServiceID int64     `json:"service_id"`
-	StartDate time.Time `json:"start_date"`
-	EndDate   time.Time `json:"end_date"`
-	CreatedAt time.Time `json:"created_at"`
+	ID             int64     `json:"id"`
+	AcademicYearID int64     `json:"academic_year_id"`
+	GroupID        int64     `json:"group_id"`
+	ServiceID      int64     `json:"service_id"`
+	StartDate      time.Time `json:"start_date"`
+	EndDate        time.Time `json:"end_date"`
+	CreatedAt      time.Time `json:"created_at"`
 }
 
 type Group struct {

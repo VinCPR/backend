@@ -27,14 +27,14 @@ CREATE TABLE "attending" (
 
 CREATE TABLE "specialty" (
   "id" bigserial PRIMARY KEY,
-  "name" varchar(100) NOT NULL,
+  "name" varchar(100) UNIQUE NOT NULL,
   "description" varchar NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "hospital" (
   "id" bigserial PRIMARY KEY,
-  "name" varchar(100) NOT NULL,
+  "name" varchar(100) UNIQUE NOT NULL,
   "description" varchar NOT NULL,
   "address" varchar NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now())
@@ -58,7 +58,7 @@ CREATE TABLE "service_to_attending" (
 
 CREATE TABLE "academic_year" (
   "id" bigserial PRIMARY KEY,
-  "name" varchar(100) NOT NULL,
+  "name" varchar(100) UNIQUE NOT NULL,
   "start_date" date NOT NULL,
   "end_date" date NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now())
@@ -116,6 +116,7 @@ CREATE TABLE "student_to_group" (
 
 CREATE TABLE "clinical_rotation_event" (
   "id" bigserial PRIMARY KEY,
+  "academic_year_id" bigint NOT NULL,
   "group_id" bigint NOT NULL,
   "service_id" bigint NOT NULL,
   "start_date" date NOT NULL,
@@ -137,6 +138,8 @@ CREATE INDEX ON "hospital" ("name");
 
 CREATE INDEX ON "service" ("name");
 
+CREATE UNIQUE INDEX ON "service" ("specialty_id", "hospital_id", "name");
+
 CREATE UNIQUE INDEX ON "service_to_attending" ("service_id", "attending_id");
 
 CREATE INDEX ON "service_to_attending" ("service_id");
@@ -144,6 +147,12 @@ CREATE INDEX ON "service_to_attending" ("service_id");
 CREATE INDEX ON "service_to_attending" ("attending_id");
 
 CREATE UNIQUE INDEX ON "academic_year" ("name");
+
+CREATE UNIQUE INDEX ON "period" ("academic_year_id", "name");
+
+CREATE UNIQUE INDEX ON "block" ("academic_year_id", "period", "name");
+
+CREATE UNIQUE INDEX ON "group" ("academic_year_id", "name");
 
 CREATE UNIQUE INDEX ON "group_to_block" ("group_id", "block_id");
 
@@ -190,6 +199,8 @@ ALTER TABLE "student_to_group" ADD FOREIGN KEY ("academic_year_id") REFERENCES "
 ALTER TABLE "student_to_group" ADD FOREIGN KEY ("student_id") REFERENCES "student" ("id");
 
 ALTER TABLE "student_to_group" ADD FOREIGN KEY ("group_id") REFERENCES "group" ("id");
+
+ALTER TABLE "clinical_rotation_event" ADD FOREIGN KEY ("academic_year_id") REFERENCES "academic_year" ("id");
 
 ALTER TABLE "clinical_rotation_event" ADD FOREIGN KEY ("group_id") REFERENCES "group" ("id");
 

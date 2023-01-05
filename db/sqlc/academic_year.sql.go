@@ -37,6 +37,24 @@ func (q *Queries) CreateAcademicYear(ctx context.Context, arg CreateAcademicYear
 	return i, err
 }
 
+const getAcademicYearByID = `-- name: GetAcademicYearByID :one
+SELECT id, name, start_date, end_date, created_at FROM "academic_year"
+WHERE "id" = $1 LIMIT 1
+`
+
+func (q *Queries) GetAcademicYearByID(ctx context.Context, id int64) (AcademicYear, error) {
+	row := q.db.QueryRow(ctx, getAcademicYearByID, id)
+	var i AcademicYear
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.StartDate,
+		&i.EndDate,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const getAcademicYearByName = `-- name: GetAcademicYearByName :one
 SELECT id, name, start_date, end_date, created_at FROM "academic_year"
 WHERE "name" = $1 LIMIT 1

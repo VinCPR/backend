@@ -197,6 +197,142 @@ const docTemplate = `{
                 }
             }
         },
+        "/group_to_block": {
+            "post": {
+                "description": "create new group to block",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GroupToBlock"
+                ],
+                "summary": "create new group to block",
+                "parameters": [
+                    {
+                        "description": "input required: academic year name, groupid, blockid",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createGroupToBlockRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            }
+        },
+        "/group_to_block/list/academic_year": {
+            "get": {
+                "description": "list groups and their blocks in that academic year",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GroupToBlock"
+                ],
+                "summary": "list groups and their blocks in that academic year",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "academic year name",
+                        "name": "academicYearName",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.groupToBlockResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/group_to_block/list/block": {
+            "get": {
+                "description": "list groups in that block",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GroupToBlock"
+                ],
+                "summary": "list groups in that block",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "block name",
+                        "name": "blockName",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.groupToBlockResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/group_to_block/list/group": {
+            "get": {
+                "description": "list group_to_block of that block",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GroupToBlock"
+                ],
+                "summary": "list group_to_block of that block",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "group name",
+                        "name": "groupName",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.groupToBlockResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/period/list": {
             "get": {
                 "description": "list periods in that academic year",
@@ -242,7 +378,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Service"
+                    "Services"
                 ],
                 "summary": "list created service",
                 "parameters": [
@@ -284,7 +420,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Service"
+                    "Services"
                 ],
                 "summary": "list created service",
                 "parameters": [
@@ -326,7 +462,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Service"
+                    "Services"
                 ],
                 "summary": "list created service",
                 "parameters": [
@@ -352,6 +488,145 @@ const docTemplate = `{
                             "type": "array",
                             "items": {
                                 "$ref": "#/definitions/github.com_VinCPR_backend_api.ServiceResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/student_to_group": {
+            "post": {
+                "description": "create new student to group",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "StudentToGroup"
+                ],
+                "summary": "create new student to group",
+                "parameters": [
+                    {
+                        "description": "input required: academic year name, studentid, groupid",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createStudentToGroupRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.studentToGroupResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/student_to_group/list/academic_year": {
+            "get": {
+                "description": "list students and their groups in that academic year",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "StudentToGroup"
+                ],
+                "summary": "list students and their groups in that academic year",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "academic year name",
+                        "name": "academicYearName",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.studentToGroupResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/student_to_group/list/group": {
+            "get": {
+                "description": "list students of that group",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "StudentToGroup"
+                ],
+                "summary": "list students of that group",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "group name",
+                        "name": "groupName",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.studentToGroupResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/student_to_group/list/student": {
+            "get": {
+                "description": "list groups of that student",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "StudentToGroup"
+                ],
+                "summary": "list groups of that student",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "studentID",
+                        "name": "studentID",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.studentToGroupResponse"
                             }
                         }
                     }
@@ -428,93 +703,117 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "api.ServiceResponse": {
+        "api.createGroupToBlockRequest": {
             "type": "object",
             "properties": {
-                "created_at": {
+                "academic_year_name": {
                     "type": "string"
                 },
-                "description": {
+                "block_name": {
                     "type": "string"
                 },
-                "hospitalID": {
-                    "type": "integer"
-                },
-                "name": {
+                "group_name": {
                     "type": "string"
                 },
-                "specialtyID": {
-                    "type": "integer"
-                }
-            }
-        },
-        "api.academicCalendarEventResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "end_date": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "start_date": {
-                    "type": "string"
-                },
-                "type": {
+                "period_name": {
                     "type": "string"
                 }
             }
         },
-        "api.academicYearResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "end_date": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "start_date": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.createAcademicYearRequest": {
+        "api.createUserRequest": {
             "type": "object",
             "required": [
-                "end_date",
-                "name",
-                "start_date"
+                "email",
+                "password",
+                "role_name"
             ],
             "properties": {
-                "end_date": {
+                "email": {
                     "type": "string"
                 },
-                "name": {
-                    "type": "string"
+                "password": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 8
                 },
-                "start_date": {
+                "role_name": {
                     "type": "string"
                 }
             }
         },
-        "api.getAcademicCalendarResponse": {
+        "api.groupResponse": {
             "type": "object",
             "properties": {
-                "academic_calendar_events": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/api.academicCalendarEventResponse"
-                    }
+                "academic_year_id": {
+                    "type": "integer"
                 },
-                "academic_year": {
-                    "$ref": "#/definitions/api.academicYearResponse"
+                "created_at": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.groupToBlockResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.loginUserRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 8
+                }
+            }
+        },
+        "api.loginUserResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "access_token_expires_at": {
+                    "type": "string"
+                },
+                "refresh_token": {
+                    "type": "string"
+                },
+                "refresh_token_expires_at": {
+                    "type": "string"
+                },
+                "session_id": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/api.userResponse"
+                }
+            }
+        },
+        "api.userResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "role_name": {
+                    "type": "string"
                 }
             }
         },
@@ -611,6 +910,37 @@ const docTemplate = `{
                 }
             }
         },
+        "github.com_VinCPR_backend_api.createGroupToBlockRequest": {
+            "type": "object",
+            "properties": {
+                "academic_year_name": {
+                    "type": "string"
+                },
+                "block_name": {
+                    "type": "string"
+                },
+                "group_name": {
+                    "type": "string"
+                },
+                "period_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.createStudentToGroupRequest": {
+            "type": "object",
+            "properties": {
+                "academic_year_name": {
+                    "type": "string"
+                },
+                "group_name": {
+                    "type": "string"
+                },
+                "studentName": {
+                    "type": "string"
+                }
+            }
+        },
         "github.com_VinCPR_backend_api.createUserRequest": {
             "type": "object",
             "required": [
@@ -656,6 +986,14 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.groupToBlockResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
                     "type": "string"
                 }
             }
@@ -716,6 +1054,23 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "start_date": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.studentToGroupResponse": {
+            "type": "object",
+            "properties": {
+                "academic_year_name": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "group_name": {
+                    "type": "string"
+                },
+                "studentName": {
                     "type": "string"
                 }
             }

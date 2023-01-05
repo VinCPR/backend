@@ -5,6 +5,10 @@ INSERT INTO "academic_year" (
     $1, $2, $3
 ) RETURNING *;
 
+-- name: GetAcademicYearByID :one
+SELECT * FROM "academic_year"
+WHERE "id" = $1 LIMIT 1;
+
 -- name: GetAcademicYearByName :one
 SELECT * FROM "academic_year"
 WHERE "name" = $1 LIMIT 1;

@@ -52,6 +52,29 @@ func (q *Queries) GetGroupByID(ctx context.Context, id int64) (Group, error) {
 	return i, err
 }
 
+const getGroupByIndex = `-- name: GetGroupByIndex :one
+SELECT id, academic_year_id, name, created_at FROM "group"
+WHERE "academic_year_id" = $1 AND "name" = $2
+LIMIT 1
+`
+
+type GetGroupByIndexParams struct {
+	AcademicYearID int64  `json:"academic_year_id"`
+	Name           string `json:"name"`
+}
+
+func (q *Queries) GetGroupByIndex(ctx context.Context, arg GetGroupByIndexParams) (Group, error) {
+	row := q.db.QueryRow(ctx, getGroupByIndex, arg.AcademicYearID, arg.Name)
+	var i Group
+	err := row.Scan(
+		&i.ID,
+		&i.AcademicYearID,
+		&i.Name,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const listGroupsByName = `-- name: ListGroupsByName :many
 SELECT id, academic_year_id, name, created_at FROM "group"
 WHERE "academic_year_id" = $1

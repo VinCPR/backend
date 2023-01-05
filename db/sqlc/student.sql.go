@@ -50,6 +50,26 @@ func (q *Queries) CreateStudent(ctx context.Context, arg CreateStudentParams) (S
 	return i, err
 }
 
+const getStudentByID = `-- name: GetStudentByID :one
+SELECT id, user_id, student_id, first_name, last_name, mobile, created_at FROM "student"
+WHERE id = $1 LIMIT 1
+`
+
+func (q *Queries) GetStudentByID(ctx context.Context, id int64) (Student, error) {
+	row := q.db.QueryRow(ctx, getStudentByID, id)
+	var i Student
+	err := row.Scan(
+		&i.ID,
+		&i.UserID,
+		&i.StudentID,
+		&i.FirstName,
+		&i.LastName,
+		&i.Mobile,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const getStudentByStudentId = `-- name: GetStudentByStudentId :one
 SELECT id, user_id, student_id, first_name, last_name, mobile, created_at FROM "student"
 WHERE student_id = $1 LIMIT 1

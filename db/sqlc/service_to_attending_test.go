@@ -4,7 +4,6 @@ import (
 	"context"
 	"sort"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/require"
 )
@@ -39,46 +38,6 @@ func TestCreateServiceToAttending(t *testing.T) {
 	attending := createRandomAttending(t, user)
 	createRandomServiceToAttending(t, service, attending)
 
-}
-
-// Test for GetServiceToAttendingByServiceID
-func TestGetServiceToAttendingByServiceID(t *testing.T) {
-	hospital := createRandomHospital(t)
-	specialty := createRandomSpecialty(t)
-	service := createRandomService(t, hospital, specialty)
-
-	user := createRandomUser(t)
-	attending := createRandomAttending(t, user)
-
-	serviceToAttending1 := createRandomServiceToAttending(t, service, attending)
-
-	serviceToAttending2, err := testQueries.GetServiceToAttendingByServiceID(context.Background(), serviceToAttending1.ServiceID)
-	require.NoError(t, err)
-	require.NotEmpty(t, serviceToAttending2)
-
-	require.Equal(t, serviceToAttending1.AttendingID, serviceToAttending2.AttendingID)
-	require.Equal(t, serviceToAttending1.ServiceID, serviceToAttending2.ServiceID)
-	require.WithinDuration(t, serviceToAttending1.CreatedAt, serviceToAttending2.CreatedAt, time.Second)
-}
-
-// Test for GetServiceToAttendingByAttendingID
-func TestGetServiceToAttendingByAttendingID(t *testing.T) {
-	hospital := createRandomHospital(t)
-	specialty := createRandomSpecialty(t)
-	service := createRandomService(t, hospital, specialty)
-
-	user := createRandomUser(t)
-	attending := createRandomAttending(t, user)
-
-	serviceToAttending1 := createRandomServiceToAttending(t, service, attending)
-
-	serviceToAttending2, err := testQueries.GetServiceToAttendingByAttendingID(context.Background(), serviceToAttending1.AttendingID)
-	require.NoError(t, err)
-	require.NotEmpty(t, serviceToAttending2)
-
-	require.Equal(t, serviceToAttending1.AttendingID, serviceToAttending2.AttendingID)
-	require.Equal(t, serviceToAttending1.ServiceID, serviceToAttending2.ServiceID)
-	require.WithinDuration(t, serviceToAttending1.CreatedAt, serviceToAttending2.CreatedAt, time.Second)
 }
 
 // Test for ListServicesToAttendingsByServiceID
