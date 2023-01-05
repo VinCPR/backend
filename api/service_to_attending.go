@@ -32,7 +32,7 @@ type ServiceToAttendingResponse struct {
 // @Produce  json
 // @Param body body createServiceToAttendingRequest true "input required: serviceID, attendingID"
 // @Success 200 {object} ServiceToAttendingResponse "ok"
-// @Router /servicetoattending [post]
+// @Router /service_to_attending [post]
 func (server *Server) createServiceToAttending(ctx *gin.Context) {
 	var req createServiceToAttendingRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -68,7 +68,7 @@ func (server *Server) createServiceToAttending(ctx *gin.Context) {
 // @Param pageNumber query string true "page number"
 // @Param pageSize query string true "page size"
 // @Success 200 {object} []ServiceToAttendingResponse "ok"
-// @Router /servicetoattending/list/serviceID [get]
+// @Router /service_to_attending/list/service_id [get]
 
 func (server *Server) listServicesToAttendingsbyServiceID(ctx *gin.Context) {
 
@@ -97,7 +97,7 @@ func (server *Server) listServicesToAttendingsbyServiceID(ctx *gin.Context) {
 // @Param pageNumber query string true "page number"
 // @Param pageSize query string true "page size"
 // @Success 200 {object} []ServiceToAttendingResponse "ok"
-// @Router /servicetoattending/list/AttendingID [get]
+// @Router /service_to_attending/list/attending_id [get]
 
 func (server *Server) listServicesToAttendingsbyAttendingID(ctx *gin.Context) {
 
@@ -126,7 +126,7 @@ func (server *Server) listServicesToAttendingsbyAttendingID(ctx *gin.Context) {
 // @Param pageNumber query string true "page number"
 // @Param pageSize query string true "page size"
 // @Success 200 {object} []ServiceToAttendingResponse "ok"
-// @Router /servicetoattending/list/all [get]
+// @Router /service_to_attending/list/all [get]
 
 func (server *Server) listServicesToAttendingsbyAll(ctx *gin.Context) {
 

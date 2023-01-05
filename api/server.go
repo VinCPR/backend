@@ -90,10 +90,10 @@ func NewServer(config util.Config, store *db.Store) (*Server, error) {
 		routerV1.GET("/attending/list", server.listAttendingsByName)
 	}
 	{
-		routerV1.POST("/servicetoattending", server.createServiceToAttending)
-		routerV1.GET("/servicetoattending/list/serviceID", server.listServicesToAttendingsbyServiceID)
-		routerV1.GET("/servicetoattending/list/attendingID", server.listServicesToAttendingsbyAttendingID)
-		routerV1.GET("/servicetoattending/list/all", server.listServicesToAttendingsbyAll)
+		routerV1.POST("/service_to_attending", server.createServiceToAttending)
+		routerV1.GET("/service_to_attending/list/service_id", server.listServicesToAttendingsbyServiceID)
+		routerV1.GET("/service_to_attending/list/attending_id", server.listServicesToAttendingsbyAttendingID)
+		routerV1.GET("/service_to_attending/list/all", server.listServicesToAttendingsbyAll)
 	}
 	// authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
 	server.router = router

@@ -77,7 +77,6 @@ func (server *Server) createAttending(ctx *gin.Context) {
 // @Param pageSize query string true "page size"
 // @Success 200 {object} []AttendingResponse "ok"
 // @Router /attending/list[get]
-
 func (server *Server) listAttendingsByName(ctx *gin.Context) {
 	pageNumber := ctx.Query("pageNumber")
 	pageSize := ctx.Query("pageSize")
