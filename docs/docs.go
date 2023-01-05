@@ -36,7 +36,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.createAcademicYearRequest"
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createAcademicYearRequest"
                         }
                     }
                 ],
@@ -44,7 +44,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/api.academicYearResponse"
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.academicYearResponse"
                         }
                     }
                 }
@@ -78,7 +78,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.getAcademicCalendarResponse"
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.getAcademicCalendarResponse"
                             }
                         }
                     }
@@ -120,8 +120,42 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.academicYearResponse"
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.academicYearResponse"
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/attending": {
+            "post": {
+                "description": "create new Attending",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attending"
+                ],
+                "summary": "create new Attending",
+                "parameters": [
+                    {
+                        "description": "input required: attending user_id, firstname, lastname, mobile",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createAttendingRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.AttendingResponse"
                         }
                     }
                 }
@@ -155,7 +189,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.blockResponse"
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.blockResponse"
                             }
                         }
                     }
@@ -190,7 +224,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.groupResponse"
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.groupResponse"
                             }
                         }
                     }
@@ -217,7 +251,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.createHospitalRequest"
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createHospitalRequest"
                         }
                     }
                 ],
@@ -225,7 +259,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/api.HospitalResponse"
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.HospitalResponse"
                         }
                     }
                 }
@@ -259,7 +293,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.periodResponse"
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.periodResponse"
                             }
                         }
                     }
@@ -286,7 +320,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.createServiceRequest"
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createServiceRequest"
                         }
                     }
                 ],
@@ -294,7 +328,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/api.ServiceResponse"
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.serviceResponse"
                         }
                     }
                 }
@@ -335,7 +369,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.ServiceResponse"
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.serviceResponse"
                             }
                         }
                     }
@@ -377,7 +411,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.ServiceResponse"
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.serviceResponse"
                             }
                         }
                     }
@@ -419,8 +453,42 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.ServiceResponse"
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.serviceResponse"
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/servicetoattending": {
+            "post": {
+                "description": "create new service to attending",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ServiceToAttending"
+                ],
+                "summary": "create new service to attending",
+                "parameters": [
+                    {
+                        "description": "input required: serviceID, attendingID",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createServiceToAttendingRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.ServiceToAttendingResponse"
                         }
                     }
                 }
@@ -446,7 +514,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.createSpecialtyRequest"
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createSpecialtyRequest"
                         }
                     }
                 ],
@@ -454,7 +522,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/api.SpecialtyResponse"
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.SpecialtyResponse"
                         }
                     }
                 }
@@ -480,7 +548,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.createStudentRequest"
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createStudentRequest"
                         }
                     }
                 ],
@@ -488,7 +556,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/api.StudentResponse"
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.StudentResponse"
                         }
                     }
                 }
@@ -514,7 +582,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.createUserRequest"
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createUserRequest"
                         }
                     }
                 ],
@@ -522,7 +590,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/api.userResponse"
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.userResponse"
                         }
                     }
                 }
@@ -548,7 +616,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.loginUserRequest"
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.loginUserRequest"
                         }
                     }
                 ],
@@ -556,7 +624,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/api.loginUserResponse"
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.loginUserResponse"
                         }
                     }
                 }
@@ -564,39 +632,16 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "api.HospitalResponse": {
+        "api.ServiceToAttendingResponse": {
             "type": "object",
             "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.ServiceResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "hospitalID": {
+                "attending_id": {
                     "type": "integer"
                 },
-                "name": {
+                "created_at": {
                     "type": "string"
                 },
-                "specialtyID": {
+                "service_id": {
                     "type": "integer"
                 }
             }
@@ -711,44 +756,17 @@ const docTemplate = `{
                 }
             }
         },
-        "api.createHospitalRequest": {
+        "api.createServiceToAttendingRequest": {
             "type": "object",
             "required": [
-                "address",
-                "description",
-                "name"
+                "attending_id",
+                "service_id"
             ],
             "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.createServiceRequest": {
-            "type": "object",
-            "required": [
-                "description",
-                "hospitalID",
-                "name",
-                "specialtyID"
-            ],
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "hospitalID": {
+                "attending_id": {
                     "type": "integer"
                 },
-                "name": {
-                    "type": "string"
-                },
-                "specialtyID": {
+                "service_id": {
                     "type": "integer"
                 }
             }
@@ -905,6 +923,432 @@ const docTemplate = `{
             }
         },
         "api.userResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "role_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.AttendingResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "mobile": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.HospitalResponse": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.ServiceToAttendingResponse": {
+            "type": "object",
+            "properties": {
+                "attending_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "service_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.SpecialtyResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.StudentResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "mobile": {
+                    "type": "string"
+                },
+                "student_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.academicCalendarEventResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.academicYearResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.blockResponse": {
+            "type": "object",
+            "properties": {
+                "academic_year_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "period": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.createAcademicYearRequest": {
+            "type": "object",
+            "required": [
+                "end_date",
+                "name",
+                "start_date"
+            ],
+            "properties": {
+                "end_date": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.createAttendingRequest": {
+            "type": "object",
+            "required": [
+                "firstname",
+                "lastname",
+                "mobile",
+                "user_id"
+            ],
+            "properties": {
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "mobile": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.createHospitalRequest": {
+            "type": "object",
+            "required": [
+                "address",
+                "description",
+                "name"
+            ],
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.createServiceRequest": {
+            "type": "object",
+            "required": [
+                "description",
+                "hospital",
+                "name",
+                "specialty"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "hospital": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "specialty": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.createServiceToAttendingRequest": {
+            "type": "object",
+            "required": [
+                "attending_id",
+                "service_id"
+            ],
+            "properties": {
+                "attending_id": {
+                    "type": "integer"
+                },
+                "service_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.createSpecialtyRequest": {
+            "type": "object",
+            "required": [
+                "description",
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.createStudentRequest": {
+            "type": "object",
+            "required": [
+                "firstname",
+                "lastname",
+                "mobile",
+                "student_id",
+                "user_id"
+            ],
+            "properties": {
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "mobile": {
+                    "type": "string"
+                },
+                "student_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.createUserRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password",
+                "role_name"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 8
+                },
+                "role_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.getAcademicCalendarResponse": {
+            "type": "object",
+            "properties": {
+                "academic_calendar_events": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github.com_VinCPR_backend_api.academicCalendarEventResponse"
+                    }
+                },
+                "academic_year": {
+                    "$ref": "#/definitions/github.com_VinCPR_backend_api.academicYearResponse"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.groupResponse": {
+            "type": "object",
+            "properties": {
+                "academic_year_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.loginUserRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 8
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.loginUserResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "access_token_expires_at": {
+                    "type": "string"
+                },
+                "refresh_token": {
+                    "type": "string"
+                },
+                "refresh_token_expires_at": {
+                    "type": "string"
+                },
+                "session_id": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/github.com_VinCPR_backend_api.userResponse"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.periodResponse": {
+            "type": "object",
+            "properties": {
+                "academic_year_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.serviceResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "hospital": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "specialty": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.userResponse": {
             "type": "object",
             "properties": {
                 "created_at": {

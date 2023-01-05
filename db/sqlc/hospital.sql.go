@@ -38,6 +38,24 @@ func (q *Queries) CreateHospital(ctx context.Context, arg CreateHospitalParams) 
 	return i, err
 }
 
+const getHospitalByID = `-- name: GetHospitalByID :one
+SELECT id, name, description, address, created_at FROM "hospital"
+WHERE "id" = $1 LIMIT 1
+`
+
+func (q *Queries) GetHospitalByID(ctx context.Context, id int64) (Hospital, error) {
+	row := q.db.QueryRow(ctx, getHospitalByID, id)
+	var i Hospital
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Description,
+		&i.Address,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const getHospitalByName = `-- name: GetHospitalByName :one
 SELECT id, name, description, address, created_at FROM "hospital"
 WHERE name = $1 LIMIT 1

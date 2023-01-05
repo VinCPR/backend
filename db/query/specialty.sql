@@ -6,6 +6,10 @@ INSERT INTO "specialty" (
     $1 , $2 
 ) RETURNING *;
 
+-- name: GetSpecialtyByID :one
+SELECT * FROM "specialty"
+WHERE "id" = $1 LIMIT 1;
+
 -- name: GetSpecialtyByName :one
 SELECT * FROM "specialty"
 WHERE name = $1 LIMIT 1;
