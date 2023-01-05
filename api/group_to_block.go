@@ -5,17 +5,19 @@ import (
 	"net/http"
 	"time"
 
-	db "github.com/VinCPR/backend/db/sqlc"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgerrcode"
 	"github.com/jackc/pgx/v4"
+
+	db "github.com/VinCPR/backend/db/sqlc"
 )
 
 type createGroupToBlockRequest struct {
 	AcademicYearName string `json:"academic_year_name"`
 	GroupName        string `json:"group_name"`
 	BlockName        string `json:"block_name"`
+	PeriodName       string `json:"period_name"`
 }
 
 type groupToBlockResponse struct {
@@ -32,7 +34,7 @@ type groupToBlockResponse struct {
 // @Accept	json
 // @Produce  json
 // @Param body body createGroupToBlockRequest true "input required: academic year name, groupid, blockid"
-// @Success 200 {object} groupToBlockResponse "ok"
+// @Success 200 "ok"
 // @Router /group_to_block [post]
 func (server *Server) createGroupToBlock(ctx *gin.Context) {
 	var req createGroupToBlockRequest
@@ -41,10 +43,7 @@ func (server *Server) createGroupToBlock(ctx *gin.Context) {
 		return
 	}
 
-	//academicYearName := ctx.Query("academicYearName")
-
 	academicYear, err := server.store.GetAcademicYearByName(ctx, req.AcademicYearName)
-
 	if err != nil {
 		if err == pgx.ErrNoRows {
 			ctx.JSON(http.StatusBadRequest, errorResponse(err))
@@ -53,9 +52,10 @@ func (server *Server) createGroupToBlock(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 	}
 
-	//blockName := ctx.Query("blockName")
-
-	block, err := server.store.GetBlockByName(ctx, req.BlockName)
+	period, err := server.store.GetPeriodByIndex(ctx, db.GetPeriodByIndexParams{
+		AcademicYearID: academicYear.ID,
+		Name:           req.PeriodName,
+	})
 	if err != nil {
 		if err == pgx.ErrNoRows {
 			ctx.JSON(http.StatusBadRequest, errorResponse(err))
@@ -64,9 +64,11 @@ func (server *Server) createGroupToBlock(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 	}
 
-	//groupName := ctx.Query("groupName")
-
-	group, err := server.store.GetGroupByName(ctx, req.GroupName)
+	block, err := server.store.GetBlockByIndex(ctx, db.GetBlockByIndexParams{
+		AcademicYearID: academicYear.ID,
+		Period:         period.ID,
+		Name:           req.BlockName,
+	})
 	if err != nil {
 		if err == pgx.ErrNoRows {
 			ctx.JSON(http.StatusBadRequest, errorResponse(err))
@@ -75,7 +77,19 @@ func (server *Server) createGroupToBlock(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 	}
 
-	groupToBlock, err := server.store.CreateGroupToBlock(ctx, db.CreateGroupToBlockParams{
+	group, err := server.store.GetGroupByIndex(ctx, db.GetGroupByIndexParams{
+		AcademicYearID: academicYear.ID,
+		Name:           req.GroupName,
+	})
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			ctx.JSON(http.StatusBadRequest, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+	}
+
+	_, err = server.store.CreateGroupToBlock(ctx, db.CreateGroupToBlockParams{
 		AcademicYearID: academicYear.ID,
 		BlockID:        block.ID,
 		GroupID:        group.ID,
@@ -89,9 +103,8 @@ func (server *Server) createGroupToBlock(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, groupToBlockResponse{
-		CreatedAt: groupToBlock.CreatedAt,
-	})
+
+	ctx.JSON(http.StatusOK, nil)
 }
 
 // listGroupToBlockByAcademicYear
@@ -139,13 +152,26 @@ func (server *Server) listGroupToBlockByAcademicYear(ctx *gin.Context) {
 // @Tags GroupToBlock
 // @Accept	json
 // @Produce  json
+// @Param academicYearName query string true "academic year name"
 // @Param groupName query string true "group name"
 // @Success 200 {object} []groupToBlockResponse "ok"
 // @Router /group_to_block/list/group [get]
 func (server *Server) listGroupToBlockByGroupName(ctx *gin.Context) {
-	groupName := ctx.Query("groupName")
+	academicYearName := ctx.Query("academicYearName")
+	academicYear, err := server.store.GetAcademicYearByName(ctx, academicYearName)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			ctx.JSON(http.StatusBadRequest, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+	}
 
-	group, err := server.store.GetGroupByName(ctx, groupName)
+	groupName := ctx.Query("groupName")
+	group, err := server.store.GetGroupByIndex(ctx, db.GetGroupByIndexParams{
+		AcademicYearID: academicYear.ID,
+		Name:           groupName,
+	})
 	if err != nil {
 		if err == pgx.ErrNoRows {
 			ctx.JSON(http.StatusBadRequest, errorResponse(err))
@@ -161,8 +187,8 @@ func (server *Server) listGroupToBlockByGroupName(ctx *gin.Context) {
 
 	groupToBlocksResponse := make([]groupToBlockResponse, 0)
 	for _, groupToBlock := range groupToBlocks {
+		// TODO optimize SQL queries here
 		block, _ := server.store.GetBlockByID(ctx, groupToBlock.BlockID)
-		academicYear, _ := server.store.GetAcademicYearByID(ctx, groupToBlock.AcademicYearID)
 		groupToBlocksResponse = append(groupToBlocksResponse, groupToBlockResponse{
 			AcademicYearName: academicYear.Name,
 			BlockName:        block.Name,
@@ -178,13 +204,41 @@ func (server *Server) listGroupToBlockByGroupName(ctx *gin.Context) {
 // @Tags GroupToBlock
 // @Accept	json
 // @Produce  json
+// @Param academicYearName query string true "academic year name"
+// @Param periodName query string true "period name"
 // @Param blockName query string true "block name"
 // @Success 200 {object} []groupToBlockResponse "ok"
 // @Router /group_to_block/list/block [get]
 func (server *Server) listGroupToBlockByBlockName(ctx *gin.Context) {
-	blockName := ctx.Query("blockName")
+	academicYearName := ctx.Query("academicYearName")
+	academicYear, err := server.store.GetAcademicYearByName(ctx, academicYearName)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			ctx.JSON(http.StatusBadRequest, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+	}
 
-	block, err := server.store.GetBlockByName(ctx, blockName)
+	periodName := ctx.Query("periodName")
+	period, err := server.store.GetPeriodByIndex(ctx, db.GetPeriodByIndexParams{
+		AcademicYearID: academicYear.ID,
+		Name:           periodName,
+	})
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			ctx.JSON(http.StatusBadRequest, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+	}
+
+	blockName := ctx.Query("blockName")
+	block, err := server.store.GetBlockByIndex(ctx, db.GetBlockByIndexParams{
+		AcademicYearID: academicYear.ID,
+		Period:         period.ID,
+		Name:           blockName,
+	})
 	if err != nil {
 		if err == pgx.ErrNoRows {
 			ctx.JSON(http.StatusBadRequest, errorResponse(err))
@@ -200,7 +254,7 @@ func (server *Server) listGroupToBlockByBlockName(ctx *gin.Context) {
 
 	groupToBlocksResponse := make([]groupToBlockResponse, 0)
 	for _, groupToBlock := range groupToBlocks {
-		academicYear, _ := server.store.GetAcademicYearByID(ctx, groupToBlock.AcademicYearID)
+		// TODO optimize SQL queries here
 		group, _ := server.store.GetGroupByID(ctx, groupToBlock.GroupID)
 		groupToBlocksResponse = append(groupToBlocksResponse, groupToBlockResponse{
 			AcademicYearName: academicYear.Name,

@@ -10,9 +10,10 @@ INSERT INTO "group" (
 SELECT * FROM "group"
 WHERE "id" = $1 LIMIT 1;
 
--- name: GetGroupByName :one
+-- name: GetGroupByIndex :one
 SELECT * FROM "group"
-WHERE "name" = $1 LIMIT 1;
+WHERE "academic_year_id" = $1 AND "name" = $2
+LIMIT 1;
 
 -- name: ListGroupsByName :many
 SELECT * FROM "group"

@@ -11,9 +11,10 @@ INSERT INTO "block" (
 SELECT * FROM "block"
 WHERE "id" = $1 LIMIT 1;
 
--- name: GetBlockByName :one
+-- name: GetBlockByIndex :one
 SELECT * FROM "block"
-WHERE "name" = $1 LIMIT 1;
+WHERE "academic_year_id" = $1 AND "period" = $2 AND "name" = $3
+LIMIT 1;
 
 -- name: ListBlocksByAcademicYear :many
 SELECT * FROM "block"

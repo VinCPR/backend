@@ -52,13 +52,19 @@ func (q *Queries) GetGroupByID(ctx context.Context, id int64) (Group, error) {
 	return i, err
 }
 
-const getGroupByName = `-- name: GetGroupByName :one
+const getGroupByIndex = `-- name: GetGroupByIndex :one
 SELECT id, academic_year_id, name, created_at FROM "group"
-WHERE "name" = $1 LIMIT 1
+WHERE "academic_year_id" = $1 AND "name" = $2
+LIMIT 1
 `
 
-func (q *Queries) GetGroupByName(ctx context.Context, name string) (Group, error) {
-	row := q.db.QueryRow(ctx, getGroupByName, name)
+type GetGroupByIndexParams struct {
+	AcademicYearID int64  `json:"academic_year_id"`
+	Name           string `json:"name"`
+}
+
+func (q *Queries) GetGroupByIndex(ctx context.Context, arg GetGroupByIndexParams) (Group, error) {
+	row := q.db.QueryRow(ctx, getGroupByIndex, arg.AcademicYearID, arg.Name)
 	var i Group
 	err := row.Scan(
 		&i.ID,

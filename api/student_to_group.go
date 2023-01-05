@@ -5,11 +5,12 @@ import (
 	"net/http"
 	"time"
 
-	db "github.com/VinCPR/backend/db/sqlc"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgerrcode"
 	"github.com/jackc/pgx/v4"
+
+	db "github.com/VinCPR/backend/db/sqlc"
 )
 
 type createStudentToGroupRequest struct {
@@ -40,8 +41,6 @@ func (server *Server) createStudentToGroup(ctx *gin.Context) {
 		return
 	}
 
-	//academicYearName := ctx.Query("academicYearName")
-
 	academicYear, err := server.store.GetAcademicYearByName(ctx, req.AcademicYearName)
 
 	if err != nil {
@@ -52,8 +51,6 @@ func (server *Server) createStudentToGroup(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 	}
 
-	//blockName := ctx.Query("blockName")
-
 	student, err := server.store.GetBlockByName(ctx, req.StudentName)
 	if err != nil {
 		if err == pgx.ErrNoRows {
@@ -62,8 +59,6 @@ func (server *Server) createStudentToGroup(ctx *gin.Context) {
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 	}
-
-	//groupName := ctx.Query("groupName")
 
 	group, err := server.store.GetGroupByName(ctx, req.GroupName)
 	if err != nil {

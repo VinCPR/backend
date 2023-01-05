@@ -66,6 +66,31 @@ func (q *Queries) GetPeriodByID(ctx context.Context, id int64) (Period, error) {
 	return i, err
 }
 
+const getPeriodByIndex = `-- name: GetPeriodByIndex :one
+SELECT id, academic_year_id, name, start_date, end_date, created_at FROM "period"
+WHERE "academic_year_id" = $1 AND "name" = $2
+LIMIT 1
+`
+
+type GetPeriodByIndexParams struct {
+	AcademicYearID int64  `json:"academic_year_id"`
+	Name           string `json:"name"`
+}
+
+func (q *Queries) GetPeriodByIndex(ctx context.Context, arg GetPeriodByIndexParams) (Period, error) {
+	row := q.db.QueryRow(ctx, getPeriodByIndex, arg.AcademicYearID, arg.Name)
+	var i Period
+	err := row.Scan(
+		&i.ID,
+		&i.AcademicYearID,
+		&i.Name,
+		&i.StartDate,
+		&i.EndDate,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const listPeriodsByStartDate = `-- name: ListPeriodsByStartDate :many
 SELECT id, academic_year_id, name, start_date, end_date, created_at FROM "period"
 WHERE "academic_year_id" = $1
