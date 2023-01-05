@@ -19,7 +19,7 @@ type createHospitalRequest struct {
 	Address     string `json:"address" binding:"required"`
 }
 
-type HospitalResponse struct {
+type hospitalResponse struct {
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
 	Address     string    `json:"address"`
@@ -55,7 +55,7 @@ func (server *Server) createHospital(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, HospitalResponse{
+	ctx.JSON(http.StatusOK, hospitalResponse{
 		Name:        hospital.Name,
 		Description: hospital.Description,
 		Address:     hospital.Address,
@@ -66,7 +66,7 @@ func (server *Server) createHospital(ctx *gin.Context) {
 // listHospitals
 // @Summary list created hospital
 // @Description list created hospital
-// @Tags Hospital
+// @Tags Hospitals
 // @Accept	json
 // @Produce  json
 // @Param pageNumber query string true "page number"
@@ -101,9 +101,9 @@ func (server *Server) listHospitalsByName(ctx *gin.Context) {
 		return
 	}
 
-	HospitalsResponse := make([]HospitalResponse, 0)
+	HospitalsResponse := make([]hospitalResponse, 0)
 	for _, hospital := range hospitals {
-		HospitalsResponse = append(HospitalsResponse, HospitalResponse{
+		HospitalsResponse = append(HospitalsResponse, hospitalResponse{
 			Name:        hospital.Name,
 			Description: hospital.Description,
 			Address:     hospital.Address,

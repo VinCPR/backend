@@ -18,7 +18,7 @@ type createSpecialtyRequest struct {
 	Description string `json:"description" binding:"required"`
 }
 
-type SpecialtyResponse struct {
+type specialtyResponse struct {
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
 	CreatedAt   time.Time `json:"created_at"`
@@ -52,7 +52,7 @@ func (server *Server) createSpecialty(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, SpecialtyResponse{
+	ctx.JSON(http.StatusOK, specialtyResponse{
 		Name:        specialty.Name,
 		Description: specialty.Description,
 		CreatedAt:   specialty.CreatedAt,
@@ -62,7 +62,7 @@ func (server *Server) createSpecialty(ctx *gin.Context) {
 // listSpecialties
 // @Summary list created specialty
 // @Description list created specialty
-// @Tags Specialty
+// @Tags Specialties
 // @Accept	json
 // @Produce  json
 // @Param pageNumber query string true "page number"
@@ -97,9 +97,9 @@ func (server *Server) listSpecialtiesByName(ctx *gin.Context) {
 		return
 	}
 
-	SpecialtiesResponse := make([]SpecialtyResponse, 0)
+	SpecialtiesResponse := make([]specialtyResponse, 0)
 	for _, specialty := range specialties {
-		SpecialtiesResponse = append(SpecialtiesResponse, SpecialtyResponse{
+		SpecialtiesResponse = append(SpecialtiesResponse, specialtyResponse{
 			Name:        specialty.Name,
 			Description: specialty.Description,
 			CreatedAt:   specialty.CreatedAt,

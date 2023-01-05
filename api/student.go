@@ -21,7 +21,7 @@ type createStudentRequest struct {
 	Mobile    string `json:"mobile" binding:"required"`
 }
 
-type StudentResponse struct {
+type studentResponse struct {
 	UserID    int64     `json:"user_id"`
 	StudentID string    `json:"student_id"`
 	FirstName string    `json:"first_name"`
@@ -61,7 +61,7 @@ func (server *Server) createStudent(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, StudentResponse{
+	ctx.JSON(http.StatusOK, studentResponse{
 		UserID:    student.UserID,
 		StudentID: student.StudentID,
 		FirstName: student.FirstName,
@@ -109,9 +109,9 @@ func (server *Server) listStudentsByName(ctx *gin.Context) {
 		return
 	}
 
-	StudentsResponse := make([]StudentResponse, 0)
+	StudentsResponse := make([]studentResponse, 0)
 	for _, student := range students {
-		StudentsResponse = append(StudentsResponse, StudentResponse{
+		StudentsResponse = append(StudentsResponse, studentResponse{
 			UserID:    student.UserID,
 			StudentID: student.StudentID,
 			FirstName: student.FirstName,
@@ -161,9 +161,9 @@ func (server *Server) listStudentsByStudentID(ctx *gin.Context) {
 		return
 	}
 
-	StudentsResponse := make([]StudentResponse, 0)
+	StudentsResponse := make([]studentResponse, 0)
 	for _, student := range students {
-		StudentsResponse = append(StudentsResponse, StudentResponse{
+		StudentsResponse = append(StudentsResponse, studentResponse{
 			UserID:    student.UserID,
 			StudentID: student.StudentID,
 			FirstName: student.FirstName,

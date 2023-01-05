@@ -20,7 +20,7 @@ type createAttendingRequest struct {
 	Mobile    string `json:"mobile" binding:"required"`
 }
 
-type AttendingResponse struct {
+type attendingResponse struct {
 	UserID    int64     `json:"user_id"`
 	FirstName string    `json:"first_name"`
 	LastName  string    `json:"last_name"`
@@ -58,7 +58,7 @@ func (server *Server) createAttending(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, AttendingResponse{
+	ctx.JSON(http.StatusOK, attendingResponse{
 		UserID:    attending.UserID,
 		FirstName: attending.FirstName,
 		LastName:  attending.LastName,
@@ -104,9 +104,9 @@ func (server *Server) listAttendingsByName(ctx *gin.Context) {
 		return
 	}
 
-	AttendingsResponse := make([]AttendingResponse, 0)
+	AttendingsResponse := make([]attendingResponse, 0)
 	for _, attending := range attendings {
-		AttendingsResponse = append(AttendingsResponse, AttendingResponse{
+		AttendingsResponse = append(AttendingsResponse, attendingResponse{
 			UserID:    attending.UserID,
 			FirstName: attending.FirstName,
 			LastName:  attending.LastName,
