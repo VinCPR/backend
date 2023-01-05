@@ -162,7 +162,7 @@ func (server *Server) listServicesbyHospital(ctx *gin.Context) {
 // @Param pageSize query string true "page size"
 // @Success 200 {object} []serviceResponse "ok"
 // @Router /service/list/specialty [get]
-func (server *Server) listServicesbySpecialtyID(ctx *gin.Context) {
+func (server *Server) listServicesbySpecialty(ctx *gin.Context) {
 	pageNumber := ctx.Query("pageNumber")
 	pageSize := ctx.Query("pageSize")
 
@@ -226,7 +226,7 @@ func (server *Server) listServicesbySpecialtyID(ctx *gin.Context) {
 // @Param pageSize query string true "page size"
 // @Success 200 {object} []serviceResponse "ok"
 // @Router /service/list/specialty_and_hospital [get]
-func (server *Server) listServicesBySpecialtyIDAndHospitalID(ctx *gin.Context) {
+func (server *Server) listServicesBySpecialtyAndHospital(ctx *gin.Context) {
 	pageNumber := ctx.Query("pageNumber")
 	pageSize := ctx.Query("pageSize")
 
