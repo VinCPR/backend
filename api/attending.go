@@ -31,7 +31,7 @@ type attendingResponse struct {
 // createAttending
 // @Summary create new Attending
 // @Description create new Attending
-// @Tags Attending
+// @Tags Attendings
 // @Accept	json
 // @Produce  json
 // @Param body body createAttendingRequest true "input required: attending user_id, firstname, lastname, mobile"

@@ -32,7 +32,7 @@ type serviceResponse struct {
 // createService
 // @Summary create new service
 // @Description create new service
-// @Tags Service
+// @Tags Services
 // @Accept	json
 // @Produce  json
 // @Param body body createServiceRequest true "input required: service hospitalID, specialtyID, name, description"

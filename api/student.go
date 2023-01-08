@@ -33,7 +33,7 @@ type studentResponse struct {
 // createStudent
 // @Summary create new student
 // @Description create new student
-// @Tags Student
+// @Tags Students
 // @Accept	json
 // @Produce  json
 // @Param body body createStudentRequest true "input required: student user_id, student_id, firstname, lastname, mobile"

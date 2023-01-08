@@ -29,7 +29,7 @@ type hospitalResponse struct {
 // createHospital
 // @Summary create new hospital
 // @Description create new hospital
-// @Tags Hospital
+// @Tags Hospitals
 // @Accept	json
 // @Produce  json
 // @Param body body createHospitalRequest true "input required: hospital name, description, address"
