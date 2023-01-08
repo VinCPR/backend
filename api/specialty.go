@@ -31,7 +31,7 @@ type specialtyResponse struct {
 // @Accept	json
 // @Produce  json
 // @Param body body createSpecialtyRequest true "input required: specialty name, description, address"
-// @Success 200 {object} SpecialtyResponse "ok"
+// @Success 200 {object} specialtyResponse "ok"
 // @Router /specialty [post]
 func (server *Server) createSpecialty(ctx *gin.Context) {
 	var req createSpecialtyRequest
@@ -67,9 +67,8 @@ func (server *Server) createSpecialty(ctx *gin.Context) {
 // @Produce  json
 // @Param pageNumber query string true "page number"
 // @Param pageSize query string true "page size"
-// @Success 200 {object} []SpecialtyResponse "ok"
+// @Success 200 {object} []specialtyResponse "ok"
 // @Router /specialty/list [get]
-
 func (server *Server) listSpecialtiesByName(ctx *gin.Context) {
 	pageNumber := ctx.Query("pageNumber")
 	pageSize := ctx.Query("pageSize")

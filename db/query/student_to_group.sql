@@ -17,4 +17,4 @@ WHERE student_id = $1;
 
 -- name: GetStudentToGroupByGroupID :many
 SELECT * FROM "student_to_group"
-WHERE student_id = $1;
+WHERE group_id = $1;

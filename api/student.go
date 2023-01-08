@@ -37,7 +37,7 @@ type studentResponse struct {
 // @Accept	json
 // @Produce  json
 // @Param body body createStudentRequest true "input required: student user_id, student_id, firstname, lastname, mobile"
-// @Success 200 {object} StudentResponse "ok"
+// @Success 200 {object} studentResponse "ok"
 // @Router /student [post]
 func (server *Server) createStudent(ctx *gin.Context) {
 	var req createStudentRequest
@@ -79,9 +79,8 @@ func (server *Server) createStudent(ctx *gin.Context) {
 // @Produce  json
 // @Param pageNumber query string true "page number"
 // @Param pageSize query string true "page size"
-// @Success 200 {object} []StudentResponse "ok"
+// @Success 200 {object} []studentResponse "ok"
 // @Router /student/list/name [get]
-
 func (server *Server) listStudentsByName(ctx *gin.Context) {
 	pageNumber := ctx.Query("pageNumber")
 	pageSize := ctx.Query("pageSize")
@@ -131,9 +130,8 @@ func (server *Server) listStudentsByName(ctx *gin.Context) {
 // @Produce  json
 // @Param pageNumber query string true "page number"
 // @Param pageSize query string true "page size"
-// @Success 200 {object} []StudentResponse "ok"
+// @Success 200 {object} []studentResponse "ok"
 // @Router /student/list/studentID [get]
-
 func (server *Server) listStudentsByStudentID(ctx *gin.Context) {
 	pageNumber := ctx.Query("pageNumber")
 	pageSize := ctx.Query("pageSize")

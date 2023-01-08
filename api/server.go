@@ -95,6 +95,18 @@ func NewServer(config util.Config, store *db.Store) (*Server, error) {
 		routerV1.GET("/service_to_attending/list/attending_id", server.listServicesToAttendingsbyAttendingID)
 		routerV1.GET("/service_to_attending/list/all", server.listServicesToAttendingsbyAll)
 	}
+	{
+		routerV1.POST("/group_to_block", server.createGroupToBlock)
+		routerV1.GET("/group_to_block/list/academic_year", server.listGroupToBlockByAcademicYear)
+		routerV1.GET("/group_to_block/list/group", server.listGroupToBlockByGroupName)
+		routerV1.GET("/group_to_block/list/block", server.listGroupToBlockByBlockName)
+	}
+	{
+		routerV1.POST("/student_to_group", server.createStudentToGroup)
+		routerV1.GET("/student_to_group/list/academic_year", server.listStudentToGroupByAcademicYear)
+		routerV1.GET("/student_to_group/list/group", server.listStudentToGroupByGroupID)
+		routerV1.GET("/student_to_group/list/student", server.listStudentToGroupByStudentID)
+	}
 	// authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
 	server.router = router
 	return server, nil

@@ -33,7 +33,7 @@ type hospitalResponse struct {
 // @Accept	json
 // @Produce  json
 // @Param body body createHospitalRequest true "input required: hospital name, description, address"
-// @Success 200 {object} HospitalResponse "ok"
+// @Success 200 {object} hospitalResponse "ok"
 // @Router /hospital [post]
 func (server *Server) createHospital(ctx *gin.Context) {
 	var req createHospitalRequest
@@ -71,9 +71,8 @@ func (server *Server) createHospital(ctx *gin.Context) {
 // @Produce  json
 // @Param pageNumber query string true "page number"
 // @Param pageSize query string true "page size"
-// @Success 200 {object} []HospitalResponse "ok"
+// @Success 200 {object} []hospitalResponse "ok"
 // @Router /hospital/list [get]
-
 func (server *Server) listHospitalsByName(ctx *gin.Context) {
 	pageNumber := ctx.Query("pageNumber")
 	pageSize := ctx.Query("pageSize")

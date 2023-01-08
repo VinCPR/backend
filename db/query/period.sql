@@ -12,6 +12,11 @@ INSERT INTO "period" (
 SELECT * FROM "period"
 WHERE "id" = $1 LIMIT 1;
 
+-- name: GetPeriodByIndex :one
+SELECT * FROM "period"
+WHERE "academic_year_id" = $1 AND "name" = $2
+LIMIT 1;
+
 -- name: ListPeriodsByStartDate :many
 SELECT * FROM "period"
 WHERE "academic_year_id" = $1

@@ -71,11 +71,11 @@ func (q *Queries) GetStudentToGroupByAcademicYearID(ctx context.Context, academi
 
 const getStudentToGroupByGroupID = `-- name: GetStudentToGroupByGroupID :many
 SELECT id, academic_year_id, student_id, group_id, created_at FROM "student_to_group"
-WHERE student_id = $1
+WHERE group_id = $1
 `
 
-func (q *Queries) GetStudentToGroupByGroupID(ctx context.Context, studentID int64) ([]StudentToGroup, error) {
-	rows, err := q.db.Query(ctx, getStudentToGroupByGroupID, studentID)
+func (q *Queries) GetStudentToGroupByGroupID(ctx context.Context, groupID int64) ([]StudentToGroup, error) {
+	rows, err := q.db.Query(ctx, getStudentToGroupByGroupID, groupID)
 	if err != nil {
 		return nil, err
 	}

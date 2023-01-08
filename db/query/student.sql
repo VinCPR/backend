@@ -9,6 +9,10 @@ INSERT INTO "student" (
     $1 , $2 , $3, $4 , $5
 ) RETURNING *;
 
+-- name: GetStudentByID :one
+SELECT * FROM "student"
+WHERE id = $1 LIMIT 1;
+
 -- name: GetStudentByUserId :one
 SELECT * FROM "student"
 WHERE user_id = $1 LIMIT 1;

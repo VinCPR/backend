@@ -35,7 +35,7 @@ type attendingResponse struct {
 // @Accept	json
 // @Produce  json
 // @Param body body createAttendingRequest true "input required: attending user_id, firstname, lastname, mobile"
-// @Success 200 {object} AttendingResponse "ok"
+// @Success 200 {object} attendingResponse "ok"
 // @Router /attending [post]
 func (server *Server) createAttending(ctx *gin.Context) {
 	var req createAttendingRequest
@@ -75,8 +75,8 @@ func (server *Server) createAttending(ctx *gin.Context) {
 // @Produce  json
 // @Param pageNumber query string true "page number"
 // @Param pageSize query string true "page size"
-// @Success 200 {object} []AttendingResponse "ok"
-// @Router /attending/list[get]
+// @Success 200 {object} []attendingResponse "ok"
+// @Router /attending/list [get]
 func (server *Server) listAttendingsByName(ctx *gin.Context) {
 	pageNumber := ctx.Query("pageNumber")
 	pageSize := ctx.Query("pageSize")
