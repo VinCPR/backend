@@ -69,6 +69,42 @@ func (q *Queries) GetStudentToGroupByAcademicYearID(ctx context.Context, academi
 	return items, nil
 }
 
+const getStudentToGroupByAcademicYearIDAndStudentID = `-- name: GetStudentToGroupByAcademicYearIDAndStudentID :many
+SELECT id, academic_year_id, student_id, group_id, created_at FROM "student_to_group"
+WHERE academic_year_id = $1 AND student_id = $2
+`
+
+type GetStudentToGroupByAcademicYearIDAndStudentIDParams struct {
+	AcademicYearID int64 `json:"academic_year_id"`
+	StudentID      int64 `json:"student_id"`
+}
+
+func (q *Queries) GetStudentToGroupByAcademicYearIDAndStudentID(ctx context.Context, arg GetStudentToGroupByAcademicYearIDAndStudentIDParams) ([]StudentToGroup, error) {
+	rows, err := q.db.Query(ctx, getStudentToGroupByAcademicYearIDAndStudentID, arg.AcademicYearID, arg.StudentID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []StudentToGroup{}
+	for rows.Next() {
+		var i StudentToGroup
+		if err := rows.Scan(
+			&i.ID,
+			&i.AcademicYearID,
+			&i.StudentID,
+			&i.GroupID,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getStudentToGroupByGroupID = `-- name: GetStudentToGroupByGroupID :many
 SELECT id, academic_year_id, student_id, group_id, created_at FROM "student_to_group"
 WHERE group_id = $1
