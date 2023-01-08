@@ -8,45 +8,16 @@ definitions:
       service_id:
         type: integer
     type: object
-  api.attendingResponse:
+  api.blockInfoRequest:
     properties:
-      created_at:
-        type: string
-      first_name:
-        type: string
-      last_name:
-        type: string
-      mobile:
-        type: string
-      user_id:
-        type: integer
-    type: object
-  api.createAttendingRequest:
-    properties:
-      firstname:
-        type: string
-      lastname:
-        type: string
-      mobile:
-        type: string
-      user_id:
-        type: integer
-    required:
-    - firstname
-    - lastname
-    - mobile
-    - user_id
-    type: object
-  api.createGroupToBlockRequest:
-    properties:
-      academic_year_name:
-        type: string
       block_name:
         type: string
-      group_name:
-        type: string
-      period_name:
-        type: string
+      group_calendar:
+        items:
+          items:
+            $ref: '#/definitions/api.specialtyInfoRequest'
+          type: array
+        type: array
     type: object
   api.createHospitalRequest:
     properties:
@@ -87,44 +58,59 @@ definitions:
     - attending_id
     - service_id
     type: object
-  api.createStudentRequest:
+  api.createSpecialtyRequest:
     properties:
-      firstname:
-        type: string
-      lastname:
-        type: string
-      mobile:
-        type: string
-      student_id:
-        type: string
-      user_id:
-        type: integer
-    required:
-    - firstname
-    - lastname
-    - mobile
-    - student_id
-    - user_id
-    type: object
-  api.groupResponse:
-    properties:
-      academic_year_id:
-        type: integer
-      created_at:
+      description:
         type: string
       name:
         type: string
+    required:
+    - description
+    - name
     type: object
-  api.groupToBlockResponse:
+  api.createStudentToGroupRequest:
     properties:
       academic_year_name:
         type: string
-      block_name:
-        type: string
-      created_at:
-        type: string
       group_name:
         type: string
+      student_id:
+        type: string
+    type: object
+  api.designRotationRequest:
+    properties:
+      academic_year_name:
+        type: string
+      blocks:
+        items:
+          $ref: '#/definitions/api.blockInfoRequest'
+        type: array
+      groups_per_block:
+        type: integer
+      number_of_period:
+        type: integer
+      periods:
+        items:
+          $ref: '#/definitions/api.periodInfoRequest'
+        type: array
+      weeks_per_period:
+        type: integer
+    required:
+    - academic_year_name
+    - blocks
+    - groups_per_block
+    - number_of_period
+    - periods
+    - weeks_per_period
+    type: object
+  api.hospitalInfoRequest:
+    properties:
+      hospital_name:
+        type: string
+      services:
+        items:
+          $ref: '#/definitions/api.serviceInfoRequest'
+        type: array
     type: object
   api.hospitalResponse:
     properties:
@@ -137,6 +123,16 @@ definitions:
       name:
         type: string
     type: object
+  api.periodInfoRequest:
+    properties:
+      period_name:
+        type: string
+      start_date:
+        type: string
+    required:
+    - period_name
+    - start_date
+    type: object
   api.periodResponse:
     properties:
       academic_year_id:
@@ -148,6 +144,13 @@ definitions:
       name:
         type: string
       start_date:
+        type: string
+    type: object
+  api.serviceInfoRequest:
+    properties:
+      duration_in_week:
+        type: integer
+      service_name:
         type: string
     type: object
   api.serviceResponse:
@@ -163,20 +166,34 @@ definitions:
       specialty:
         type: string
     type: object
-  api.studentResponse:
+  api.specialtyInfoRequest:
+    properties:
+      hospitals:
+        items:
+          $ref: '#/definitions/api.hospitalInfoRequest'
+        type: array
+      specialty_name:
+        type: string
+    type: object
+  api.specialtyResponse:
     properties:
       created_at:
         type: string
-      first_name:
+      description:
         type: string
-      last_name:
+      name:
         type: string
-      mobile:
+    type: object
+  api.studentToGroupResponse:
+    properties:
+      academic_year_name:
+        type: string
+      created_at:
+        type: string
+      group_name:
         type: string
       student_id:
         type: string
-      user_id:
-        type: integer
     type: object
   github.com_VinCPR_backend_api.ServiceToAttendingResponse:
     properties:
@@ -506,7 +523,7 @@ definitions:
   github.com_VinCPR_backend_api.serviceInfoRequest:
     properties:
       duration_in_week:
-        type: string
+        type: integer
       service_name:
         type: string
     type: object
@@ -673,7 +690,7 @@ paths:
             $ref: '#/definitions/github.com_VinCPR_backend_api.attendingResponse'
       summary: create new Attending
       tags:
-      - Attending
+      - Attendings
   /attending/list:
     get:
       consumes:
@@ -873,7 +890,7 @@ paths:
             $ref: '#/definitions/github.com_VinCPR_backend_api.hospitalResponse'
       summary: create new hospital
       tags:
-      - Hospital
+      - Hospitals
   /hospital/list:
     get:
       consumes:
@@ -943,8 +960,6 @@ paths:
       responses:
         "200":
           description: ok
-          schema:
-            $ref: '#/definitions/github.com_VinCPR_backend_api.academicYearResponse'
       summary: design clinical rotation
       tags:
       - ClinicalRotation
@@ -969,7 +984,7 @@ paths:
             $ref: '#/definitions/github.com_VinCPR_backend_api.serviceResponse'
       summary: create new service
       tags:
-      - Service
+      - Services
   /service/list/hospital:
     get:
       consumes:
@@ -1097,7 +1112,7 @@ paths:
             $ref: '#/definitions/github.com_VinCPR_backend_api.specialtyResponse'
       summary: create new specialty
       tags:
-      - Specialty
+      - Specialties
   /specialty/list:
     get:
       consumes:
@@ -1148,7 +1163,7 @@ paths:
             $ref: '#/definitions/github.com_VinCPR_backend_api.studentResponse'
       summary: create new student
       tags:
-      - Student
+      - Students
   /student/list/name:
     get:
       consumes:

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -51,7 +52,7 @@ type hospitalInfoRequest struct {
 
 type serviceInfoRequest struct {
 	ServiceName    string `json:"service_name"`
-	DurationInWeek string `json:"duration_in_week"`
+	DurationInWeek int    `json:"duration_in_week"`
 }
 
 // designRotation
@@ -61,7 +62,7 @@ type serviceInfoRequest struct {
 // @Accept	json
 // @Produce  json
 // @Param body body designRotationRequest true "input required: academic year name, templates for each period"
-// @Success 200 {object} academicYearResponse "ok"
+// @Success 200 "ok"
 // @Router /rotation/design [post]
 func (server *Server) designRotation(ctx *gin.Context) {
 	var req designRotationRequest
@@ -88,6 +89,7 @@ func (server *Server) designRotation(ctx *gin.Context) {
 	if err = processDesignRotation(ctx, server.store, req, academicYear); err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 	}
+	ctx.JSON(http.StatusOK, nil)
 }
 
 func validateDesignRotationRequest(req designRotationRequest) error {
@@ -138,7 +140,11 @@ func processDesignRotation(ctx context.Context, store *db.Store, req designRotat
 	if err != nil {
 		return err
 	}
+
 	// DivideGroup 1,2,3,4 -> Block 1. 5,6,7,8 -> Block 2. 9,10,11,12 -> Block 3. 13,14,15-> Block 4
+	if err = processFillGroupToBlocks(ctx, qtx, blocksForEachPeriod, groups, req.Periods, req.Blocks, req.GroupsPerBlock, academicYear.ID); err != nil {
+		return err
+	}
 
 	return tx.Commit(ctx)
 }
@@ -183,38 +189,110 @@ func processCreateBlocks(ctx context.Context, qtx *db.Queries, periods []db.Peri
 	return blocksForEachPeriod, nil
 }
 
-func processFillGroupToBlocks(ctx context.Context, qtx *db.Queries, blocksForEachPeriod [][]db.Block, groups []db.Group, groupsPerBlock int, academicYearID int64) ([]db.GroupToBlock, error) {
-	numberOfGroups := len(groups)
+func processFillGroupToBlocks(ctx context.Context, qtx *db.Queries, blocksForEachPeriod [][]db.Block, groups []db.Group,
+	periodsInfo []periodInfoRequest, blocksInfo []blockInfoRequest, groupsPerBlock int, academicYearID int64) error {
 	// numberOfPeriods = numberOfBlockPerPeriod
 	// -> blocksForEachPeriod has size (numberOfPeriods, numberOfPeriods)
-	numberOfPeriods := len(blocksForEachPeriod)
-
-	// merge groups into block.
-	var groupsForEachBlock = make([][]db.Group, (numberOfGroups-1)/groupsPerBlock+1)
-	for i, group := range groups {
-		groupsForEachBlock[i/numberOfGroups] = append(groupsForEachBlock[i/numberOfGroups], group)
+	// numberOfPeriods := len(blocksForEachPeriod)
+	services, err := getServiceID(ctx, qtx, blocksInfo)
+	if err != nil {
+		return err
 	}
-	for i, blocks := range blocksForEachPeriod {
-		for j, groupsForThisBlock := range groupsForEachBlock {
-			qtx.CreateGroupToBlock(ctx, db.CreateGroupToBlockParams{
+	// TODO remove nested loop here
+	for i, group := range groups {
+		// blocks: all blocks in period j
+		for j, blocks := range blocksForEachPeriod {
+			var blockInfoID = (i/groupsPerBlock + j) % len(blocks)
+			_, err = qtx.CreateGroupToBlock(ctx, db.CreateGroupToBlockParams{
 				AcademicYearID: academicYearID,
+				GroupID:        group.ID,
+				BlockID:        blocks[blockInfoID].ID,
 			})
+			if err != nil {
+				return err
+			}
+			err = processCreateClinicalRotationEvent(ctx, qtx, periodsInfo[i].StartDate, blocksInfo[blockInfoID].GroupCalendar[i%groupsPerBlock], services, group.ID, academicYearID)
+			if err != nil {
+				return err
+			}
 		}
 	}
+	return nil
 }
 
-func (server *Server) resetRotation(ctx *gin.Context) {
-	var req resetRotationRequest
-	if err := ctx.ShouldBindJSON(&req); err != nil {
-		ctx.JSON(http.StatusBadRequest, errorResponse(err))
-		return
+func processCreateClinicalRotationEvent(ctx context.Context, qtx *db.Queries, startDate time.Time, groupCalendar []specialtyInfoRequest, services map[string]int64, groupID, academicYearID int64) error {
+	for _, specialtyInfo := range groupCalendar {
+		for _, hospitalInfo := range specialtyInfo.Hospitals {
+			for _, serviceInfo := range hospitalInfo.Services {
+				_, err := qtx.CreateRotationEvent(ctx, db.CreateRotationEventParams{
+					AcademicYearID: academicYearID,
+					GroupID:        groupID,
+					ServiceID:      services[join(specialtyInfo.SpecialtyName, hospitalInfo.HospitalName, serviceInfo.ServiceName)],
+					StartDate:      startDate,
+					EndDate:        startDate.AddDate(0, 0, serviceInfo.DurationInWeek*7),
+				})
+				if err != nil {
+					return err
+				}
+				startDate = startDate.AddDate(0, 0, serviceInfo.DurationInWeek*7)
+			}
+		}
 	}
+	return nil
 }
 
-func (server *Server) studentViewRotation(ctx *gin.Context) {
+// func (server *Server) resetRotation(ctx *gin.Context) {
+// 	var req resetRotationRequest
+// 	if err := ctx.ShouldBindJSON(&req); err != nil {
+// 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+// 		return
+// 	}
+// }
+//
+// func (server *Server) studentViewRotation(ctx *gin.Context) {
+//
+// }
+//
+// func (server *Server) attendingViewRotation(ctx *gin.Context) {
+//
+// }
 
+func getServiceID(ctx context.Context, qtx *db.Queries, blocksInfo []blockInfoRequest) (map[string]int64, error) {
+	var (
+		specialty db.Specialty
+		hospital  db.Hospital
+		service   db.Service
+
+		servicesByName = make(map[string]int64)
+		err            error
+	)
+	for _, blockInfo := range blocksInfo {
+		for _, groupInfo := range blockInfo.GroupCalendar {
+			for _, specialtyInfo := range groupInfo {
+				specialty, err = qtx.GetSpecialtyByName(ctx, specialtyInfo.SpecialtyName)
+				if err != nil {
+					return nil, err
+				}
+				for _, hospitalInfo := range specialtyInfo.Hospitals {
+					hospital, err = qtx.GetHospitalByName(ctx, hospitalInfo.HospitalName)
+					if err != nil {
+						return nil, err
+					}
+					for _, serviceInfo := range hospitalInfo.Services {
+						service, err = qtx.GetServiceByIndex(ctx, db.GetServiceByIndexParams{
+							SpecialtyID: specialty.ID,
+							HospitalID:  hospital.ID,
+							Name:        serviceInfo.ServiceName,
+						})
+						servicesByName[join(specialty.Name, hospital.Name, service.Name)] = service.ID
+					}
+				}
+			}
+		}
+	}
+	return servicesByName, nil
 }
 
-func (server *Server) attendingViewRotation(ctx *gin.Context) {
-
+func join(args ...string) string {
+	return strings.Join(args, "___")
 }

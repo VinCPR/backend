@@ -58,6 +58,9 @@ func NewServer(config util.Config, store *db.Store) (*Server, error) {
 		routerV1.GET("/academic_year/calendar", server.getAcademicCalendar)
 	}
 	{
+		routerV1.POST("/rotation/design", server.designRotation)
+	}
+	{
 		routerV1.GET("/group/list", server.listGroupsByAcademicYear)
 	}
 	{
