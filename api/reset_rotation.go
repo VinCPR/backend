@@ -39,9 +39,11 @@ func (server *Server) resetRotation(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 	if err = processResetRotation(ctx, server.store, req, academicYear); err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 	ctx.JSON(http.StatusOK, nil)
 }

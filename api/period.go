@@ -35,11 +35,13 @@ func (server *Server) listPeriodsByAcademicYear(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	periods, err := server.store.ListPeriodsByStartDate(ctx, academicYear.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	periodsResponse := make([]periodResponse, 0)
