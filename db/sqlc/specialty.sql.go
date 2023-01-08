@@ -35,6 +35,23 @@ func (q *Queries) CreateSpecialty(ctx context.Context, arg CreateSpecialtyParams
 	return i, err
 }
 
+const getSpecialtyByID = `-- name: GetSpecialtyByID :one
+SELECT id, name, description, created_at FROM "specialty"
+WHERE "id" = $1 LIMIT 1
+`
+
+func (q *Queries) GetSpecialtyByID(ctx context.Context, id int64) (Specialty, error) {
+	row := q.db.QueryRow(ctx, getSpecialtyByID, id)
+	var i Specialty
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Description,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const getSpecialtyByName = `-- name: GetSpecialtyByName :one
 SELECT id, name, description, created_at FROM "specialty"
 WHERE name = $1 LIMIT 1

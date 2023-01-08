@@ -7,6 +7,10 @@ INSERT INTO "hospital" (
     $1 , $2 , $3
 ) RETURNING *;
 
+-- name: GetHospitalByID :one
+SELECT * FROM "hospital"
+WHERE "id" = $1 LIMIT 1;
+
 -- name: GetHospitalByName :one
 SELECT * FROM "hospital"
 WHERE name = $1 LIMIT 1;

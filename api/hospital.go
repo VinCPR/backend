@@ -1,33 +1,78 @@
 package api
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgconn"
+	"github.com/jackc/pgerrcode"
 
 	db "github.com/VinCPR/backend/db/sqlc"
 )
 
-type HospitalResponse struct {
+type createHospitalRequest struct {
+	Name        string `json:"name" binding:"required"`
+	Description string `json:"description" binding:"required"`
+	Address     string `json:"address" binding:"required"`
+}
+
+type hospitalResponse struct {
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
 	Address     string    `json:"address"`
 	CreatedAt   time.Time `json:"created_at"`
 }
 
+// createHospital
+// @Summary create new hospital
+// @Description create new hospital
+// @Tags Hospital
+// @Accept	json
+// @Produce  json
+// @Param body body createHospitalRequest true "input required: hospital name, description, address"
+// @Success 200 {object} hospitalResponse "ok"
+// @Router /hospital [post]
+func (server *Server) createHospital(ctx *gin.Context) {
+	var req createHospitalRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	hospital, err := server.store.CreateHospital(ctx, db.CreateHospitalParams{
+		Name:        req.Name,
+		Description: req.Description,
+		Address:     req.Address,
+	})
+	if err != nil {
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) && pgErr.Code == pgerrcode.UniqueViolation {
+			ctx.JSON(http.StatusForbidden, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	ctx.JSON(http.StatusOK, hospitalResponse{
+		Name:        hospital.Name,
+		Description: hospital.Description,
+		Address:     hospital.Address,
+		CreatedAt:   hospital.CreatedAt,
+	})
+}
+
 // listHospitals
 // @Summary list created hospital
 // @Description list created hospital
-// @Tags Hospital
+// @Tags Hospitals
 // @Accept	json
 // @Produce  json
 // @Param pageNumber query string true "page number"
 // @Param pageSize query string true "page size"
-// @Success 200 {object} []HospitalResponse "ok"
+// @Success 200 {object} []hospitalResponse "ok"
 // @Router /hospital/list [get]
-
 func (server *Server) listHospitalsByName(ctx *gin.Context) {
 	pageNumber := ctx.Query("pageNumber")
 	pageSize := ctx.Query("pageSize")
@@ -55,9 +100,9 @@ func (server *Server) listHospitalsByName(ctx *gin.Context) {
 		return
 	}
 
-	HospitalsResponse := make([]HospitalResponse, 0)
+	HospitalsResponse := make([]hospitalResponse, 0)
 	for _, hospital := range hospitals {
-		HospitalsResponse = append(HospitalsResponse, HospitalResponse{
+		HospitalsResponse = append(HospitalsResponse, hospitalResponse{
 			Name:        hospital.Name,
 			Description: hospital.Description,
 			Address:     hospital.Address,
