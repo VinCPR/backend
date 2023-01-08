@@ -55,6 +55,15 @@ type CreateRotationEventsParams struct {
 	EndDate        time.Time `json:"end_date"`
 }
 
+const deleteRotationEventsByAcademicYear = `-- name: DeleteRotationEventsByAcademicYear :exec
+DELETE FROM "clinical_rotation_event" WHERE "academic_year_id" = $1
+`
+
+func (q *Queries) DeleteRotationEventsByAcademicYear(ctx context.Context, academicYearID int64) error {
+	_, err := q.db.Exec(ctx, deleteRotationEventsByAcademicYear, academicYearID)
+	return err
+}
+
 const listRotationEventsByAcademicYearID = `-- name: ListRotationEventsByAcademicYearID :many
 SELECT id, academic_year_id, group_id, service_id, start_date, end_date, created_at FROM "clinical_rotation_event"
 WHERE "academic_year_id" = $1

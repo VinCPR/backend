@@ -24,10 +24,6 @@ type designRotationRequest struct {
 	Blocks  []blockInfoRequest  `json:"blocks" binding:"required"`
 }
 
-type resetRotationRequest struct {
-	AcademicYearName string `json:"academic_year_name"`
-}
-
 type periodInfoRequest struct {
 	PeriodName string    `json:"period_name" binding:"required"`
 	StartDate  time.Time `json:"start_date" form:"start_date" binding:"required" time_format:"2006-01-02"`
@@ -77,6 +73,7 @@ func (server *Server) designRotation(ctx *gin.Context) {
 		if err == pgx.ErrNoRows {
 			log.Info().Msgf("cannot find academic year %v", req.AcademicYearName)
 			ctx.JSON(http.StatusBadRequest, errorResponse(err))
+			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 	}
@@ -241,13 +238,6 @@ func processCreateClinicalRotationEvent(ctx context.Context, qtx *db.Queries, st
 	return nil
 }
 
-// func (server *Server) resetRotation(ctx *gin.Context) {
-// 	var req resetRotationRequest
-// 	if err := ctx.ShouldBindJSON(&req); err != nil {
-// 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
-// 		return
-// 	}
-// }
 //
 // func (server *Server) studentViewRotation(ctx *gin.Context) {
 //

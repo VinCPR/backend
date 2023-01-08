@@ -14,3 +14,6 @@ INSERT INTO "clinical_rotation_event" (
 SELECT * FROM "clinical_rotation_event"
 WHERE "academic_year_id" = $1
 ORDER BY "start_date";
+
+-- name: DeleteRotationEventsByAcademicYear :exec
+DELETE FROM "clinical_rotation_event" WHERE "academic_year_id" = $1;

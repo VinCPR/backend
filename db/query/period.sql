@@ -21,3 +21,6 @@ LIMIT 1;
 SELECT * FROM "period"
 WHERE "academic_year_id" = $1
 ORDER BY "start_date";
+
+-- name: DeletePeriodsByAcademicYear :exec
+DELETE FROM "period" WHERE "academic_year_id" = $1;

@@ -59,6 +59,7 @@ func NewServer(config util.Config, store *db.Store) (*Server, error) {
 	}
 	{
 		routerV1.POST("/rotation/design", server.designRotation)
+		routerV1.POST("/rotation/reset", server.resetRotation)
 	}
 	{
 		routerV1.GET("/group/list", server.listGroupsByAcademicYear)

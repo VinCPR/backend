@@ -18,3 +18,6 @@ WHERE block_id = $1;
 -- name: GetGroupToBlockByGroupID :many
 SELECT * FROM "group_to_block"
 WHERE group_id = $1;
+
+-- name: DeleteGroupToBlocksByAcademicYear :exec
+DELETE FROM "group_to_block" WHERE "academic_year_id" = $1;
