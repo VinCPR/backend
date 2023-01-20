@@ -20,5 +20,10 @@ SELECT * FROM "clinical_rotation_event"
 WHERE "academic_year_id" = $1 AND "group_id" = ANY((@group_ids)::bigint[])
 ORDER BY "start_date";
 
+-- name: ListRotationEventsByAcademicYearIDAndServiceID :many
+SELECT * FROM "clinical_rotation_event"
+WHERE "academic_year_id" = $1 AND "service_id" = ANY((@service_ids)::bigint[])
+ORDER BY "start_date";
+
 -- name: DeleteRotationEventsByAcademicYear :exec
 DELETE FROM "clinical_rotation_event" WHERE "academic_year_id" = $1;

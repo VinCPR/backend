@@ -35,6 +35,36 @@ func (q *Queries) CreateServiceToAttending(ctx context.Context, arg CreateServic
 	return i, err
 }
 
+const getServiceToAttendingByAttendingID = `-- name: GetServiceToAttendingByAttendingID :many
+SELECT id, service_id, attending_id, created_at FROM "service_to_attending"
+WHERE attending_id = $1
+`
+
+func (q *Queries) GetServiceToAttendingByAttendingID(ctx context.Context, attendingID int64) ([]ServiceToAttending, error) {
+	rows, err := q.db.Query(ctx, getServiceToAttendingByAttendingID, attendingID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []ServiceToAttending{}
+	for rows.Next() {
+		var i ServiceToAttending
+		if err := rows.Scan(
+			&i.ID,
+			&i.ServiceID,
+			&i.AttendingID,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listServicesToAttendingsByAttendingID = `-- name: ListServicesToAttendingsByAttendingID :many
 SELECT id, service_id, attending_id, created_at FROM "service_to_attending"
 ORDER BY "attending_id"

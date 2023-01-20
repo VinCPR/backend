@@ -7,7 +7,11 @@ INSERT INTO "service" (
 ) VALUES (
    $1 , $2 , $3, $4
 ) RETURNING *;
- 
+
+-- name: GetServiceByID :one
+SELECT * FROM "service"
+WHERE "id" = $1 LIMIT 1;
+
 -- name: GetServiceByName :one
 SELECT * FROM "service"
 WHERE name = $1 LIMIT 1;

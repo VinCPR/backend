@@ -541,6 +541,48 @@ const docTemplate = `{
                 }
             }
         },
+        "/rotation/attending": {
+            "get": {
+                "description": "list calendar events for an attending in an academic year",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ClinicalRotation"
+                ],
+                "summary": "list calendar events for an attending in an academic year",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "academic year name",
+                        "name": "academicYearName",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "attending user ID",
+                        "name": "attendingUserID",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.clinicalRotationEventResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/rotation/design": {
             "post": {
                 "description": "provide templates of each period to auto generate calendar for all students",
@@ -599,6 +641,48 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "ok"
+                    }
+                }
+            }
+        },
+        "/rotation/student": {
+            "get": {
+                "description": "list calendar events for a student in an academic year",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ClinicalRotation"
+                ],
+                "summary": "list calendar events for a student in an academic year",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "academic year name",
+                        "name": "academicYearName",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "student user ID",
+                        "name": "studentUserID",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.clinicalRotationEventResponse"
+                            }
+                        }
                     }
                 }
             }
@@ -791,7 +875,133 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.ServiceToAttendingResponse"
+                            "$ref": "#/definitions/github.com_VinCPR_backend_api.serviceToAttendingResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/service_to_attending/list/all": {
+            "get": {
+                "description": "list created services to attendings",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ServicesToAttendings"
+                ],
+                "summary": "list created services to attendings",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page number",
+                        "name": "pageNumber",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "page size",
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.serviceToAttendingResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/service_to_attending/list/attending_id": {
+            "get": {
+                "description": "list created services to attendings",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ServicesToAttendings"
+                ],
+                "summary": "list created services to attendings",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page number",
+                        "name": "pageNumber",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "page size",
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.serviceToAttendingResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/service_to_attending/list/service_id": {
+            "get": {
+                "description": "list created services to attendings",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ServicesToAttendings"
+                ],
+                "summary": "list created services to attendings",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page number",
+                        "name": "pageNumber",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "page size",
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.serviceToAttendingResponse"
+                            }
                         }
                     }
                 }
@@ -1207,20 +1417,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "api.ServiceToAttendingResponse": {
-            "type": "object",
-            "properties": {
-                "attending_id": {
-                    "type": "integer"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "service_id": {
-                    "type": "integer"
-                }
-            }
-        },
         "api.blockInfoRequest": {
             "type": "object",
             "properties": {
@@ -1238,19 +1434,38 @@ const docTemplate = `{
                 }
             }
         },
-        "api.createGroupToBlockRequest": {
+        "api.blockResponse": {
             "type": "object",
             "properties": {
-                "academic_year_name": {
+                "academic_year_id": {
+                    "type": "integer"
+                },
+                "created_at": {
                     "type": "string"
                 },
-                "block_name": {
+                "name": {
                     "type": "string"
                 },
-                "group_name": {
+                "period": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.createHospitalRequest": {
+            "type": "object",
+            "required": [
+                "address",
+                "description",
+                "name"
+            ],
+            "properties": {
+                "address": {
                     "type": "string"
                 },
-                "period_name": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
                     "type": "string"
                 }
             }
@@ -1293,39 +1508,30 @@ const docTemplate = `{
                 }
             }
         },
-        "api.createSpecialtyRequest": {
+        "api.createStudentRequest": {
             "type": "object",
             "required": [
-                "description",
-                "name"
+                "firstname",
+                "lastname",
+                "mobile",
+                "student_id",
+                "user_id"
             ],
             "properties": {
-                "description": {
+                "firstname": {
                     "type": "string"
                 },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.createUserRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "password",
-                "role_name"
-            ],
-            "properties": {
-                "email": {
+                "lastname": {
                     "type": "string"
                 },
-                "password": {
-                    "type": "string",
-                    "maxLength": 64,
-                    "minLength": 8
-                },
-                "role_name": {
+                "mobile": {
                     "type": "string"
+                },
+                "student_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -1380,23 +1586,6 @@ const docTemplate = `{
                 }
             }
         },
-        "api.groupToBlockResponse": {
-            "type": "object",
-            "properties": {
-                "academic_year_name": {
-                    "type": "string"
-                },
-                "block_name": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "group_name": {
-                    "type": "string"
-                }
-            }
-        },
         "api.hospitalInfoRequest": {
             "type": "object",
             "properties": {
@@ -1411,43 +1600,20 @@ const docTemplate = `{
                 }
             }
         },
-        "api.loginUserRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "password"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string",
-                    "maxLength": 64,
-                    "minLength": 8
-                }
-            }
-        },
-        "api.loginUserResponse": {
+        "api.hospitalResponse": {
             "type": "object",
             "properties": {
-                "access_token": {
+                "address": {
                     "type": "string"
                 },
-                "access_token_expires_at": {
+                "created_at": {
                     "type": "string"
                 },
-                "refresh_token": {
+                "description": {
                     "type": "string"
                 },
-                "refresh_token_expires_at": {
+                "name": {
                     "type": "string"
-                },
-                "session_id": {
-                    "type": "string"
-                },
-                "user": {
-                    "$ref": "#/definitions/api.userResponse"
                 }
             }
         },
@@ -1462,34 +1628,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "start_date": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.periodResponse": {
-            "type": "object",
-            "properties": {
-                "academic_year_id": {
-                    "type": "integer"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "end_date": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "start_date": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.resetRotationRequest": {
-            "type": "object",
-            "properties": {
-                "academic_year_name": {
                     "type": "string"
                 }
             }
@@ -1525,6 +1663,20 @@ const docTemplate = `{
                 }
             }
         },
+        "api.serviceToAttendingResponse": {
+            "type": "object",
+            "properties": {
+                "attending_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "service_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "api.specialtyInfoRequest": {
             "type": "object",
             "properties": {
@@ -1539,44 +1691,25 @@ const docTemplate = `{
                 }
             }
         },
-        "api.specialtyResponse": {
+        "api.studentResponse": {
             "type": "object",
             "properties": {
                 "created_at": {
                     "type": "string"
                 },
-                "description": {
+                "first_name": {
                     "type": "string"
                 },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.userResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
+                "last_name": {
                     "type": "string"
                 },
-                "email": {
+                "mobile": {
                     "type": "string"
                 },
-                "role_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.ServiceToAttendingResponse": {
-            "type": "object",
-            "properties": {
-                "attending_id": {
-                    "type": "integer"
-                },
-                "created_at": {
+                "student_id": {
                     "type": "string"
                 },
-                "service_id": {
+                "user_id": {
                     "type": "integer"
                 }
             }
@@ -1669,6 +1802,32 @@ const docTemplate = `{
                 },
                 "period": {
                     "type": "integer"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.clinicalRotationEventResponse": {
+            "type": "object",
+            "properties": {
+                "end_date": {
+                    "type": "string"
+                },
+                "event_id": {
+                    "type": "integer"
+                },
+                "group_name": {
+                    "type": "string"
+                },
+                "hospital_name": {
+                    "type": "string"
+                },
+                "service_name": {
+                    "type": "string"
+                },
+                "specialty_name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
                 }
             }
         },
@@ -2089,6 +2248,20 @@ const docTemplate = `{
                 },
                 "specialty": {
                     "type": "string"
+                }
+            }
+        },
+        "github.com_VinCPR_backend_api.serviceToAttendingResponse": {
+            "type": "object",
+            "properties": {
+                "attending_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "service_id": {
+                    "type": "integer"
                 }
             }
         },

@@ -240,15 +240,6 @@ func processCreateClinicalRotationEvent(ctx context.Context, qtx *db.Queries, st
 	return nil
 }
 
-//
-// func (server *Server) studentViewRotation(ctx *gin.Context) {
-//
-// }
-//
-// func (server *Server) attendingViewRotation(ctx *gin.Context) {
-//
-// }
-
 func getServiceID(ctx context.Context, qtx *db.Queries, blocksInfo []blockInfoRequest) (map[string]int64, error) {
 	var (
 		specialty db.Specialty

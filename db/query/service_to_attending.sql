@@ -6,6 +6,10 @@ INSERT INTO "service_to_attending" (
     $1 , $2 
 ) RETURNING *;
 
+-- name: GetServiceToAttendingByAttendingID :many
+SELECT * FROM "service_to_attending"
+WHERE attending_id = $1;
+
 -- name: ListServicesToAttendingsByServiceID :many
 SELECT * FROM "service_to_attending"
 ORDER BY "service_id";
