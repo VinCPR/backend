@@ -34,11 +34,13 @@ func (server *Server) listBlocksByAcademicYear(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	blocks, err := server.store.ListBlocksByAcademicYear(ctx, academicYear.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	blocksResponse := make([]blockResponse, 0)

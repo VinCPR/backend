@@ -23,6 +23,17 @@ definitions:
       start_date:
         type: string
     type: object
+  api.blockResponse:
+    properties:
+      academic_year_id:
+        type: integer
+      created_at:
+        type: string
+      name:
+        type: string
+      period:
+        type: integer
+    type: object
   api.createAcademicYearRequest:
     properties:
       end_date:
@@ -48,22 +59,6 @@ definitions:
     - address
     - description
     - name
-    type: object
-  api.createServiceRequest:
-    properties:
-      description:
-        type: string
-      hospital:
-        type: string
-      name:
-        type: string
-      specialty:
-        type: string
-    required:
-    - description
-    - hospital
-    - name
-    - specialty
     type: object
   api.createSpecialtyRequest:
     properties:
@@ -94,14 +89,20 @@ definitions:
     - student_id
     - user_id
     type: object
-  api.createStudentToGroupRequest:
+  api.createUserRequest:
     properties:
-      academic_year_name:
+      email:
         type: string
-      group_name:
+      password:
+        maxLength: 64
+        minLength: 8
         type: string
-      student_id:
+      role_name:
         type: string
+    required:
+    - email
+    - password
+    - role_name
     type: object
   api.getAcademicCalendarResponse:
     properties:
@@ -123,17 +124,49 @@ definitions:
       name:
         type: string
     type: object
-  api.serviceResponse:
+  api.loginUserRequest:
     properties:
+      email:
+        type: string
+      password:
+        maxLength: 64
+        minLength: 8
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  api.loginUserResponse:
+    properties:
+      access_token:
+        type: string
+      access_token_expires_at:
+        type: string
+      refresh_token:
+        type: string
+      refresh_token_expires_at:
+        type: string
+      session_id:
+        type: string
+      user:
+        $ref: '#/definitions/api.userResponse'
+    type: object
+  api.periodResponse:
+    properties:
+      academic_year_id:
+        type: integer
       created_at:
         type: string
-      description:
-        type: string
-      hospital:
+      end_date:
         type: string
       name:
         type: string
-      specialty:
+      start_date:
+        type: string
+    type: object
+  api.resetRotationRequest:
+    properties:
+      academic_year_name:
         type: string
     type: object
   api.specialtyResponse:
@@ -145,40 +178,14 @@ definitions:
       name:
         type: string
     type: object
-  api.studentResponse:
+  api.userResponse:
     properties:
       created_at:
         type: string
-      first_name:
+      email:
         type: string
-      last_name:
+      role_name:
         type: string
-      mobile:
-        type: string
-      student_id:
-        type: string
-      user_id:
-        type: integer
-    type: object
-  api.studentToGroupResponse:
-    properties:
-      academic_year_name:
-        type: string
-      created_at:
-        type: string
-      group_name:
-        type: string
-      student_id:
-        type: string
-    type: object
-  github.com_VinCPR_backend_api.ServiceToAttendingResponse:
-    properties:
-      attending_id:
-        type: integer
-      created_at:
-        type: string
-      service_id:
-        type: integer
     type: object
   github.com_VinCPR_backend_api.academicCalendarEventResponse:
     properties:
@@ -206,6 +213,8 @@ definitions:
     type: object
   github.com_VinCPR_backend_api.attendingResponse:
     properties:
+      attending_id:
+        type: string
       created_at:
         type: string
       first_name:
@@ -217,6 +226,17 @@ definitions:
       user_id:
         type: integer
     type: object
+  github.com_VinCPR_backend_api.blockInfoRequest:
+    properties:
+      block_name:
+        type: string
+      group_calendar:
+        items:
+          items:
+            $ref: '#/definitions/github.com_VinCPR_backend_api.specialtyInfoRequest'
+          type: array
+        type: array
+    type: object
   github.com_VinCPR_backend_api.blockResponse:
     properties:
       academic_year_id:
@@ -227,6 +247,46 @@ definitions:
         type: string
       period:
         type: integer
+    type: object
+  github.com_VinCPR_backend_api.clinicalRotationEventDetailResponse:
+    properties:
+      attendings:
+        items:
+          $ref: '#/definitions/github.com_VinCPR_backend_api.attendingResponse'
+        type: array
+      end_date:
+        type: string
+      group_name:
+        type: string
+      hospital_name:
+        type: string
+      service_name:
+        type: string
+      specialty_name:
+        type: string
+      start_date:
+        type: string
+      students:
+        items:
+          $ref: '#/definitions/github.com_VinCPR_backend_api.studentResponse'
+        type: array
+    type: object
+  github.com_VinCPR_backend_api.clinicalRotationEventResponse:
+    properties:
+      end_date:
+        type: string
+      event_id:
+        type: integer
+      group_name:
+        type: string
+      hospital_name:
+        type: string
+      service_name:
+        type: string
+      specialty_name:
+        type: string
+      start_date:
+        type: string
     type: object
   github.com_VinCPR_backend_api.createAcademicYearRequest:
     properties:
@@ -243,6 +303,8 @@ definitions:
     type: object
   github.com_VinCPR_backend_api.createAttendingRequest:
     properties:
+      attending_id:
+        type: string
       firstname:
         type: string
       lastname:
@@ -252,6 +314,7 @@ definitions:
       user_id:
         type: integer
     required:
+    - attending_id
     - firstname
     - lastname
     - mobile
@@ -360,6 +423,32 @@ definitions:
     - password
     - role_name
     type: object
+  github.com_VinCPR_backend_api.designRotationRequest:
+    properties:
+      academic_year_name:
+        type: string
+      blocks:
+        items:
+          $ref: '#/definitions/github.com_VinCPR_backend_api.blockInfoRequest'
+        type: array
+      groups_per_block:
+        type: integer
+      number_of_period:
+        type: integer
+      periods:
+        items:
+          $ref: '#/definitions/github.com_VinCPR_backend_api.periodInfoRequest'
+        type: array
+      weeks_per_period:
+        type: integer
+    required:
+    - academic_year_name
+    - blocks
+    - groups_per_block
+    - number_of_period
+    - periods
+    - weeks_per_period
+    type: object
   github.com_VinCPR_backend_api.getAcademicCalendarResponse:
     properties:
       academic_calendar_events:
@@ -388,6 +477,15 @@ definitions:
         type: string
       group_name:
         type: string
+    type: object
+  github.com_VinCPR_backend_api.hospitalInfoRequest:
+    properties:
+      hospital_name:
+        type: string
+      services:
+        items:
+          $ref: '#/definitions/github.com_VinCPR_backend_api.serviceInfoRequest'
+        type: array
     type: object
   github.com_VinCPR_backend_api.hospitalResponse:
     properties:
@@ -427,6 +525,16 @@ definitions:
       user:
         $ref: '#/definitions/github.com_VinCPR_backend_api.userResponse'
     type: object
+  github.com_VinCPR_backend_api.periodInfoRequest:
+    properties:
+      period_name:
+        type: string
+      start_date:
+        type: string
+    required:
+    - period_name
+    - start_date
+    type: object
   github.com_VinCPR_backend_api.periodResponse:
     properties:
       academic_year_id:
@@ -440,6 +548,18 @@ definitions:
       start_date:
         type: string
     type: object
+  github.com_VinCPR_backend_api.resetRotationRequest:
+    properties:
+      academic_year_name:
+        type: string
+    type: object
+  github.com_VinCPR_backend_api.serviceInfoRequest:
+    properties:
+      duration_in_week:
+        type: integer
+      service_name:
+        type: string
+    type: object
   github.com_VinCPR_backend_api.serviceResponse:
     properties:
       created_at:
@@ -451,6 +571,24 @@ definitions:
       name:
         type: string
       specialty:
+        type: string
+    type: object
+  github.com_VinCPR_backend_api.serviceToAttendingResponse:
+    properties:
+      attending_id:
+        type: integer
+      created_at:
+        type: string
+      service_id:
+        type: integer
+    type: object
+  github.com_VinCPR_backend_api.specialtyInfoRequest:
+    properties:
+      hospitals:
+        items:
+          $ref: '#/definitions/github.com_VinCPR_backend_api.hospitalInfoRequest'
+        type: array
+      specialty_name:
         type: string
     type: object
   github.com_VinCPR_backend_api.specialtyResponse:
@@ -594,7 +732,7 @@ paths:
             $ref: '#/definitions/github.com_VinCPR_backend_api.attendingResponse'
       summary: create new Attending
       tags:
-      - Attending
+      - Attendings
   /attending/list:
     get:
       consumes:
@@ -794,7 +932,7 @@ paths:
             $ref: '#/definitions/github.com_VinCPR_backend_api.hospitalResponse'
       summary: create new hospital
       tags:
-      - Hospital
+      - Hospitals
   /hospital/list:
     get:
       consumes:
@@ -846,6 +984,124 @@ paths:
       summary: list periods in that academic year
       tags:
       - Periods
+  /rotation/attending:
+    get:
+      consumes:
+      - application/json
+      description: list calendar events for an attending in an academic year
+      parameters:
+      - description: academic year name
+        in: query
+        name: academicYearName
+        required: true
+        type: string
+      - description: attending ID
+        in: query
+        name: attendingID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            items:
+              $ref: '#/definitions/github.com_VinCPR_backend_api.clinicalRotationEventResponse'
+            type: array
+      summary: list calendar events for an attending in an academic year
+      tags:
+      - ClinicalRotation
+  /rotation/design:
+    post:
+      consumes:
+      - application/json
+      description: provide templates of each period to auto generate calendar for
+        all students
+      parameters:
+      - description: 'input required: academic year name, templates for each period'
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/github.com_VinCPR_backend_api.designRotationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+      summary: design clinical rotation
+      tags:
+      - ClinicalRotation
+  /rotation/detail:
+    get:
+      consumes:
+      - application/json
+      description: provide students and attending info and the clinical info
+      parameters:
+      - description: clinical rotation event ID
+        in: query
+        name: eventID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/github.com_VinCPR_backend_api.clinicalRotationEventDetailResponse'
+      summary: provide detail of a clinical rotation event
+      tags:
+      - ClinicalRotation
+  /rotation/reset:
+    post:
+      consumes:
+      - application/json
+      description: reset all rotation events of an academic year
+      parameters:
+      - description: 'input required: academic year name'
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/github.com_VinCPR_backend_api.resetRotationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+      summary: reset clinical rotation
+      tags:
+      - ClinicalRotation
+  /rotation/student:
+    get:
+      consumes:
+      - application/json
+      description: list calendar events for a student in an academic year
+      parameters:
+      - description: academic year name
+        in: query
+        name: academicYearName
+        required: true
+        type: string
+      - description: student ID
+        in: query
+        name: studentID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            items:
+              $ref: '#/definitions/github.com_VinCPR_backend_api.clinicalRotationEventResponse'
+            type: array
+      summary: list calendar events for a student in an academic year
+      tags:
+      - ClinicalRotation
   /service:
     post:
       consumes:
@@ -867,7 +1123,7 @@ paths:
             $ref: '#/definitions/github.com_VinCPR_backend_api.serviceResponse'
       summary: create new service
       tags:
-      - Service
+      - Services
   /service/list/hospital:
     get:
       consumes:
@@ -970,10 +1226,94 @@ paths:
         "200":
           description: ok
           schema:
-            $ref: '#/definitions/github.com_VinCPR_backend_api.ServiceToAttendingResponse'
+            $ref: '#/definitions/github.com_VinCPR_backend_api.serviceToAttendingResponse'
       summary: create new service to attending
       tags:
       - ServiceToAttending
+  /service_to_attending/list/all:
+    get:
+      consumes:
+      - application/json
+      description: list created services to attendings
+      parameters:
+      - description: page number
+        in: query
+        name: pageNumber
+        required: true
+        type: string
+      - description: page size
+        in: query
+        name: pageSize
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            items:
+              $ref: '#/definitions/github.com_VinCPR_backend_api.serviceToAttendingResponse'
+            type: array
+      summary: list created services to attendings
+      tags:
+      - ServicesToAttendings
+  /service_to_attending/list/attending_id:
+    get:
+      consumes:
+      - application/json
+      description: list created services to attendings
+      parameters:
+      - description: page number
+        in: query
+        name: pageNumber
+        required: true
+        type: string
+      - description: page size
+        in: query
+        name: pageSize
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            items:
+              $ref: '#/definitions/github.com_VinCPR_backend_api.serviceToAttendingResponse'
+            type: array
+      summary: list created services to attendings
+      tags:
+      - ServicesToAttendings
+  /service_to_attending/list/service_id:
+    get:
+      consumes:
+      - application/json
+      description: list created services to attendings
+      parameters:
+      - description: page number
+        in: query
+        name: pageNumber
+        required: true
+        type: string
+      - description: page size
+        in: query
+        name: pageSize
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            items:
+              $ref: '#/definitions/github.com_VinCPR_backend_api.serviceToAttendingResponse'
+            type: array
+      summary: list created services to attendings
+      tags:
+      - ServicesToAttendings
   /specialty:
     post:
       consumes:
@@ -995,7 +1335,7 @@ paths:
             $ref: '#/definitions/github.com_VinCPR_backend_api.specialtyResponse'
       summary: create new specialty
       tags:
-      - Specialty
+      - Specialties
   /specialty/list:
     get:
       consumes:
@@ -1046,7 +1386,7 @@ paths:
             $ref: '#/definitions/github.com_VinCPR_backend_api.studentResponse'
       summary: create new student
       tags:
-      - Student
+      - Students
   /student/list/name:
     get:
       consumes:

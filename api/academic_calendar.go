@@ -145,11 +145,13 @@ func (server *Server) getAcademicCalendar(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	academicCalendarEvents, err := server.store.ListEventsByAcademicYearID(ctx, academicYear.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 	eventResponse := make([]academicCalendarEventResponse, 0)
 	for _, event := range academicCalendarEvents {

@@ -44,3 +44,39 @@ func (r iteratorForCreateEvents) Err() error {
 func (q *Queries) CreateEvents(ctx context.Context, arg []CreateEventsParams) (int64, error) {
 	return q.db.CopyFrom(ctx, []string{"academic_calendar_event"}, []string{"academic_year_id", "name", "type", "start_date", "end_date"}, &iteratorForCreateEvents{rows: arg})
 }
+
+// iteratorForCreateRotationEvents implements pgx.CopyFromSource.
+type iteratorForCreateRotationEvents struct {
+	rows                 []CreateRotationEventsParams
+	skippedFirstNextCall bool
+}
+
+func (r *iteratorForCreateRotationEvents) Next() bool {
+	if len(r.rows) == 0 {
+		return false
+	}
+	if !r.skippedFirstNextCall {
+		r.skippedFirstNextCall = true
+		return true
+	}
+	r.rows = r.rows[1:]
+	return len(r.rows) > 0
+}
+
+func (r iteratorForCreateRotationEvents) Values() ([]interface{}, error) {
+	return []interface{}{
+		r.rows[0].AcademicYearID,
+		r.rows[0].GroupID,
+		r.rows[0].ServiceID,
+		r.rows[0].StartDate,
+		r.rows[0].EndDate,
+	}, nil
+}
+
+func (r iteratorForCreateRotationEvents) Err() error {
+	return nil
+}
+
+func (q *Queries) CreateRotationEvents(ctx context.Context, arg []CreateRotationEventsParams) (int64, error) {
+	return q.db.CopyFrom(ctx, []string{"clinical_rotation_event"}, []string{"academic_year_id", "group_id", "service_id", "start_date", "end_date"}, &iteratorForCreateRotationEvents{rows: arg})
+}

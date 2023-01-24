@@ -38,6 +38,15 @@ func (q *Queries) CreateGroupToBlock(ctx context.Context, arg CreateGroupToBlock
 	return i, err
 }
 
+const deleteGroupToBlocksByAcademicYear = `-- name: DeleteGroupToBlocksByAcademicYear :exec
+DELETE FROM "group_to_block" WHERE "academic_year_id" = $1
+`
+
+func (q *Queries) DeleteGroupToBlocksByAcademicYear(ctx context.Context, academicYearID int64) error {
+	_, err := q.db.Exec(ctx, deleteGroupToBlocksByAcademicYear, academicYearID)
+	return err
+}
+
 const getGroupToBlockByAcademicYearID = `-- name: GetGroupToBlockByAcademicYearID :many
 SELECT id, academic_year_id, group_id, block_id, created_at FROM "group_to_block"
 WHERE academic_year_id = $1

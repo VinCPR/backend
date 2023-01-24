@@ -13,10 +13,11 @@ import (
 
 func createRandomAttending(t *testing.T, user User) Attending {
 	arg := CreateAttendingParams{
-		UserID:    user.ID,
-		FirstName: util.RandomName(),
-		LastName:  util.RandomName(),
-		Mobile:    util.RandomMobile(),
+		UserID:      user.ID,
+		AttendingID: util.RandomStudentID(),
+		FirstName:   util.RandomName(),
+		LastName:    util.RandomName(),
+		Mobile:      util.RandomMobile(),
 	}
 
 	attending, err := testQueries.CreateAttending(context.Background(), arg)

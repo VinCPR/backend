@@ -33,7 +33,7 @@ type studentResponse struct {
 // createStudent
 // @Summary create new student
 // @Description create new student
-// @Tags Student
+// @Tags Students
 // @Accept	json
 // @Produce  json
 // @Param body body createStudentRequest true "input required: student user_id, student_id, firstname, lastname, mobile"
@@ -159,9 +159,9 @@ func (server *Server) listStudentsByStudentID(ctx *gin.Context) {
 		return
 	}
 
-	StudentsResponse := make([]studentResponse, 0)
+	studentsResponse := make([]studentResponse, 0)
 	for _, student := range students {
-		StudentsResponse = append(StudentsResponse, studentResponse{
+		studentsResponse = append(studentsResponse, studentResponse{
 			UserID:    student.UserID,
 			StudentID: student.StudentID,
 			FirstName: student.FirstName,
@@ -170,5 +170,5 @@ func (server *Server) listStudentsByStudentID(ctx *gin.Context) {
 			CreatedAt: student.CreatedAt,
 		})
 	}
-	ctx.JSON(http.StatusOK, StudentsResponse)
+	ctx.JSON(http.StatusOK, studentsResponse)
 }

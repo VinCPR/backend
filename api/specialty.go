@@ -27,7 +27,7 @@ type specialtyResponse struct {
 // createSpecialty
 // @Summary create new specialty
 // @Description create new specialty
-// @Tags Specialty
+// @Tags Specialties
 // @Accept	json
 // @Produce  json
 // @Param body body createSpecialtyRequest true "input required: specialty name, description, address"

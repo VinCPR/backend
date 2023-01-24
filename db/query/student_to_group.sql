@@ -18,3 +18,7 @@ WHERE student_id = $1;
 -- name: GetStudentToGroupByGroupID :many
 SELECT * FROM "student_to_group"
 WHERE group_id = $1;
+
+-- name: GetStudentToGroupByAcademicYearIDAndStudentID :many
+SELECT * FROM "student_to_group"
+WHERE academic_year_id = $1 AND student_id = $2;

@@ -50,6 +50,7 @@ func (server *Server) createGroupToBlock(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	period, err := server.store.GetPeriodByIndex(ctx, db.GetPeriodByIndexParams{
@@ -62,6 +63,7 @@ func (server *Server) createGroupToBlock(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	block, err := server.store.GetBlockByIndex(ctx, db.GetBlockByIndexParams{
@@ -75,6 +77,7 @@ func (server *Server) createGroupToBlock(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	group, err := server.store.GetGroupByIndex(ctx, db.GetGroupByIndexParams{
@@ -87,6 +90,7 @@ func (server *Server) createGroupToBlock(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	_, err = server.store.CreateGroupToBlock(ctx, db.CreateGroupToBlockParams{
@@ -126,11 +130,13 @@ func (server *Server) listGroupToBlockByAcademicYear(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	groupToBlocks, err := server.store.GetGroupToBlockByAcademicYearID(ctx, academicYear.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	groupToBlocksResponse := make([]groupToBlockResponse, 0)
@@ -165,6 +171,7 @@ func (server *Server) listGroupToBlockByGroupName(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	groupName := ctx.Query("groupName")
@@ -178,11 +185,13 @@ func (server *Server) listGroupToBlockByGroupName(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	groupToBlocks, err := server.store.GetGroupToBlockByGroupID(ctx, group.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	groupToBlocksResponse := make([]groupToBlockResponse, 0)
@@ -218,6 +227,7 @@ func (server *Server) listGroupToBlockByBlockName(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	periodName := ctx.Query("periodName")
@@ -231,6 +241,7 @@ func (server *Server) listGroupToBlockByBlockName(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	blockName := ctx.Query("blockName")
@@ -245,11 +256,13 @@ func (server *Server) listGroupToBlockByBlockName(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	groupToBlocks, err := server.store.GetGroupToBlockByBlockID(ctx, block.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	groupToBlocksResponse := make([]groupToBlockResponse, 0)

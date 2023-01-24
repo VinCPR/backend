@@ -14,24 +14,26 @@ import (
 )
 
 type createAttendingRequest struct {
-	UserID    int64  `json:"user_id" binding:"required"`
-	FirstName string `json:"firstname" binding:"required"`
-	LastName  string `json:"lastname" binding:"required"`
-	Mobile    string `json:"mobile" binding:"required"`
+	UserID      int64  `json:"user_id" binding:"required"`
+	AttendingID string `json:"attending_id" binding:"required"`
+	FirstName   string `json:"firstname" binding:"required"`
+	LastName    string `json:"lastname" binding:"required"`
+	Mobile      string `json:"mobile" binding:"required"`
 }
 
 type attendingResponse struct {
-	UserID    int64     `json:"user_id"`
-	FirstName string    `json:"first_name"`
-	LastName  string    `json:"last_name"`
-	Mobile    string    `json:"mobile"`
-	CreatedAt time.Time `json:"created_at"`
+	UserID      int64     `json:"user_id"`
+	AttendingID string    `json:"attending_id"`
+	FirstName   string    `json:"first_name"`
+	LastName    string    `json:"last_name"`
+	Mobile      string    `json:"mobile"`
+	CreatedAt   time.Time `json:"created_at"`
 }
 
 // createAttending
 // @Summary create new Attending
 // @Description create new Attending
-// @Tags Attending
+// @Tags Attendings
 // @Accept	json
 // @Produce  json
 // @Param body body createAttendingRequest true "input required: attending user_id, firstname, lastname, mobile"
@@ -44,10 +46,11 @@ func (server *Server) createAttending(ctx *gin.Context) {
 		return
 	}
 	attending, err := server.store.CreateAttending(ctx, db.CreateAttendingParams{
-		UserID:    req.UserID,
-		FirstName: req.FirstName,
-		LastName:  req.LastName,
-		Mobile:    req.Mobile,
+		UserID:      req.UserID,
+		AttendingID: req.AttendingID,
+		FirstName:   req.FirstName,
+		LastName:    req.LastName,
+		Mobile:      req.Mobile,
 	})
 	if err != nil {
 		var pgErr *pgconn.PgError
@@ -59,11 +62,12 @@ func (server *Server) createAttending(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, attendingResponse{
-		UserID:    attending.UserID,
-		FirstName: attending.FirstName,
-		LastName:  attending.LastName,
-		Mobile:    attending.Mobile,
-		CreatedAt: attending.CreatedAt,
+		UserID:      attending.UserID,
+		AttendingID: attending.AttendingID,
+		FirstName:   attending.FirstName,
+		LastName:    attending.LastName,
+		Mobile:      attending.Mobile,
+		CreatedAt:   attending.CreatedAt,
 	})
 }
 
@@ -107,11 +111,12 @@ func (server *Server) listAttendingsByName(ctx *gin.Context) {
 	AttendingsResponse := make([]attendingResponse, 0)
 	for _, attending := range attendings {
 		AttendingsResponse = append(AttendingsResponse, attendingResponse{
-			UserID:    attending.UserID,
-			FirstName: attending.FirstName,
-			LastName:  attending.LastName,
-			Mobile:    attending.Mobile,
-			CreatedAt: attending.CreatedAt,
+			UserID:      attending.UserID,
+			AttendingID: attending.AttendingID,
+			FirstName:   attending.FirstName,
+			LastName:    attending.LastName,
+			Mobile:      attending.Mobile,
+			CreatedAt:   attending.CreatedAt,
 		})
 	}
 	ctx.JSON(http.StatusOK, AttendingsResponse)

@@ -50,6 +50,7 @@ func (server *Server) createStudentToGroup(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	student, err := server.store.GetStudentByStudentId(ctx, req.StudentID)
@@ -59,6 +60,7 @@ func (server *Server) createStudentToGroup(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	group, err := server.store.GetGroupByIndex(ctx, db.GetGroupByIndexParams{
@@ -71,6 +73,7 @@ func (server *Server) createStudentToGroup(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	studentToGroup, err := server.store.CreateStudentToGroup(ctx, db.CreateStudentToGroupParams{
@@ -111,11 +114,13 @@ func (server *Server) listStudentToGroupByAcademicYear(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	studentToGroups, err := server.store.GetStudentToGroupByAcademicYearID(ctx, academicYear.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	studentToGroupsResponse := make([]studentToGroupResponse, 0)
@@ -126,10 +131,12 @@ func (server *Server) listStudentToGroupByAcademicYear(ctx *gin.Context) {
 		student, err = server.store.GetStudentByID(ctx, studentToGroup.StudentID)
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return
 		}
 		group, err = server.store.GetGroupByID(ctx, studentToGroup.GroupID)
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return
 		}
 		studentToGroupsResponse = append(studentToGroupsResponse, studentToGroupResponse{
 			AcademicYearName: academicYearName,
@@ -160,6 +167,7 @@ func (server *Server) listStudentToGroupByGroupID(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	groupName := ctx.Query("groupName")
@@ -173,11 +181,13 @@ func (server *Server) listStudentToGroupByGroupID(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	studentToGroups, err := server.store.GetStudentToGroupByGroupID(ctx, group.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	studentToGroupsResponse := make([]studentToGroupResponse, 0)
@@ -186,6 +196,7 @@ func (server *Server) listStudentToGroupByGroupID(ctx *gin.Context) {
 		student, err = server.store.GetStudentByID(ctx, studentToGroup.StudentID)
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return
 		}
 
 		studentToGroupsResponse = append(studentToGroupsResponse, studentToGroupResponse{
@@ -217,11 +228,13 @@ func (server *Server) listStudentToGroupByStudentID(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	studentToGroups, err := server.store.GetStudentToGroupByStudentID(ctx, student.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	studentToGroupsResponse := make([]studentToGroupResponse, 0)
@@ -232,10 +245,12 @@ func (server *Server) listStudentToGroupByStudentID(ctx *gin.Context) {
 		academicYear, err = server.store.GetAcademicYearByID(ctx, studentToGroup.AcademicYearID)
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return
 		}
 		group, err = server.store.GetGroupByID(ctx, studentToGroup.GroupID)
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return
 		}
 
 		studentToGroupsResponse = append(studentToGroupsResponse, studentToGroupResponse{

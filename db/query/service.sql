@@ -7,11 +7,19 @@ INSERT INTO "service" (
 ) VALUES (
    $1 , $2 , $3, $4
 ) RETURNING *;
- 
+
+-- name: GetServiceByID :one
+SELECT * FROM "service"
+WHERE "id" = $1 LIMIT 1;
+
 -- name: GetServiceByName :one
 SELECT * FROM "service"
 WHERE name = $1 LIMIT 1;
- 
+
+ -- name: GetServiceByIndex :one
+ SELECT * FROM "service"
+ WHERE specialty_id = $1 AND hospital_id = $2 AND name = $3 LIMIT 1;
+
 -- name: ListServicesBySpecialtyID :many
 SELECT * FROM "service"
 ORDER BY "specialty_id"

@@ -21,3 +21,6 @@ SELECT * FROM "block"
 WHERE "academic_year_id" = $1
 ORDER BY "period";
 
+-- name: DeleteBlocksByAcademicYear :exec
+DELETE FROM "block" WHERE "academic_year_id" = $1;
+

@@ -47,6 +47,15 @@ func (q *Queries) CreatePeriod(ctx context.Context, arg CreatePeriodParams) (Per
 	return i, err
 }
 
+const deletePeriodsByAcademicYear = `-- name: DeletePeriodsByAcademicYear :exec
+DELETE FROM "period" WHERE "academic_year_id" = $1
+`
+
+func (q *Queries) DeletePeriodsByAcademicYear(ctx context.Context, academicYearID int64) error {
+	_, err := q.db.Exec(ctx, deletePeriodsByAcademicYear, academicYearID)
+	return err
+}
+
 const getPeriodByID = `-- name: GetPeriodByID :one
 SELECT id, academic_year_id, name, start_date, end_date, created_at FROM "period"
 WHERE "id" = $1 LIMIT 1

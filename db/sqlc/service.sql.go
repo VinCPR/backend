@@ -46,6 +46,50 @@ func (q *Queries) CreateService(ctx context.Context, arg CreateServiceParams) (S
 	return i, err
 }
 
+const getServiceByID = `-- name: GetServiceByID :one
+SELECT id, specialty_id, hospital_id, name, description, created_at FROM "service"
+WHERE "id" = $1 LIMIT 1
+`
+
+func (q *Queries) GetServiceByID(ctx context.Context, id int64) (Service, error) {
+	row := q.db.QueryRow(ctx, getServiceByID, id)
+	var i Service
+	err := row.Scan(
+		&i.ID,
+		&i.SpecialtyID,
+		&i.HospitalID,
+		&i.Name,
+		&i.Description,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
+const getServiceByIndex = `-- name: GetServiceByIndex :one
+ SELECT id, specialty_id, hospital_id, name, description, created_at FROM "service"
+ WHERE specialty_id = $1 AND hospital_id = $2 AND name = $3 LIMIT 1
+`
+
+type GetServiceByIndexParams struct {
+	SpecialtyID int64  `json:"specialty_id"`
+	HospitalID  int64  `json:"hospital_id"`
+	Name        string `json:"name"`
+}
+
+func (q *Queries) GetServiceByIndex(ctx context.Context, arg GetServiceByIndexParams) (Service, error) {
+	row := q.db.QueryRow(ctx, getServiceByIndex, arg.SpecialtyID, arg.HospitalID, arg.Name)
+	var i Service
+	err := row.Scan(
+		&i.ID,
+		&i.SpecialtyID,
+		&i.HospitalID,
+		&i.Name,
+		&i.Description,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const getServiceByName = `-- name: GetServiceByName :one
 SELECT id, specialty_id, hospital_id, name, description, created_at FROM "service"
 WHERE name = $1 LIMIT 1

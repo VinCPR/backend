@@ -33,11 +33,13 @@ func (server *Server) listGroupsByAcademicYear(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	groups, err := server.store.ListGroupsByName(ctx, academicYear.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
 	}
 
 	groupsResponse := make([]groupResponse, 0)

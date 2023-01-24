@@ -38,6 +38,15 @@ func (q *Queries) CreateBlock(ctx context.Context, arg CreateBlockParams) (Block
 	return i, err
 }
 
+const deleteBlocksByAcademicYear = `-- name: DeleteBlocksByAcademicYear :exec
+DELETE FROM "block" WHERE "academic_year_id" = $1
+`
+
+func (q *Queries) DeleteBlocksByAcademicYear(ctx context.Context, academicYearID int64) error {
+	_, err := q.db.Exec(ctx, deleteBlocksByAcademicYear, academicYearID)
+	return err
+}
+
 const getBlockByID = `-- name: GetBlockByID :one
 SELECT id, academic_year_id, name, period, created_at FROM "block"
 WHERE "id" = $1 LIMIT 1
