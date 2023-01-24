@@ -19,6 +19,7 @@ CREATE TABLE "student" (
 CREATE TABLE "attending" (
   "id" bigserial PRIMARY KEY,
   "user_id" bigserial NOT NULL,
+  "attending_id" varchar(20) NOT NULL,
   "first_name" varchar(50) NOT NULL,
   "last_name" varchar(50) NOT NULL,
   "mobile" varchar(20) NOT NULL,
@@ -131,6 +132,8 @@ CREATE UNIQUE INDEX ON "student" ("user_id");
 CREATE UNIQUE INDEX ON "student" ("student_id");
 
 CREATE UNIQUE INDEX ON "attending" ("user_id");
+
+CREATE UNIQUE INDEX ON "attending" ("attending_id");
 
 CREATE INDEX ON "specialty" ("name");
 

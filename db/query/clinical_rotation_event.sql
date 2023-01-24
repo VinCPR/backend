@@ -5,6 +5,10 @@ INSERT INTO "clinical_rotation_event" (
     $1, $2, $3, $4, $5
 ) RETURNING *;
 
+-- name: GetRotationEventByID :one
+SELECT * FROM "clinical_rotation_event"
+WHERE id = $1 LIMIT 1;
+
 -- name: CreateRotationEvents :copyfrom
 INSERT INTO "clinical_rotation_event" (
     "academic_year_id", "group_id", "service_id", "start_date", "end_date"

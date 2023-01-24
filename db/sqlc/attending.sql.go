@@ -12,24 +12,27 @@ import (
 const createAttending = `-- name: CreateAttending :one
 INSERT INTO "attending" (
     user_id,
+    attending_id,
     first_name ,
     last_name,
     mobile
 ) VALUES (
-    $1 , $2 , $3, $4 
-) RETURNING id, user_id, first_name, last_name, mobile, created_at
+    $1 , $2 , $3, $4 , $5
+) RETURNING id, user_id, attending_id, first_name, last_name, mobile, created_at
 `
 
 type CreateAttendingParams struct {
-	UserID    int64  `json:"user_id"`
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	Mobile    string `json:"mobile"`
+	UserID      int64  `json:"user_id"`
+	AttendingID string `json:"attending_id"`
+	FirstName   string `json:"first_name"`
+	LastName    string `json:"last_name"`
+	Mobile      string `json:"mobile"`
 }
 
 func (q *Queries) CreateAttending(ctx context.Context, arg CreateAttendingParams) (Attending, error) {
 	row := q.db.QueryRow(ctx, createAttending,
 		arg.UserID,
+		arg.AttendingID,
 		arg.FirstName,
 		arg.LastName,
 		arg.Mobile,
@@ -38,6 +41,47 @@ func (q *Queries) CreateAttending(ctx context.Context, arg CreateAttendingParams
 	err := row.Scan(
 		&i.ID,
 		&i.UserID,
+		&i.AttendingID,
+		&i.FirstName,
+		&i.LastName,
+		&i.Mobile,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
+const getAttendingByAttendingId = `-- name: GetAttendingByAttendingId :one
+SELECT id, user_id, attending_id, first_name, last_name, mobile, created_at FROM "attending"
+WHERE attending_id = $1 LIMIT 1
+`
+
+func (q *Queries) GetAttendingByAttendingId(ctx context.Context, attendingID string) (Attending, error) {
+	row := q.db.QueryRow(ctx, getAttendingByAttendingId, attendingID)
+	var i Attending
+	err := row.Scan(
+		&i.ID,
+		&i.UserID,
+		&i.AttendingID,
+		&i.FirstName,
+		&i.LastName,
+		&i.Mobile,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
+const getAttendingByID = `-- name: GetAttendingByID :one
+SELECT id, user_id, attending_id, first_name, last_name, mobile, created_at FROM "attending"
+WHERE "id" = $1 LIMIT 1
+`
+
+func (q *Queries) GetAttendingByID(ctx context.Context, id int64) (Attending, error) {
+	row := q.db.QueryRow(ctx, getAttendingByID, id)
+	var i Attending
+	err := row.Scan(
+		&i.ID,
+		&i.UserID,
+		&i.AttendingID,
 		&i.FirstName,
 		&i.LastName,
 		&i.Mobile,
@@ -47,7 +91,7 @@ func (q *Queries) CreateAttending(ctx context.Context, arg CreateAttendingParams
 }
 
 const getAttendingByUserId = `-- name: GetAttendingByUserId :one
-SELECT id, user_id, first_name, last_name, mobile, created_at FROM "attending"
+SELECT id, user_id, attending_id, first_name, last_name, mobile, created_at FROM "attending"
 WHERE user_id = $1 LIMIT 1
 `
 
@@ -57,6 +101,7 @@ func (q *Queries) GetAttendingByUserId(ctx context.Context, userID int64) (Atten
 	err := row.Scan(
 		&i.ID,
 		&i.UserID,
+		&i.AttendingID,
 		&i.FirstName,
 		&i.LastName,
 		&i.Mobile,
@@ -66,7 +111,7 @@ func (q *Queries) GetAttendingByUserId(ctx context.Context, userID int64) (Atten
 }
 
 const listAttendingsByName = `-- name: ListAttendingsByName :many
-SELECT id, user_id, first_name, last_name, mobile, created_at FROM "attending"
+SELECT id, user_id, attending_id, first_name, last_name, mobile, created_at FROM "attending"
 ORDER BY first_name, last_name
 LIMIT $1
 OFFSET $2
@@ -89,6 +134,7 @@ func (q *Queries) ListAttendingsByName(ctx context.Context, arg ListAttendingsBy
 		if err := rows.Scan(
 			&i.ID,
 			&i.UserID,
+			&i.AttendingID,
 			&i.FirstName,
 			&i.LastName,
 			&i.Mobile,

@@ -64,6 +64,26 @@ func (q *Queries) DeleteRotationEventsByAcademicYear(ctx context.Context, academ
 	return err
 }
 
+const getRotationEventByID = `-- name: GetRotationEventByID :one
+SELECT id, academic_year_id, group_id, service_id, start_date, end_date, created_at FROM "clinical_rotation_event"
+WHERE id = $1 LIMIT 1
+`
+
+func (q *Queries) GetRotationEventByID(ctx context.Context, id int64) (ClinicalRotationEvent, error) {
+	row := q.db.QueryRow(ctx, getRotationEventByID, id)
+	var i ClinicalRotationEvent
+	err := row.Scan(
+		&i.ID,
+		&i.AcademicYearID,
+		&i.GroupID,
+		&i.ServiceID,
+		&i.StartDate,
+		&i.EndDate,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const listRotationEventsByAcademicYearID = `-- name: ListRotationEventsByAcademicYearID :many
 SELECT id, academic_year_id, group_id, service_id, start_date, end_date, created_at FROM "clinical_rotation_event"
 WHERE "academic_year_id" = $1
