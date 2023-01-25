@@ -36,7 +36,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createAcademicYearRequest"
+                            "$ref": "#/definitions/api.createAcademicYearRequest"
                         }
                     }
                 ],
@@ -44,7 +44,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.academicYearResponse"
+                            "$ref": "#/definitions/api.academicYearResponse"
                         }
                     }
                 }
@@ -78,7 +78,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.getAcademicCalendarResponse"
+                                "$ref": "#/definitions/api.getAcademicCalendarResponse"
                             }
                         }
                     }
@@ -120,7 +120,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.academicYearResponse"
+                                "$ref": "#/definitions/api.academicYearResponse"
                             }
                         }
                     }
@@ -147,7 +147,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createAttendingRequest"
+                            "$ref": "#/definitions/api.createAttendingRequest"
                         }
                     }
                 ],
@@ -155,7 +155,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.attendingResponse"
+                            "$ref": "#/definitions/api.attendingResponse"
                         }
                     }
                 }
@@ -196,7 +196,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.attendingResponse"
+                                "$ref": "#/definitions/api.attendingResponse"
                             }
                         }
                     }
@@ -231,7 +231,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.blockResponse"
+                                "$ref": "#/definitions/api.blockResponse"
                             }
                         }
                     }
@@ -266,7 +266,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.groupResponse"
+                                "$ref": "#/definitions/api.groupResponse"
                             }
                         }
                     }
@@ -293,7 +293,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createGroupToBlockRequest"
+                            "$ref": "#/definitions/api.createGroupToBlockRequest"
                         }
                     }
                 ],
@@ -332,7 +332,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.groupToBlockResponse"
+                                "$ref": "#/definitions/api.groupToBlockResponse"
                             }
                         }
                     }
@@ -381,7 +381,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.groupToBlockResponse"
+                                "$ref": "#/definitions/api.groupToBlockResponse"
                             }
                         }
                     }
@@ -423,7 +423,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.groupToBlockResponse"
+                                "$ref": "#/definitions/api.groupToBlockResponse"
                             }
                         }
                     }
@@ -450,7 +450,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createHospitalRequest"
+                            "$ref": "#/definitions/api.createHospitalRequest"
                         }
                     }
                 ],
@@ -458,7 +458,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.hospitalResponse"
+                            "$ref": "#/definitions/api.hospitalResponse"
                         }
                     }
                 }
@@ -499,7 +499,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.hospitalResponse"
+                                "$ref": "#/definitions/api.hospitalResponse"
                             }
                         }
                     }
@@ -534,7 +534,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.periodResponse"
+                                "$ref": "#/definitions/api.periodResponse"
                             }
                         }
                     }
@@ -576,7 +576,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.clinicalRotationEventResponse"
+                                "$ref": "#/definitions/api.clinicalRotationEventResponse"
                             }
                         }
                     }
@@ -603,7 +603,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.designRotationRequest"
+                            "$ref": "#/definitions/api.designRotationRequest"
                         }
                     }
                 ],
@@ -640,7 +640,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.clinicalRotationEventDetailResponse"
+                            "$ref": "#/definitions/api.clinicalRotationEventDetailResponse"
                         }
                     }
                 }
@@ -666,7 +666,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.resetRotationRequest"
+                            "$ref": "#/definitions/api.resetRotationRequest"
                         }
                     }
                 ],
@@ -712,7 +712,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.clinicalRotationEventResponse"
+                                "$ref": "#/definitions/api.clinicalRotationEventResponse"
                             }
                         }
                     }
@@ -739,7 +739,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createServiceRequest"
+                            "$ref": "#/definitions/api.createServiceRequest"
                         }
                     }
                 ],
@@ -747,7 +747,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.serviceResponse"
+                            "$ref": "#/definitions/api.serviceResponse"
                         }
                     }
                 }
@@ -788,7 +788,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.serviceResponse"
+                                "$ref": "#/definitions/api.serviceResponse"
                             }
                         }
                     }
@@ -830,7 +830,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.serviceResponse"
+                                "$ref": "#/definitions/api.serviceResponse"
                             }
                         }
                     }
@@ -872,7 +872,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.serviceResponse"
+                                "$ref": "#/definitions/api.serviceResponse"
                             }
                         }
                     }
@@ -899,7 +899,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createServiceToAttendingRequest"
+                            "$ref": "#/definitions/api.createServiceToAttendingRequest"
                         }
                     }
                 ],
@@ -907,7 +907,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.serviceToAttendingResponse"
+                            "$ref": "#/definitions/api.serviceToAttendingResponse"
                         }
                     }
                 }
@@ -948,7 +948,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.serviceToAttendingResponse"
+                                "$ref": "#/definitions/api.serviceToAttendingResponse"
                             }
                         }
                     }
@@ -990,7 +990,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.serviceToAttendingResponse"
+                                "$ref": "#/definitions/api.serviceToAttendingResponse"
                             }
                         }
                     }
@@ -1032,7 +1032,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.serviceToAttendingResponse"
+                                "$ref": "#/definitions/api.serviceToAttendingResponse"
                             }
                         }
                     }
@@ -1059,7 +1059,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createSpecialtyRequest"
+                            "$ref": "#/definitions/api.createSpecialtyRequest"
                         }
                     }
                 ],
@@ -1067,7 +1067,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.specialtyResponse"
+                            "$ref": "#/definitions/api.specialtyResponse"
                         }
                     }
                 }
@@ -1108,7 +1108,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.specialtyResponse"
+                                "$ref": "#/definitions/api.specialtyResponse"
                             }
                         }
                     }
@@ -1135,7 +1135,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createStudentRequest"
+                            "$ref": "#/definitions/api.createStudentRequest"
                         }
                     }
                 ],
@@ -1143,7 +1143,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.studentResponse"
+                            "$ref": "#/definitions/api.studentResponse"
                         }
                     }
                 }
@@ -1184,7 +1184,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.studentResponse"
+                                "$ref": "#/definitions/api.studentResponse"
                             }
                         }
                     }
@@ -1226,7 +1226,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.studentResponse"
+                                "$ref": "#/definitions/api.studentResponse"
                             }
                         }
                     }
@@ -1253,7 +1253,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createStudentToGroupRequest"
+                            "$ref": "#/definitions/api.createStudentToGroupRequest"
                         }
                     }
                 ],
@@ -1261,7 +1261,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.studentToGroupResponse"
+                            "$ref": "#/definitions/api.studentToGroupResponse"
                         }
                     }
                 }
@@ -1295,7 +1295,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.studentToGroupResponse"
+                                "$ref": "#/definitions/api.studentToGroupResponse"
                             }
                         }
                     }
@@ -1337,7 +1337,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.studentToGroupResponse"
+                                "$ref": "#/definitions/api.studentToGroupResponse"
                             }
                         }
                     }
@@ -1372,7 +1372,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.studentToGroupResponse"
+                                "$ref": "#/definitions/api.studentToGroupResponse"
                             }
                         }
                     }
@@ -1399,7 +1399,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.createUserRequest"
+                            "$ref": "#/definitions/api.createUserRequest"
                         }
                     }
                 ],
@@ -1407,7 +1407,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.userResponse"
+                            "$ref": "#/definitions/api.userResponse"
                         }
                     }
                 }
@@ -1433,7 +1433,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.loginUserRequest"
+                            "$ref": "#/definitions/api.loginUserRequest"
                         }
                     }
                 ],
@@ -1441,7 +1441,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.loginUserResponse"
+                            "$ref": "#/definitions/api.loginUserResponse"
                         }
                     }
                 }
@@ -1486,6 +1486,49 @@ const docTemplate = `{
                 }
             }
         },
+        "api.attendingResponse": {
+            "type": "object",
+            "required": [
+                "email"
+            ],
+            "properties": {
+                "attending_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "mobile": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.blockInfoRequest": {
+            "type": "object",
+            "properties": {
+                "block_name": {
+                    "type": "string"
+                },
+                "group_calendar": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/definitions/api.specialtyInfoRequest"
+                        }
+                    }
+                }
+            }
+        },
         "api.blockResponse": {
             "type": "object",
             "properties": {
@@ -1500,6 +1543,67 @@ const docTemplate = `{
                 },
                 "period": {
                     "type": "integer"
+                }
+            }
+        },
+        "api.clinicalRotationEventDetailResponse": {
+            "type": "object",
+            "properties": {
+                "attendings": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.attendingResponse"
+                    }
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "group_name": {
+                    "type": "string"
+                },
+                "hospital_name": {
+                    "type": "string"
+                },
+                "service_name": {
+                    "type": "string"
+                },
+                "specialty_name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                },
+                "students": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.studentResponse"
+                    }
+                }
+            }
+        },
+        "api.clinicalRotationEventResponse": {
+            "type": "object",
+            "properties": {
+                "end_date": {
+                    "type": "string"
+                },
+                "event_id": {
+                    "type": "integer"
+                },
+                "group_name": {
+                    "type": "string"
+                },
+                "hospital_name": {
+                    "type": "string"
+                },
+                "service_name": {
+                    "type": "string"
+                },
+                "specialty_name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
                 }
             }
         },
@@ -1518,6 +1622,56 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "start_date": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.createAttendingRequest": {
+            "type": "object",
+            "required": [
+                "attending_id",
+                "email",
+                "firstname",
+                "lastname",
+                "mobile",
+                "password"
+            ],
+            "properties": {
+                "attending_id": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "mobile": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 8
+                }
+            }
+        },
+        "api.createGroupToBlockRequest": {
+            "type": "object",
+            "properties": {
+                "academic_year_name": {
+                    "type": "string"
+                },
+                "block_name": {
+                    "type": "string"
+                },
+                "group_name": {
+                    "type": "string"
+                },
+                "period_name": {
                     "type": "string"
                 }
             }
@@ -1541,6 +1695,44 @@ const docTemplate = `{
                 }
             }
         },
+        "api.createServiceRequest": {
+            "type": "object",
+            "required": [
+                "description",
+                "hospital",
+                "name",
+                "specialty"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "hospital": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "specialty": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.createServiceToAttendingRequest": {
+            "type": "object",
+            "required": [
+                "attending_id",
+                "service_id"
+            ],
+            "properties": {
+                "attending_id": {
+                    "type": "integer"
+                },
+                "service_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "api.createSpecialtyRequest": {
             "type": "object",
             "required": [
@@ -1559,13 +1751,17 @@ const docTemplate = `{
         "api.createStudentRequest": {
             "type": "object",
             "required": [
+                "email",
                 "firstname",
                 "lastname",
                 "mobile",
-                "student_id",
-                "user_id"
+                "password",
+                "student_id"
             ],
             "properties": {
+                "email": {
+                    "type": "string"
+                },
                 "firstname": {
                     "type": "string"
                 },
@@ -1575,11 +1771,27 @@ const docTemplate = `{
                 "mobile": {
                     "type": "string"
                 },
+                "password": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 8
+                },
                 "student_id": {
                     "type": "string"
+                }
+            }
+        },
+        "api.createStudentToGroupRequest": {
+            "type": "object",
+            "properties": {
+                "academic_year_name": {
+                    "type": "string"
                 },
-                "user_id": {
-                    "type": "integer"
+                "group_name": {
+                    "type": "string"
+                },
+                "student_id": {
+                    "type": "string"
                 }
             }
         },
@@ -1604,6 +1816,43 @@ const docTemplate = `{
                 }
             }
         },
+        "api.designRotationRequest": {
+            "type": "object",
+            "required": [
+                "academic_year_name",
+                "blocks",
+                "groups_per_block",
+                "number_of_period",
+                "periods",
+                "weeks_per_period"
+            ],
+            "properties": {
+                "academic_year_name": {
+                    "type": "string"
+                },
+                "blocks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.blockInfoRequest"
+                    }
+                },
+                "groups_per_block": {
+                    "type": "integer"
+                },
+                "number_of_period": {
+                    "type": "integer"
+                },
+                "periods": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.periodInfoRequest"
+                    }
+                },
+                "weeks_per_period": {
+                    "type": "integer"
+                }
+            }
+        },
         "api.getAcademicCalendarResponse": {
             "type": "object",
             "properties": {
@@ -1615,6 +1864,51 @@ const docTemplate = `{
                 },
                 "academic_year": {
                     "$ref": "#/definitions/api.academicYearResponse"
+                }
+            }
+        },
+        "api.groupResponse": {
+            "type": "object",
+            "properties": {
+                "academic_year_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.groupToBlockResponse": {
+            "type": "object",
+            "properties": {
+                "academic_year_name": {
+                    "type": "string"
+                },
+                "block_name": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "group_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.hospitalInfoRequest": {
+            "type": "object",
+            "properties": {
+                "hospital_name": {
+                    "type": "string"
+                },
+                "services": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.serviceInfoRequest"
+                    }
                 }
             }
         },
@@ -1675,6 +1969,21 @@ const docTemplate = `{
                 }
             }
         },
+        "api.periodInfoRequest": {
+            "type": "object",
+            "required": [
+                "period_name",
+                "start_date"
+            ],
+            "properties": {
+                "period_name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                }
+            }
+        },
         "api.periodResponse": {
             "type": "object",
             "properties": {
@@ -1703,6 +2012,65 @@ const docTemplate = `{
                 }
             }
         },
+        "api.serviceInfoRequest": {
+            "type": "object",
+            "properties": {
+                "duration_in_week": {
+                    "type": "integer"
+                },
+                "service_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.serviceResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "hospital": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "specialty": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.serviceToAttendingResponse": {
+            "type": "object",
+            "properties": {
+                "attending_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "service_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.specialtyInfoRequest": {
+            "type": "object",
+            "properties": {
+                "hospitals": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.hospitalInfoRequest"
+                    }
+                },
+                "specialty_name": {
+                    "type": "string"
+                }
+            }
+        },
         "api.specialtyResponse": {
             "type": "object",
             "properties": {
@@ -1717,682 +2085,50 @@ const docTemplate = `{
                 }
             }
         },
+        "api.studentResponse": {
+            "type": "object",
+            "required": [
+                "email"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "mobile": {
+                    "type": "string"
+                },
+                "student_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.studentToGroupResponse": {
+            "type": "object",
+            "properties": {
+                "academic_year_name": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "group_name": {
+                    "type": "string"
+                },
+                "student_id": {
+                    "type": "string"
+                }
+            }
+        },
         "api.userResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "role_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.academicCalendarEventResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "end_date": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "start_date": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.academicYearResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "end_date": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "start_date": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.attendingResponse": {
-            "type": "object",
-            "properties": {
-                "attending_id": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "first_name": {
-                    "type": "string"
-                },
-                "last_name": {
-                    "type": "string"
-                },
-                "mobile": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.blockInfoRequest": {
-            "type": "object",
-            "properties": {
-                "block_name": {
-                    "type": "string"
-                },
-                "group_calendar": {
-                    "type": "array",
-                    "items": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.specialtyInfoRequest"
-                        }
-                    }
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.blockResponse": {
-            "type": "object",
-            "properties": {
-                "academic_year_id": {
-                    "type": "integer"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "period": {
-                    "type": "integer"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.clinicalRotationEventDetailResponse": {
-            "type": "object",
-            "properties": {
-                "attendings": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/github.com_VinCPR_backend_api.attendingResponse"
-                    }
-                },
-                "end_date": {
-                    "type": "string"
-                },
-                "group_name": {
-                    "type": "string"
-                },
-                "hospital_name": {
-                    "type": "string"
-                },
-                "service_name": {
-                    "type": "string"
-                },
-                "specialty_name": {
-                    "type": "string"
-                },
-                "start_date": {
-                    "type": "string"
-                },
-                "students": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/github.com_VinCPR_backend_api.studentResponse"
-                    }
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.clinicalRotationEventResponse": {
-            "type": "object",
-            "properties": {
-                "end_date": {
-                    "type": "string"
-                },
-                "event_id": {
-                    "type": "integer"
-                },
-                "group_name": {
-                    "type": "string"
-                },
-                "hospital_name": {
-                    "type": "string"
-                },
-                "service_name": {
-                    "type": "string"
-                },
-                "specialty_name": {
-                    "type": "string"
-                },
-                "start_date": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.createAcademicYearRequest": {
-            "type": "object",
-            "required": [
-                "end_date",
-                "name",
-                "start_date"
-            ],
-            "properties": {
-                "end_date": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "start_date": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.createAttendingRequest": {
-            "type": "object",
-            "required": [
-                "attending_id",
-                "firstname",
-                "lastname",
-                "mobile",
-                "user_id"
-            ],
-            "properties": {
-                "attending_id": {
-                    "type": "string"
-                },
-                "firstname": {
-                    "type": "string"
-                },
-                "lastname": {
-                    "type": "string"
-                },
-                "mobile": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.createGroupToBlockRequest": {
-            "type": "object",
-            "properties": {
-                "academic_year_name": {
-                    "type": "string"
-                },
-                "block_name": {
-                    "type": "string"
-                },
-                "group_name": {
-                    "type": "string"
-                },
-                "period_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.createHospitalRequest": {
-            "type": "object",
-            "required": [
-                "address",
-                "description",
-                "name"
-            ],
-            "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.createServiceRequest": {
-            "type": "object",
-            "required": [
-                "description",
-                "hospital",
-                "name",
-                "specialty"
-            ],
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "hospital": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "specialty": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.createServiceToAttendingRequest": {
-            "type": "object",
-            "required": [
-                "attending_id",
-                "service_id"
-            ],
-            "properties": {
-                "attending_id": {
-                    "type": "integer"
-                },
-                "service_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.createSpecialtyRequest": {
-            "type": "object",
-            "required": [
-                "description",
-                "name"
-            ],
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.createStudentRequest": {
-            "type": "object",
-            "required": [
-                "firstname",
-                "lastname",
-                "mobile",
-                "student_id",
-                "user_id"
-            ],
-            "properties": {
-                "firstname": {
-                    "type": "string"
-                },
-                "lastname": {
-                    "type": "string"
-                },
-                "mobile": {
-                    "type": "string"
-                },
-                "student_id": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.createStudentToGroupRequest": {
-            "type": "object",
-            "properties": {
-                "academic_year_name": {
-                    "type": "string"
-                },
-                "group_name": {
-                    "type": "string"
-                },
-                "student_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.createUserRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "password",
-                "role_name"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string",
-                    "maxLength": 64,
-                    "minLength": 8
-                },
-                "role_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.designRotationRequest": {
-            "type": "object",
-            "required": [
-                "academic_year_name",
-                "blocks",
-                "groups_per_block",
-                "number_of_period",
-                "periods",
-                "weeks_per_period"
-            ],
-            "properties": {
-                "academic_year_name": {
-                    "type": "string"
-                },
-                "blocks": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/github.com_VinCPR_backend_api.blockInfoRequest"
-                    }
-                },
-                "groups_per_block": {
-                    "type": "integer"
-                },
-                "number_of_period": {
-                    "type": "integer"
-                },
-                "periods": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/github.com_VinCPR_backend_api.periodInfoRequest"
-                    }
-                },
-                "weeks_per_period": {
-                    "type": "integer"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.getAcademicCalendarResponse": {
-            "type": "object",
-            "properties": {
-                "academic_calendar_events": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/github.com_VinCPR_backend_api.academicCalendarEventResponse"
-                    }
-                },
-                "academic_year": {
-                    "$ref": "#/definitions/github.com_VinCPR_backend_api.academicYearResponse"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.groupResponse": {
-            "type": "object",
-            "properties": {
-                "academic_year_id": {
-                    "type": "integer"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.groupToBlockResponse": {
-            "type": "object",
-            "properties": {
-                "academic_year_name": {
-                    "type": "string"
-                },
-                "block_name": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "group_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.hospitalInfoRequest": {
-            "type": "object",
-            "properties": {
-                "hospital_name": {
-                    "type": "string"
-                },
-                "services": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/github.com_VinCPR_backend_api.serviceInfoRequest"
-                    }
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.hospitalResponse": {
-            "type": "object",
-            "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.loginUserRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "password"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string",
-                    "maxLength": 64,
-                    "minLength": 8
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.loginUserResponse": {
-            "type": "object",
-            "properties": {
-                "access_token": {
-                    "type": "string"
-                },
-                "access_token_expires_at": {
-                    "type": "string"
-                },
-                "refresh_token": {
-                    "type": "string"
-                },
-                "refresh_token_expires_at": {
-                    "type": "string"
-                },
-                "session_id": {
-                    "type": "string"
-                },
-                "user": {
-                    "$ref": "#/definitions/github.com_VinCPR_backend_api.userResponse"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.periodInfoRequest": {
-            "type": "object",
-            "required": [
-                "period_name",
-                "start_date"
-            ],
-            "properties": {
-                "period_name": {
-                    "type": "string"
-                },
-                "start_date": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.periodResponse": {
-            "type": "object",
-            "properties": {
-                "academic_year_id": {
-                    "type": "integer"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "end_date": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "start_date": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.resetRotationRequest": {
-            "type": "object",
-            "properties": {
-                "academic_year_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.serviceInfoRequest": {
-            "type": "object",
-            "properties": {
-                "duration_in_week": {
-                    "type": "integer"
-                },
-                "service_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.serviceResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "hospital": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "specialty": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.serviceToAttendingResponse": {
-            "type": "object",
-            "properties": {
-                "attending_id": {
-                    "type": "integer"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "service_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.specialtyInfoRequest": {
-            "type": "object",
-            "properties": {
-                "hospitals": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/github.com_VinCPR_backend_api.hospitalInfoRequest"
-                    }
-                },
-                "specialty_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.specialtyResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.studentResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "first_name": {
-                    "type": "string"
-                },
-                "last_name": {
-                    "type": "string"
-                },
-                "mobile": {
-                    "type": "string"
-                },
-                "student_id": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.studentToGroupResponse": {
-            "type": "object",
-            "properties": {
-                "academic_year_name": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "group_name": {
-                    "type": "string"
-                },
-                "student_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_VinCPR_backend_api.userResponse": {
             "type": "object",
             "properties": {
                 "created_at": {
