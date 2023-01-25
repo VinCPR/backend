@@ -306,8 +306,13 @@ func (server *Server) clinicalRotationEventDetail(ctx *gin.Context) {
 			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 			return
 		}
+		user, err := server.store.GetUserByID(ctx, attending.UserID)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return
+		}
 		attendings = append(attendings, attendingResponse{
-			UserID:      attending.UserID,
+			Email:       user.Email,
 			AttendingID: attending.AttendingID,
 			FirstName:   attending.FirstName,
 			LastName:    attending.LastName,

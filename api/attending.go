@@ -11,18 +11,20 @@ import (
 	"github.com/jackc/pgerrcode"
 
 	db "github.com/VinCPR/backend/db/sqlc"
+	"github.com/VinCPR/backend/util"
 )
 
 type createAttendingRequest struct {
-	UserID      int64  `json:"user_id" binding:"required"`
 	AttendingID string `json:"attending_id" binding:"required"`
 	FirstName   string `json:"firstname" binding:"required"`
 	LastName    string `json:"lastname" binding:"required"`
 	Mobile      string `json:"mobile" binding:"required"`
+	Email       string `json:"email" binding:"required,email"`
+	Password    string `json:"password" binding:"required,min=8,max=64"`
 }
 
 type attendingResponse struct {
-	UserID      int64     `json:"user_id"`
+	Email       string    `json:"email" binding:"required,email"`
 	AttendingID string    `json:"attending_id"`
 	FirstName   string    `json:"first_name"`
 	LastName    string    `json:"last_name"`
@@ -45,8 +47,30 @@ func (server *Server) createAttending(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
+
+	hashedPassword, err := util.HashPassword(req.Password)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	user, err := server.store.CreateUser(ctx, db.CreateUserParams{
+		Email:          req.Email,
+		HashedPassword: hashedPassword,
+		RoleName:       "student",
+	})
+	if err != nil {
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) && pgErr.Code == pgerrcode.UniqueViolation {
+			ctx.JSON(http.StatusForbidden, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
 	attending, err := server.store.CreateAttending(ctx, db.CreateAttendingParams{
-		UserID:      req.UserID,
+		UserID:      user.ID,
 		AttendingID: req.AttendingID,
 		FirstName:   req.FirstName,
 		LastName:    req.LastName,
@@ -62,7 +86,7 @@ func (server *Server) createAttending(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, attendingResponse{
-		UserID:      attending.UserID,
+		Email:       req.Email,
 		AttendingID: attending.AttendingID,
 		FirstName:   attending.FirstName,
 		LastName:    attending.LastName,
@@ -108,10 +132,15 @@ func (server *Server) listAttendingsByName(ctx *gin.Context) {
 		return
 	}
 
-	AttendingsResponse := make([]attendingResponse, 0)
+	attendingsResponse := make([]attendingResponse, 0)
 	for _, attending := range attendings {
-		AttendingsResponse = append(AttendingsResponse, attendingResponse{
-			UserID:      attending.UserID,
+		userInfo, err := server.store.GetUserByID(ctx, attending.UserID)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return
+		}
+		attendingsResponse = append(attendingsResponse, attendingResponse{
+			Email:       userInfo.Email,
 			AttendingID: attending.AttendingID,
 			FirstName:   attending.FirstName,
 			LastName:    attending.LastName,
@@ -119,5 +148,5 @@ func (server *Server) listAttendingsByName(ctx *gin.Context) {
 			CreatedAt:   attending.CreatedAt,
 		})
 	}
-	ctx.JSON(http.StatusOK, AttendingsResponse)
+	ctx.JSON(http.StatusOK, attendingsResponse)
 }
