@@ -24,7 +24,7 @@ type createAttendingRequest struct {
 }
 
 type attendingResponse struct {
-	Email       string    `json:"email" binding:"required,email"`
+	Email       string    `json:"email"`
 	AttendingID string    `json:"attending_id"`
 	FirstName   string    `json:"first_name"`
 	LastName    string    `json:"last_name"`
@@ -57,7 +57,7 @@ func (server *Server) createAttending(ctx *gin.Context) {
 	user, err := server.store.CreateUser(ctx, db.CreateUserParams{
 		Email:          req.Email,
 		HashedPassword: hashedPassword,
-		RoleName:       "student",
+		RoleName:       "attending",
 	})
 	if err != nil {
 		var pgErr *pgconn.PgError
