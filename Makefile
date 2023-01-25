@@ -34,7 +34,7 @@ server:
 	go run cmd/main.go
 
 seed:
-	go run seeding/main.go
+	go run seeder/main.go
 
 sqlc:
 	sqlc generate

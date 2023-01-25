@@ -40,4 +40,5 @@ func main() {
 	}
 
 	script.SeedStudentData(config.BasePath, server)
+	script.SeedAttendingData(config.BasePath, server)
 }
