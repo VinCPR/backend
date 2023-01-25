@@ -7,6 +7,10 @@ INSERT INTO "user" (
     $1 , $2 , $3
 ) RETURNING *;
 
+-- name: GetUserByID :one
+SELECT * FROM "user"
+WHERE "id" = $1 LIMIT 1;
+
 -- name: GetUserByEmail :one
 SELECT * FROM "user"
 WHERE email = $1 LIMIT 1;

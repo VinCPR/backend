@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -125,4 +126,8 @@ func errorResponse(err error) gin.H {
 
 func (server *Server) Start(address string) error {
 	return server.router.Run(address)
+}
+
+func (server *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	server.router.ServeHTTP(w, req)
 }

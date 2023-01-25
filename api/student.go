@@ -11,18 +11,20 @@ import (
 	"github.com/jackc/pgerrcode"
 
 	db "github.com/VinCPR/backend/db/sqlc"
+	"github.com/VinCPR/backend/util"
 )
 
 type createStudentRequest struct {
-	UserID    int64  `json:"user_id" binding:"required"`
 	StudentID string `json:"student_id" binding:"required"`
 	FirstName string `json:"firstname" binding:"required"`
 	LastName  string `json:"lastname" binding:"required"`
 	Mobile    string `json:"mobile" binding:"required"`
+	Email     string `json:"email" binding:"required,email"`
+	Password  string `json:"password" binding:"required,min=8,max=64"`
 }
 
 type studentResponse struct {
-	UserID    int64     `json:"user_id"`
+	Email     string    `json:"email" binding:"required,email"`
 	StudentID string    `json:"student_id"`
 	FirstName string    `json:"first_name"`
 	LastName  string    `json:"last_name"`
@@ -45,8 +47,30 @@ func (server *Server) createStudent(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
+
+	hashedPassword, err := util.HashPassword(req.Password)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	user, err := server.store.CreateUser(ctx, db.CreateUserParams{
+		Email:          req.Email,
+		HashedPassword: hashedPassword,
+		RoleName:       "student",
+	})
+	if err != nil {
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) && pgErr.Code == pgerrcode.UniqueViolation {
+			ctx.JSON(http.StatusForbidden, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
 	student, err := server.store.CreateStudent(ctx, db.CreateStudentParams{
-		UserID:    req.UserID,
+		UserID:    user.ID,
 		StudentID: req.StudentID,
 		FirstName: req.FirstName,
 		LastName:  req.LastName,
@@ -62,7 +86,7 @@ func (server *Server) createStudent(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, studentResponse{
-		UserID:    student.UserID,
+		Email:     req.Email,
 		StudentID: student.StudentID,
 		FirstName: student.FirstName,
 		LastName:  student.LastName,
@@ -108,10 +132,15 @@ func (server *Server) listStudentsByName(ctx *gin.Context) {
 		return
 	}
 
-	StudentsResponse := make([]studentResponse, 0)
+	studentsResponse := make([]studentResponse, 0)
 	for _, student := range students {
-		StudentsResponse = append(StudentsResponse, studentResponse{
-			UserID:    student.UserID,
+		userInfo, err := server.store.GetUserByID(ctx, student.UserID)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return
+		}
+		studentsResponse = append(studentsResponse, studentResponse{
+			Email:     userInfo.Email,
 			StudentID: student.StudentID,
 			FirstName: student.FirstName,
 			LastName:  student.LastName,
@@ -119,7 +148,7 @@ func (server *Server) listStudentsByName(ctx *gin.Context) {
 			CreatedAt: student.CreatedAt,
 		})
 	}
-	ctx.JSON(http.StatusOK, StudentsResponse)
+	ctx.JSON(http.StatusOK, studentsResponse)
 }
 
 // listStudentsByStudentID
@@ -161,8 +190,13 @@ func (server *Server) listStudentsByStudentID(ctx *gin.Context) {
 
 	studentsResponse := make([]studentResponse, 0)
 	for _, student := range students {
+		userInfo, err := server.store.GetUserByID(ctx, student.UserID)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return
+		}
 		studentsResponse = append(studentsResponse, studentResponse{
-			UserID:    student.UserID,
+			Email:     userInfo.Email,
 			StudentID: student.StudentID,
 			FirstName: student.FirstName,
 			LastName:  student.LastName,
