@@ -5,6 +5,6 @@ import (
 )
 
 func TestSeedStudentData(t *testing.T) {
-	ClearDataDBMigration("file://../db/migration", config.DBUrl)
+	ClearDataDBMigration("file://../../db/migration", config.DBUrl)
 	SeedStudentData(config.BasePath, server)
 }
