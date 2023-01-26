@@ -6,7 +6,6 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/stretchr/testify/require"
 
 	"github.com/VinCPR/backend/util"
@@ -65,5 +64,4 @@ func TestListAcademicYearByName(t *testing.T) {
 	require.True(t, sort.SliceIsSorted(academicYears, func(i, j int) bool {
 		return academicYears[i].EndDate.After(academicYears[j].EndDate)
 	}))
-	spew.Dump(academicYears)
 }

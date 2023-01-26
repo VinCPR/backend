@@ -27,7 +27,7 @@ type serviceToAttendingResponse struct {
 // createServiceToAttending
 // @Summary create new service to attending
 // @Description create new service to attending
-// @Tags ServiceToAttending
+// @Tags ServiceToAttendings
 // @Accept	json
 // @Produce  json
 // @Param body body createServiceToAttendingRequest true "input required: serviceID, attendingID"
