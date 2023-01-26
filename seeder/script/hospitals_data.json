@@ -1,0 +1,27 @@
+[
+  {
+    "address": "458 P. Minh Khai, Khu đô thị Times City, Hai Bà Trưng, Hà Nội",
+    "description": "Vinmec gathers a team of experts, doctors, pharmacists and nurses who are highly trained and receive in depth training in Vietnam and many countries with developed Medicine",
+    "name": "Vinmec International Hospital"
+  },
+  {
+    "address": "1B Trần Hưng Đạo, Bạch Đằng, Hai Bà Trưng, Hà Nội",
+    "description": "108 Military Central Hospital, also known in many variations as Army Medical Institute 108, or Army Central Hospital 108 is a hospital located at 1 Trần Hưng Đạo Street, in the Hoan Kiem district of Hanoi, Vietnam",
+    "name": "108 Military Central Hospital"
+  },
+  {
+    "address": "ĐT427B, Hoà Binh, Thường Tín, Hà Nội",
+    "description": "National Psychiatric Hospital No 1",
+    "name": "National Psychiatric Hospital No 1"
+  },
+  {
+    "address": "43 phố Tràng Thi, phường Hàng Bông, quận Hoàn Kiếm, thành phố Hà Nội",
+    "description": "National Hospital of Obstetrics and Gynecology",
+    "name": "National Hospital of Obstetrics and Gynecology"
+  },
+  {
+    "address": "18/879 Đ. La Thành, Láng Thượng, Đống Đa, Hà Nội",
+    "description": "Vietnam National Children's Hospital is a medical facility in Hanoi. Initially established in 1969 as Institute for the Protection of Children's Health. It was also known as Vietnam-Sweden Children’s Hospital, Olof Palme Pediatric Institute, and National Hospital of Pediatrics before adopting its present name in 2016.",
+    "name": "National Children's Hospital"
+  }
+]

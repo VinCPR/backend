@@ -1,0 +1,157 @@
+[
+  {
+    "name": "Inpatient",
+    "specialty": "Internal Medicine",
+    "hospital": "Vinmec International Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "Outpatient",
+    "specialty": "Internal Medicine",
+    "hospital": "Vinmec International Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "Emergency department",
+    "specialty": "Internal Medicine",
+    "hospital": "Vinmec International Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "Cardiology",
+    "specialty": "Internal Medicine",
+    "hospital": "108 Military Central Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "Pulmonary",
+    "specialty": "Internal Medicine",
+    "hospital": "108 Military Central Hospital",
+    "description": "TBD"
+  },
+
+  {
+    "name": "Gastroenterology",
+    "specialty": "Internal Medicine",
+    "hospital": "108 Military Central Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "Inpatient",
+    "specialty": "Pediatrics",
+    "hospital": "Vinmec International Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "Ambulatory",
+    "specialty": "Pediatrics",
+    "hospital": "Vinmec International Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "General pediatrics",
+    "specialty": "Pediatrics",
+    "hospital": "National Children's Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "NICU",
+    "specialty": "Pediatrics",
+    "hospital": "National Children's Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "PICU",
+    "specialty": "Pediatrics",
+    "hospital": "National Children's Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "Ambulatory",
+    "specialty": "Pediatrics",
+    "hospital": "National Children's Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "Outpatient",
+    "specialty": "Pediatrics",
+    "hospital": "Vinmec International Hospital",
+    "description": "TBD"
+  },
+
+  {
+    "name": "Internal neurology",
+    "specialty": "Neurology",
+    "hospital": "Vinmec International Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "Neurosurgery",
+    "specialty": "Neurology",
+    "hospital": "Vinmec International Hospital",
+    "description": "TBD"
+  },
+
+  {
+    "name": "Obstetrics",
+    "specialty": "OB-GYN",
+    "hospital": "National Hospital of Obstetrics and Gynecology",
+    "description": "TBD"
+  },
+  {
+    "name": "Gynaecology",
+    "specialty": "OB-GYN",
+    "hospital": "Vinmec International Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "Outpatient",
+    "specialty": "OB-GYN",
+    "hospital": "Vinmec International Hospital",
+    "description": "TBD"
+  },
+
+  {
+    "name": "Pediatric Psychiatry",
+    "specialty": "Psychiatry",
+    "hospital": "National Children's Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "Psychotherapy",
+    "specialty": "Psychiatry",
+    "hospital": "National Psychiatric Hospital No 1",
+    "description": "TBD"
+  },
+
+  {
+    "name": "Orthopaedic surgery",
+    "specialty": "Surgery",
+    "hospital": "108 Military Central Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "General surgery",
+    "specialty": "Surgery",
+    "hospital": "108 Military Central Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "Indoor Patients Department",
+    "specialty": "Surgery",
+    "hospital": "108 Military Central Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "Plastic surgery",
+    "specialty": "Surgery",
+    "hospital": "Vinmec International Hospital",
+    "description": "TBD"
+  },
+  {
+    "name": "Pediatric surgery",
+    "specialty": "Surgery",
+    "hospital": "National Children's Hospital",
+    "description": "TBD"
+  }
+]

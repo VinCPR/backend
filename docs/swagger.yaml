@@ -37,8 +37,6 @@ definitions:
         type: string
       mobile:
         type: string
-    required:
-    - email
     type: object
   api.blockInfoRequest:
     properties:
@@ -948,6 +946,55 @@ paths:
           schema:
             $ref: '#/definitions/api.serviceResponse'
       summary: create new service
+      tags:
+      - Services
+  /service/get:
+    get:
+      consumes:
+      - application/json
+      description: get created service of hospital and specialty
+      parameters:
+      - description: specialty
+        in: query
+        name: specialty
+        required: true
+        type: string
+      - description: hospital
+        in: query
+        name: hospital
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            items:
+              $ref: '#/definitions/api.serviceResponse'
+            type: array
+      summary: get created service of hospital and specialty
+      tags:
+      - Services
+  /service/get_all:
+    get:
+      consumes:
+      - application/json
+      description: get all created service filtered by hospital and specialty
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            additionalProperties:
+              additionalProperties:
+                items:
+                  $ref: '#/definitions/api.serviceResponse'
+                type: array
+              type: object
+            type: object
+      summary: get all created service filtered by hospital and specialty
       tags:
       - Services
   /service/list/hospital:

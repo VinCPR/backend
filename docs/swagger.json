@@ -741,6 +741,80 @@
                 }
             }
         },
+        "/service/get": {
+            "get": {
+                "description": "get created service of hospital and specialty",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Services"
+                ],
+                "summary": "get created service of hospital and specialty",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "specialty",
+                        "name": "specialty",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "hospital",
+                        "name": "hospital",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.serviceResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/service/get_all": {
+            "get": {
+                "description": "get all created service filtered by hospital and specialty",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Services"
+                ],
+                "summary": "get all created service filtered by hospital and specialty",
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/api.serviceResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/service/list/hospital": {
             "get": {
                 "description": "list created service",
@@ -1476,9 +1550,6 @@
         },
         "api.attendingResponse": {
             "type": "object",
-            "required": [
-                "email"
-            ],
             "properties": {
                 "attending_id": {
                     "type": "string"

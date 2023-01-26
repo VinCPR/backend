@@ -36,15 +36,15 @@ func SeedStudentData(basePath string, server *api.Server) {
 		// Marshal body data to JSON
 		data, err := json.Marshal(student)
 		if err != nil {
-			log.Fatal().Err(err).Msg("cannot parse create_user request body")
+			log.Fatal().Err(err).Msg("cannot parse create_student request body")
 		}
 		request, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(data))
 		if err != nil {
-			log.Fatal().Err(err).Msg("cannot init create_user request")
+			log.Fatal().Err(err).Msg("cannot init create_student request")
 		}
 		server.ServeHTTP(recorder, request)
 		if recorder.Code != 200 {
-			log.Fatal().Msg("failed to call create_user request")
+			log.Fatal().Msg("failed to call create_student request")
 		}
 	}
 }

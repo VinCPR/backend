@@ -1,0 +1,26 @@
+[
+  {
+    "description": "Psychiatry is the medical specialty devoted to the diagnosis, prevention, and treatment of mental conditions",
+    "name": "Psychiatry"
+  },
+  {
+    "description": "108 Military Central Hospital, also known in many variations as Army Medical Institute 108, or Army Central Hospital 108 is a hospital located at 1 Trần Hưng Đạo Street, in the Hoan Kiem district of Hanoi, Vietnam",
+    "name": "Surgery"
+  },
+  {
+    "description": "A branch of medicine that specializes in the care of women during pregnancy and childbirth and in the diagnosis and treatment of diseases of the female reproductive organs",
+    "name": "OB-GYN"
+  },
+  {
+    "description": "Pediatrics is the branch of medicine that involves the medical care of infants, children, adolescents, and young adults",
+    "name": "Pediatrics"
+  },
+  {
+    "description": "Neurology is the branch of medicine dealing with the diagnosis and treatment of all categories of conditions and disease involving the brain, the spinal cord and the peripheral nerves",
+    "name": "Neurology"
+  },
+  {
+    "description": "Internal medicine or general internal medicine is the medical specialty dealing with the prevention, diagnosis, and treatment of internal diseases.",
+    "name": "Internal Medicine"
+  }
+]

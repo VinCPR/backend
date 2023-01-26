@@ -41,4 +41,7 @@ func main() {
 
 	script.SeedStudentData(config.BasePath, server)
 	script.SeedAttendingData(config.BasePath, server)
+	script.SeedHospitalData(config.BasePath, server)
+	script.SeedSpecialtyData(config.BasePath, server)
+	script.SeedServiceData(config.BasePath, server)
 }
