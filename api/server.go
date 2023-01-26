@@ -84,6 +84,8 @@ func NewServer(config util.Config, store *db.Store) (*Server, error) {
 	}
 	{
 		routerV1.POST("/service", server.createService)
+		routerV1.GET("/service/get_all", server.getAllServicesByHospitalAndSpecialty)
+		routerV1.GET("/service/get", server.getServicesByHospitalAndSpecialty)
 		routerV1.GET("/service/list/specialty", server.listServicesbySpecialty)
 		routerV1.GET("/service/list/hospital", server.listServicesbyHospital)
 		routerV1.GET("/service/list/specialty_and_hospital", server.listServicesBySpecialtyAndHospital)

@@ -46,6 +46,43 @@ func (q *Queries) CreateService(ctx context.Context, arg CreateServiceParams) (S
 	return i, err
 }
 
+const getServiceByHospitalAndSpecialty = `-- name: GetServiceByHospitalAndSpecialty :many
+ SELECT id, specialty_id, hospital_id, name, description, created_at FROM "service"
+ WHERE specialty_id = $1 AND hospital_id = $2
+`
+
+type GetServiceByHospitalAndSpecialtyParams struct {
+	SpecialtyID int64 `json:"specialty_id"`
+	HospitalID  int64 `json:"hospital_id"`
+}
+
+func (q *Queries) GetServiceByHospitalAndSpecialty(ctx context.Context, arg GetServiceByHospitalAndSpecialtyParams) ([]Service, error) {
+	rows, err := q.db.Query(ctx, getServiceByHospitalAndSpecialty, arg.SpecialtyID, arg.HospitalID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Service{}
+	for rows.Next() {
+		var i Service
+		if err := rows.Scan(
+			&i.ID,
+			&i.SpecialtyID,
+			&i.HospitalID,
+			&i.Name,
+			&i.Description,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getServiceByID = `-- name: GetServiceByID :one
 SELECT id, specialty_id, hospital_id, name, description, created_at FROM "service"
 WHERE "id" = $1 LIMIT 1
@@ -107,6 +144,38 @@ func (q *Queries) GetServiceByName(ctx context.Context, name string) (Service, e
 		&i.CreatedAt,
 	)
 	return i, err
+}
+
+const listAllServicesBySpecialtyIDAndHospitalID = `-- name: ListAllServicesBySpecialtyIDAndHospitalID :many
+SELECT id, specialty_id, hospital_id, name, description, created_at FROM "service"
+ORDER BY "specialty_id","hospital_id"
+`
+
+func (q *Queries) ListAllServicesBySpecialtyIDAndHospitalID(ctx context.Context) ([]Service, error) {
+	rows, err := q.db.Query(ctx, listAllServicesBySpecialtyIDAndHospitalID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Service{}
+	for rows.Next() {
+		var i Service
+		if err := rows.Scan(
+			&i.ID,
+			&i.SpecialtyID,
+			&i.HospitalID,
+			&i.Name,
+			&i.Description,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const listServicesByHospitalID = `-- name: ListServicesByHospitalID :many

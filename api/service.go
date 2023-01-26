@@ -88,6 +88,98 @@ func (server *Server) createService(ctx *gin.Context) {
 	})
 }
 
+// getAllServicesByHospitalAndSpecialty
+// @Summary get all created service filtered by hospital and specialty
+// @Description get all created service filtered by hospital and specialty
+// @Tags Services
+// @Accept	json
+// @Produce  json
+// @Success 200 {object} map[string]map[string][]serviceResponse "ok"
+// @Router /service/get_all [get]
+func (server *Server) getAllServicesByHospitalAndSpecialty(ctx *gin.Context) {
+
+	services, err := server.store.ListAllServicesBySpecialtyIDAndHospitalID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	response := make(map[string]map[string][]serviceResponse)
+	for _, service := range services {
+		var hospital db.Hospital
+		var specialty db.Specialty
+
+		hospital, err = server.store.GetHospitalByID(ctx, service.HospitalID)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return
+		}
+		specialty, err = server.store.GetSpecialtyByID(ctx, service.SpecialtyID)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return
+		}
+		if _, ok := response[specialty.Name]; !ok {
+			response[specialty.Name] = make(map[string][]serviceResponse)
+		}
+		response[specialty.Name][hospital.Name] = append(response[specialty.Name][hospital.Name], serviceResponse{
+			Hospital:    hospital.Name,
+			Specialty:   specialty.Name,
+			Name:        service.Name,
+			Description: service.Description,
+			CreatedAt:   service.CreatedAt,
+		})
+	}
+	ctx.JSON(http.StatusOK, response)
+}
+
+// getServicesByHospitalAndSpecialty
+// @Summary get created service of hospital and specialty
+// @Description get created service of hospital and specialty
+// @Tags Services
+// @Accept	json
+// @Produce  json
+// @Param specialty query string true "specialty"
+// @Param hospital query string true "hospital"
+// @Success 200 {object} []serviceResponse "ok"
+// @Router /service/get [get]
+func (server *Server) getServicesByHospitalAndSpecialty(ctx *gin.Context) {
+	hospitalName := ctx.Query("hospital")
+	specialtyName := ctx.Query("specialty")
+
+	hospital, err := server.store.GetHospitalByName(ctx, hospitalName)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	specialty, err := server.store.GetSpecialtyByName(ctx, specialtyName)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	services, err := server.store.GetServiceByHospitalAndSpecialty(ctx, db.GetServiceByHospitalAndSpecialtyParams{
+		SpecialtyID: specialty.ID,
+		HospitalID:  hospital.ID,
+	})
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	response := make([]serviceResponse, 0)
+	for _, service := range services {
+		response = append(response, serviceResponse{
+			Hospital:    hospitalName,
+			Specialty:   specialtyName,
+			Name:        service.Name,
+			Description: service.Description,
+			CreatedAt:   service.CreatedAt,
+		})
+	}
+	ctx.JSON(http.StatusOK, response)
+}
+
 // listServicesByHospitalID
 // @Summary list created service
 // @Description list created service
@@ -130,7 +222,7 @@ func (server *Server) listServicesbyHospital(ctx *gin.Context) {
 		var hospital db.Hospital
 		var specialty db.Specialty
 
-		hospital, err = server.store.GetHospitalByID(ctx, service.ID)
+		hospital, err = server.store.GetHospitalByID(ctx, service.HospitalID)
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 			return
@@ -194,7 +286,7 @@ func (server *Server) listServicesbySpecialty(ctx *gin.Context) {
 		var hospital db.Hospital
 		var specialty db.Specialty
 
-		hospital, err = server.store.GetHospitalByID(ctx, service.ID)
+		hospital, err = server.store.GetHospitalByID(ctx, service.HospitalID)
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 			return
@@ -258,7 +350,7 @@ func (server *Server) listServicesBySpecialtyAndHospital(ctx *gin.Context) {
 		var hospital db.Hospital
 		var specialty db.Specialty
 
-		hospital, err = server.store.GetHospitalByID(ctx, service.ID)
+		hospital, err = server.store.GetHospitalByID(ctx, service.HospitalID)
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 			return
