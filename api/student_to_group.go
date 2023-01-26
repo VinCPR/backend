@@ -14,9 +14,9 @@ import (
 )
 
 type createStudentToGroupRequest struct {
-	AcademicYearName string `json:"academic_year_name"`
-	StudentID        string `json:"student_id"`
-	GroupName        string `json:"group_name"`
+	AcademicYearName string `json:"academic_year_name" binding:"required"`
+	StudentID        string `json:"student_id" binding:"required"`
+	GroupName        string `json:"group_name" binding:"required"`
 }
 
 type studentToGroupResponse struct {

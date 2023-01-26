@@ -27,7 +27,7 @@ type groupResponse struct {
 // createGroup
 // @Summary create new group
 // @Description create new group
-// @Tags AcademicCalendar
+// @Tags Groups
 // @Accept	json
 // @Produce  json
 // @Param body body createGroupRequest true "input required: academic year name, group name"

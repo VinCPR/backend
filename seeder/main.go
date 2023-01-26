@@ -47,5 +47,5 @@ func main() {
 	script.SeedServiceToAttendingData(config.BasePath, server)
 	script.SeedAcademicYearData(config.BasePath, server)
 	script.SeedGroupData(config.BasePath, server)
-
+	script.SeedStudentToGroupData(config.BasePath, server)
 }

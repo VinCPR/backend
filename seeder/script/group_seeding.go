@@ -33,6 +33,22 @@ func SeedGroupData(basePath string, server *api.Server) {
 			AcademicYearName: "2023-2024 MD Program",
 			Name:             "Medical Doctor Group 4",
 		},
+		{
+			AcademicYearName: "2023-2024 MD Program",
+			Name:             "Medical Doctor Group 5",
+		},
+		{
+			AcademicYearName: "2023-2024 MD Program",
+			Name:             "Medical Doctor Group 6",
+		},
+		{
+			AcademicYearName: "2023-2024 MD Program",
+			Name:             "Medical Doctor Group 7",
+		},
+		{
+			AcademicYearName: "2023-2024 MD Program",
+			Name:             "Medical Doctor Group 8",
+		},
 
 		{
 			AcademicYearName: "2023-2024 Nursing Program",
