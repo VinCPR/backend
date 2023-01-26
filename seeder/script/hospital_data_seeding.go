@@ -17,9 +17,9 @@ var hospitalSrc string
 
 func SeedHospitalData(basePath string, server *api.Server) {
 	type hospitalData struct {
-		Name        string `json:"name" binding:"required"`
-		Description string `json:"description" binding:"required"`
-		Address     string `json:"address" binding:"required"`
+		Name        string `json:"name"`
+		Description string `json:"description"`
+		Address     string `json:"address"`
 	}
 	var hospitals []hospitalData
 	if err := json.Unmarshal([]byte(hospitalSrc), &hospitals); err != nil {
