@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgerrcode"
+	"github.com/jackc/pgx/v4"
 
 	db "github.com/VinCPR/backend/db/sqlc"
 	"github.com/VinCPR/backend/util"
@@ -92,6 +93,41 @@ func (server *Server) createAttending(ctx *gin.Context) {
 		LastName:    attending.LastName,
 		Mobile:      attending.Mobile,
 		CreatedAt:   attending.CreatedAt,
+	})
+}
+
+// getAttendingInfoByEmail
+// @Summary provide detail of an attending given email address
+// @Description provide detail of an attending given email address
+// @Tags Attendings
+// @Accept	json
+// @Produce  json
+// @Param email query string true "attending email address"
+// @Success 200 {object} attendingResponse "ok"
+// @Router /attending/info [get]
+func (server *Server) getAttendingInfoByEmail(ctx *gin.Context) {
+	email := ctx.Query("email")
+	user, err := server.store.GetUserByEmail(ctx, email)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			ctx.JSON(http.StatusBadRequest, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	student, err := server.store.GetAttendingByUserId(ctx, user.ID)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	ctx.JSON(http.StatusOK, attendingResponse{
+		Email:       email,
+		AttendingID: student.AttendingID,
+		FirstName:   student.FirstName,
+		LastName:    student.LastName,
+		Mobile:      student.Mobile,
+		CreatedAt:   student.CreatedAt,
 	})
 }
 

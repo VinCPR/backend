@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgerrcode"
+	"github.com/jackc/pgx/v4"
 
 	db "github.com/VinCPR/backend/db/sqlc"
 	"github.com/VinCPR/backend/util"
@@ -87,6 +88,41 @@ func (server *Server) createStudent(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, studentResponse{
 		Email:     req.Email,
+		StudentID: student.StudentID,
+		FirstName: student.FirstName,
+		LastName:  student.LastName,
+		Mobile:    student.Mobile,
+		CreatedAt: student.CreatedAt,
+	})
+}
+
+// getStudentInfoByEmail
+// @Summary provide detail of a student given email address
+// @Description provide detail of a student given email address
+// @Tags Students
+// @Accept	json
+// @Produce  json
+// @Param email query string true "student email address"
+// @Success 200 {object} studentResponse "ok"
+// @Router /student/info [get]
+func (server *Server) getStudentInfoByEmail(ctx *gin.Context) {
+	email := ctx.Query("email")
+	user, err := server.store.GetUserByEmail(ctx, email)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			ctx.JSON(http.StatusBadRequest, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	student, err := server.store.GetStudentByUserId(ctx, user.ID)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	ctx.JSON(http.StatusOK, studentResponse{
+		Email:     email,
 		StudentID: student.StudentID,
 		FirstName: student.FirstName,
 		LastName:  student.LastName,
