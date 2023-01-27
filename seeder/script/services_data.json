@@ -43,6 +43,12 @@
     "description": "TBD"
   },
   {
+    "name": "Outpatient",
+    "specialty": "Pediatrics",
+    "hospital": "Vinmec International Hospital",
+    "description": "TBD"
+  },
+  {
     "name": "Ambulatory",
     "specialty": "Pediatrics",
     "hospital": "Vinmec International Hospital",
@@ -70,12 +76,6 @@
     "name": "Ambulatory",
     "specialty": "Pediatrics",
     "hospital": "National Children's Hospital",
-    "description": "TBD"
-  },
-  {
-    "name": "Outpatient",
-    "specialty": "Pediatrics",
-    "hospital": "Vinmec International Hospital",
     "description": "TBD"
   },
 

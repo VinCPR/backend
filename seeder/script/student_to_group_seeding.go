@@ -4,7 +4,6 @@ import (
 	"bytes"
 	_ "embed"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 
@@ -39,7 +38,6 @@ func SeedStudentToGroupData(basePath string, server *api.Server) {
 			log.Fatal().Err(err).Msg("cannot init create_student_to_group request")
 		}
 		server.ServeHTTP(recorder, request)
-		fmt.Println(recorder)
 		if recorder.Code != 200 {
 			log.Fatal().Msg("failed to call create_student_to_group request")
 		}

@@ -14,7 +14,7 @@ func TestSeedStudentToGroup(t *testing.T) {
 	// {
 	// 	// 48 Medical students
 	// 	// ID from 1 -> 48
-	// 	// 8 groups, each group from 4-5 students
+	// 	// 8 groups, each group 6 students
 	// 	noOfMDStudents := 48
 	// 	noOfMDGroups := 8
 	// 	for i := 1; i <= noOfMDStudents; i++ {
