@@ -76,7 +76,3 @@ func processResetRotation(ctx context.Context, store *db.Store, req resetRotatio
 
 	return tx.Commit(ctx)
 }
-
-func processDeletePeriods(ctx context.Context, qtx *db.Queries, academicYearID int64) error {
-	return qtx.DeletePeriodsByAcademicYear(ctx, academicYearID)
-}

@@ -1,0 +1,420 @@
+[
+  {
+    "academic_year_name": "2023-2024 MD Program",
+    "groups_per_block":   2,
+    "number_of_period":   4,
+    "weeks_per_period":   10,
+    "periods": [
+      {
+        "period_name": "Period 1",
+        "start_date": "2023-10-01T00:00:00+07:00"
+      },
+      {
+        "period_name": "Period 2",
+        "start_date": "2023-12-11T00:00:00+07:00"
+      },
+      {
+        "period_name": "Period 3",
+        "start_date": "2024-02-19T00:00:00+07:00"
+      },
+      {
+        "period_name": "Period 4",
+        "start_date": "2024-04-30T00:00:00+07:00"
+      }
+    ],
+    "blocks": [
+      {
+        "block_name": "Block 1",
+        "group_calendar": [
+          [
+            {
+              "specialty_name": "Internal Medicine",
+              "hospitals": [
+                {
+                  "hospital_name": "Vinmec International Hospital",
+                  "services": [
+                    {
+                      "service_name": "Inpatient",
+                      "duration_in_week": 2
+                    },
+                    {
+                      "service_name": "Outpatient",
+                      "duration_in_week": 2
+                    }
+                  ]
+                },
+                {
+                  "hospital_name": "108 Military Central Hospital",
+                  "services": [
+                    {
+                      "service_name": "Cardiology",
+                      "duration_in_week": 2
+                    },
+                    {
+                      "service_name": "Pulmonary",
+                      "duration_in_week": 2
+                    },
+                    {
+                      "service_name": "Gastroenterology",
+                      "duration_in_week": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          [
+            {
+              "specialty_name": "Internal Medicine",
+              "hospitals": [
+                {
+                  "hospital_name": "108 Military Central Hospital",
+                  "services": [
+                    {
+                      "service_name": "Cardiology",
+                      "duration_in_week": 2
+                    },
+                    {
+                      "service_name": "Pulmonary",
+                      "duration_in_week": 2
+                    },
+                    {
+                      "service_name": "Gastroenterology",
+                      "duration_in_week": 2
+                    }
+                  ]
+                },
+                {
+                  "hospital_name": "Vinmec International Hospital",
+                  "services": [
+                    {
+                      "service_name": "Inpatient",
+                      "duration_in_week": 2
+                    },
+                    {
+                      "service_name": "Outpatient",
+                      "duration_in_week": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "block_name": "Block 2",
+        "group_calendar": [
+          [
+            {
+              "specialty_name": "Pediatrics",
+              "hospitals": [
+                {
+                  "hospital_name": "Vinmec International Hospital",
+                  "services": [
+                    {
+                      "service_name": "Outpatient",
+                      "duration_in_week": 2
+                    }
+                  ]
+                },
+                {
+                  "hospital_name": "National Children's Hospital",
+                  "services": [
+                    {
+                      "service_name": "General pediatrics",
+                      "duration_in_week": 1
+                    },
+                    {
+                      "service_name": "NICU",
+                      "duration_in_week": 1
+                    },
+                    {
+                      "service_name": "PICU",
+                      "duration_in_week": 1
+                    },
+                    {
+                      "service_name": "Ambulatory",
+                      "duration_in_week": 1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "specialty_name": "Neurology",
+              "hospitals": [
+                {
+                  "hospital_name": "Vinmec International Hospital",
+                  "services": [
+                    {
+                      "service_name": "Internal neurology",
+                      "duration_in_week": 2
+                    },
+                    {
+                      "service_name": "Neurosurgery",
+                      "duration_in_week": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          [
+            {
+              "specialty_name": "Neurology",
+              "hospitals": [
+                {
+                  "hospital_name": "Vinmec International Hospital",
+                  "services": [
+                    {
+                      "service_name": "Internal neurology",
+                      "duration_in_week": 2
+                    },
+                    {
+                      "service_name": "Neurosurgery",
+                      "duration_in_week": 2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "specialty_name": "Pediatrics",
+              "hospitals": [
+                {
+                  "hospital_name": "Vinmec International Hospital",
+                  "services": [
+                    {
+                      "service_name": "Outpatient",
+                      "duration_in_week": 2
+                    }
+                  ]
+                },
+                {
+                  "hospital_name": "National Children's Hospital",
+                  "services": [
+                    {
+                      "service_name": "General pediatrics",
+                      "duration_in_week": 1
+                    },
+                    {
+                      "service_name": "NICU",
+                      "duration_in_week": 1
+                    },
+                    {
+                      "service_name": "PICU",
+                      "duration_in_week": 1
+                    },
+                    {
+                      "service_name": "Ambulatory",
+                      "duration_in_week": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "block_name": "Block 3",
+        "group_calendar": [
+          [
+            {
+              "specialty_name": "OB-GYN",
+              "hospitals": [
+                {
+                  "hospital_name": "National Hospital of Obstetrics and Gynecology",
+                  "services": [
+                    {
+                      "service_name": "Obstetrics",
+                      "duration_in_week": 2
+                    }
+                  ]
+                },
+                {
+                  "hospital_name": "Vinmec International Hospital",
+                  "services": [
+                    {
+                      "service_name": "Gynaecology",
+                      "duration_in_week": 2
+                    },
+                    {
+                      "service_name": "Outpatient",
+                      "duration_in_week": 2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "specialty_name": "Psychiatry",
+              "hospitals": [
+                {
+                  "hospital_name": "National Children's Hospital",
+                  "services": [
+                    {
+                      "service_name": "Pediatric Psychiatry",
+                      "duration_in_week": 2
+                    }
+                  ]
+                },
+                {
+                  "hospital_name": "National Psychiatric Hospital No 1",
+                  "services": [
+                    {
+                      "service_name": "Psychotherapy",
+                      "duration_in_week": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          [
+            {
+              "specialty_name": "Psychiatry",
+              "hospitals": [
+                {
+                  "hospital_name": "National Children's Hospital",
+                  "services": [
+                    {
+                      "service_name": "Pediatric Psychiatry",
+                      "duration_in_week": 2
+                    }
+                  ]
+                },
+                {
+                  "hospital_name": "National Psychiatric Hospital No 1",
+                  "services": [
+                    {
+                      "service_name": "Psychotherapy",
+                      "duration_in_week": 2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "specialty_name": "OB-GYN",
+              "hospitals": [
+                {
+                  "hospital_name": "National Hospital of Obstetrics and Gynecology",
+                  "services": [
+                    {
+                      "service_name": "Obstetrics",
+                      "duration_in_week": 2
+                    }
+                  ]
+                },
+                {
+                  "hospital_name": "Vinmec International Hospital",
+                  "services": [
+                    {
+                      "service_name": "Gynaecology",
+                      "duration_in_week": 2
+                    },
+                    {
+                      "service_name": "Outpatient",
+                      "duration_in_week": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "block_name": "Block 4",
+        "group_calendar": [
+          [
+            {
+              "specialty_name": "Surgery",
+              "hospitals": [
+                {
+                  "hospital_name": "108 Military Central Hospital",
+                  "services": [
+                    {
+                      "service_name": "General surgery",
+                      "duration_in_week": 2
+                    },
+                    {
+                      "service_name": "Orthopaedic surgery",
+                      "duration_in_week": 2
+                    },
+                    {
+                      "service_name": "Indoor Patients Department",
+                      "duration_in_week": 2
+                    }
+                  ]
+                },
+                {
+                  "hospital_name": "Vinmec International Hospital",
+                  "services": [
+                    {
+                      "service_name": "Plastic surgery",
+                      "duration_in_week": 2
+                    }
+                  ]
+                },
+                {
+                  "hospital_name": "National Children's Hospital",
+                  "services": [
+                    {
+                      "service_name": "Pediatric surgery",
+                      "duration_in_week": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          [
+            {
+              "specialty_name": "Surgery",
+              "hospitals": [
+                {
+                  "hospital_name": "National Children's Hospital",
+                  "services": [
+                    {
+                      "service_name": "Pediatric surgery",
+                      "duration_in_week": 2
+                    }
+                  ]
+                },
+                {
+                  "hospital_name": "Vinmec International Hospital",
+                  "services": [
+                    {
+                      "service_name": "Plastic surgery",
+                      "duration_in_week": 2
+                    }
+                  ]
+                },
+                {
+                  "hospital_name": "108 Military Central Hospital",
+                  "services": [
+                    {
+                      "service_name": "General surgery",
+                      "duration_in_week": 2
+                    },
+                    {
+                      "service_name": "Orthopaedic surgery",
+                      "duration_in_week": 2
+                    },
+                    {
+                      "service_name": "Indoor Patients Department",
+                      "duration_in_week": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        ]
+      }
+    ]
+  }
+]

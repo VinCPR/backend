@@ -210,7 +210,7 @@ func processFillGroupToBlocks(ctx context.Context, qtx *db.Queries, blocksForEac
 			if err != nil {
 				return err
 			}
-			err = processCreateClinicalRotationEvent(ctx, qtx, periodsInfo[i].StartDate, blocksInfo[blockInfoID].GroupCalendar[i%groupsPerBlock], services, group.ID, academicYearID)
+			err = processCreateClinicalRotationEvent(ctx, qtx, periodsInfo[j].StartDate, blocksInfo[blockInfoID].GroupCalendar[i%groupsPerBlock], services, group.ID, academicYearID)
 			if err != nil {
 				return err
 			}
