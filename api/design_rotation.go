@@ -267,6 +267,9 @@ func getServiceID(ctx context.Context, qtx *db.Queries, blocksInfo []blockInfoRe
 							HospitalID:  hospital.ID,
 							Name:        serviceInfo.ServiceName,
 						})
+						if err != nil {
+							return nil, err
+						}
 						servicesByName[join(specialty.Name, hospital.Name, service.Name)] = service.ID
 					}
 				}
