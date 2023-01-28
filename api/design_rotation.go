@@ -228,7 +228,7 @@ func processCreateClinicalRotationEvent(ctx context.Context, qtx *db.Queries, st
 					GroupID:        groupID,
 					ServiceID:      services[join(specialtyInfo.SpecialtyName, hospitalInfo.HospitalName, serviceInfo.ServiceName)],
 					StartDate:      startDate,
-					EndDate:        startDate.AddDate(0, 0, serviceInfo.DurationInWeek*7),
+					EndDate:        startDate.AddDate(0, 0, serviceInfo.DurationInWeek*7-1),
 				})
 				if err != nil {
 					return err

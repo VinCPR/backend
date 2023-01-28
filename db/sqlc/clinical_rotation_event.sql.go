@@ -118,6 +118,45 @@ func (q *Queries) ListRotationEventsByAcademicYearID(ctx context.Context, academ
 	return items, nil
 }
 
+const listRotationEventsByAcademicYearIDAndDay = `-- name: ListRotationEventsByAcademicYearIDAndDay :many
+SELECT id, academic_year_id, group_id, service_id, start_date, end_date, created_at FROM "clinical_rotation_event"
+WHERE "academic_year_id" = $1 AND "start_date" <= $2::date and $2::date <= "end_date"
+ORDER BY "id"
+`
+
+type ListRotationEventsByAcademicYearIDAndDayParams struct {
+	AcademicYearID int64     `json:"academic_year_id"`
+	Day            time.Time `json:"day"`
+}
+
+func (q *Queries) ListRotationEventsByAcademicYearIDAndDay(ctx context.Context, arg ListRotationEventsByAcademicYearIDAndDayParams) ([]ClinicalRotationEvent, error) {
+	rows, err := q.db.Query(ctx, listRotationEventsByAcademicYearIDAndDay, arg.AcademicYearID, arg.Day)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []ClinicalRotationEvent{}
+	for rows.Next() {
+		var i ClinicalRotationEvent
+		if err := rows.Scan(
+			&i.ID,
+			&i.AcademicYearID,
+			&i.GroupID,
+			&i.ServiceID,
+			&i.StartDate,
+			&i.EndDate,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listRotationEventsByAcademicYearIDAndGroupID = `-- name: ListRotationEventsByAcademicYearIDAndGroupID :many
 SELECT id, academic_year_id, group_id, service_id, start_date, end_date, created_at FROM "clinical_rotation_event"
 WHERE "academic_year_id" = $1 AND "group_id" = ANY(($2)::bigint[])

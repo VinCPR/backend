@@ -23,7 +23,7 @@ func TestDesignRotation(t *testing.T) {
 	SeedSpecialtyData(config.BasePath, server)
 	SeedServiceData(config.BasePath, server)
 	SeedServiceToAttendingData(config.BasePath, server)
-	SeedAcademicYearData(config.BasePath, server)
+	SeedAdminData(config.BasePath, server)
 	SeedGroupData(config.BasePath, server)
 	SeedStudentToGroupData(config.BasePath, server)
 

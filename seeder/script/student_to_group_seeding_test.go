@@ -53,7 +53,7 @@ func TestSeedStudentToGroup(t *testing.T) {
 	// fmt.Println(string(res))
 	ClearDataDBMigration("file://../../db/migration", config.DBUrl)
 	SeedStudentData(config.BasePath, server)
-	SeedAcademicYearData(config.BasePath, server)
+	SeedAdminData(config.BasePath, server)
 	SeedGroupData(config.BasePath, server)
 	SeedStudentToGroupData(config.BasePath, server)
 }

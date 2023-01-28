@@ -754,6 +754,48 @@ const docTemplate = `{
                 }
             }
         },
+        "/rotation/list/day": {
+            "get": {
+                "description": "list clinical rotation event in that day",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ClinicalRotation"
+                ],
+                "summary": "list clinical rotation event in that day",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "academic year name",
+                        "name": "academicYearName",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "day in format YYYY-MM-DD",
+                        "name": "day",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.clinicalRotationEventResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/rotation/reset": {
             "post": {
                 "description": "reset all rotation events of an academic year",
@@ -1663,59 +1705,127 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "api.attendingResponse": {
+        "api.academicCalendarEventResponse": {
             "type": "object",
             "properties": {
-                "attending_id": {
-                    "type": "string"
-                },
                 "created_at": {
                     "type": "string"
                 },
-                "email": {
+                "end_date": {
                     "type": "string"
                 },
-                "first_name": {
+                "name": {
                     "type": "string"
                 },
-                "last_name": {
+                "start_date": {
                     "type": "string"
                 },
-                "mobile": {
+                "type": {
                     "type": "string"
                 }
             }
         },
-        "api.createAttendingRequest": {
+        "api.academicYearResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.blockInfoRequest": {
+            "type": "object",
+            "properties": {
+                "block_name": {
+                    "type": "string"
+                },
+                "group_calendar": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/definitions/api.specialtyInfoRequest"
+                        }
+                    }
+                }
+            }
+        },
+        "api.createAcademicYearRequest": {
             "type": "object",
             "required": [
-                "attending_id",
-                "email",
-                "firstname",
-                "lastname",
-                "mobile",
-                "password"
+                "end_date",
+                "name",
+                "start_date"
             ],
             "properties": {
-                "attending_id": {
+                "end_date": {
                     "type": "string"
                 },
-                "email": {
+                "name": {
                     "type": "string"
                 },
-                "firstname": {
+                "start_date": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.createGroupRequest": {
+            "type": "object",
+            "required": [
+                "academic_year_name",
+                "name"
+            ],
+            "properties": {
+                "academic_year_name": {
                     "type": "string"
                 },
-                "lastname": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.createGroupToBlockRequest": {
+            "type": "object",
+            "properties": {
+                "academic_year_name": {
                     "type": "string"
                 },
-                "mobile": {
+                "block_name": {
                     "type": "string"
                 },
-                "password": {
-                    "type": "string",
-                    "maxLength": 64,
-                    "minLength": 8
+                "group_name": {
+                    "type": "string"
+                },
+                "period_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.createHospitalRequest": {
+            "type": "object",
+            "required": [
+                "address",
+                "description",
+                "name"
+            ],
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
                 }
             }
         },
@@ -1739,21 +1849,6 @@ const docTemplate = `{
                 },
                 "specialty": {
                     "type": "string"
-                }
-            }
-        },
-        "api.createServiceToAttendingRequest": {
-            "type": "object",
-            "required": [
-                "attending_id",
-                "service_id"
-            ],
-            "properties": {
-                "attending_id": {
-                    "type": "integer"
-                },
-                "service_id": {
-                    "type": "integer"
                 }
             }
         },
@@ -1790,38 +1885,127 @@ const docTemplate = `{
                 }
             }
         },
-        "api.createStudentToGroupRequest": {
+        "api.designRotationRequest": {
             "type": "object",
             "required": [
                 "academic_year_name",
-                "group_name",
-                "student_id"
+                "blocks",
+                "groups_per_block",
+                "number_of_period",
+                "periods",
+                "weeks_per_period"
             ],
             "properties": {
                 "academic_year_name": {
                     "type": "string"
                 },
-                "group_name": {
-                    "type": "string"
+                "blocks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.blockInfoRequest"
+                    }
                 },
-                "student_id": {
-                    "type": "string"
+                "groups_per_block": {
+                    "type": "integer"
+                },
+                "number_of_period": {
+                    "type": "integer"
+                },
+                "periods": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.periodInfoRequest"
+                    }
+                },
+                "weeks_per_period": {
+                    "type": "integer"
                 }
             }
         },
-        "api.periodResponse": {
+        "api.getAcademicCalendarResponse": {
             "type": "object",
             "properties": {
-                "academic_year_id": {
-                    "type": "integer"
+                "academic_calendar_events": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.academicCalendarEventResponse"
+                    }
+                },
+                "academic_year": {
+                    "$ref": "#/definitions/api.academicYearResponse"
+                }
+            }
+        },
+        "api.groupResponse": {
+            "type": "object",
+            "properties": {
+                "academic_year_name": {
+                    "type": "string"
                 },
                 "created_at": {
                     "type": "string"
                 },
-                "end_date": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.groupToBlockResponse": {
+            "type": "object",
+            "properties": {
+                "academic_year_name": {
+                    "type": "string"
+                },
+                "block_name": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "group_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.hospitalInfoRequest": {
+            "type": "object",
+            "properties": {
+                "hospital_name": {
+                    "type": "string"
+                },
+                "services": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.serviceInfoRequest"
+                    }
+                }
+            }
+        },
+        "api.hospitalResponse": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.periodInfoRequest": {
+            "type": "object",
+            "required": [
+                "period_name",
+                "start_date"
+            ],
+            "properties": {
+                "period_name": {
                     "type": "string"
                 },
                 "start_date": {
@@ -1829,10 +2013,13 @@ const docTemplate = `{
                 }
             }
         },
-        "api.resetRotationRequest": {
+        "api.serviceInfoRequest": {
             "type": "object",
             "properties": {
-                "academic_year_name": {
+                "duration_in_week": {
+                    "type": "integer"
+                },
+                "service_name": {
                     "type": "string"
                 }
             }
@@ -1857,33 +2044,16 @@ const docTemplate = `{
                 }
             }
         },
-        "api.serviceToAttendingResponse": {
+        "api.specialtyInfoRequest": {
             "type": "object",
             "properties": {
-                "attending_id": {
-                    "type": "integer"
+                "hospitals": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.hospitalInfoRequest"
+                    }
                 },
-                "created_at": {
-                    "type": "string"
-                },
-                "service_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "api.studentToGroupResponse": {
-            "type": "object",
-            "properties": {
-                "academic_year_name": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "group_name": {
-                    "type": "string"
-                },
-                "student_id": {
+                "specialty_name": {
                     "type": "string"
                 }
             }
@@ -1988,7 +2158,7 @@ const docTemplate = `{
                 "attendings": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/api.attendingResponse"
+                        "$ref": "#/definitions/github.com_VinCPR_backend_api.attendingResponse"
                     }
                 },
                 "end_date": {
