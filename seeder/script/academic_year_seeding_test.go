@@ -4,5 +4,5 @@ import "testing"
 
 func TestSeedAcademicYearData(t *testing.T) {
 	ClearDataDBMigration("file://../../db/migration", config.DBUrl)
-	SeedAdminData(config.BasePath, server)
+	SeedAcademicYearData(config.BasePath, server)
 }
