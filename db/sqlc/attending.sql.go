@@ -110,6 +110,46 @@ func (q *Queries) GetAttendingByUserId(ctx context.Context, userID int64) (Atten
 	return i, err
 }
 
+const listAttendingsByAttendingID = `-- name: ListAttendingsByAttendingID :many
+SELECT id, user_id, attending_id, first_name, last_name, mobile, created_at FROM "attending"
+ORDER BY attending_id
+LIMIT $1
+OFFSET $2
+`
+
+type ListAttendingsByAttendingIDParams struct {
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
+}
+
+func (q *Queries) ListAttendingsByAttendingID(ctx context.Context, arg ListAttendingsByAttendingIDParams) ([]Attending, error) {
+	rows, err := q.db.Query(ctx, listAttendingsByAttendingID, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Attending{}
+	for rows.Next() {
+		var i Attending
+		if err := rows.Scan(
+			&i.ID,
+			&i.UserID,
+			&i.AttendingID,
+			&i.FirstName,
+			&i.LastName,
+			&i.Mobile,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listAttendingsByName = `-- name: ListAttendingsByName :many
 SELECT id, user_id, attending_id, first_name, last_name, mobile, created_at FROM "attending"
 ORDER BY first_name, last_name

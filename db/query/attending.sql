@@ -26,3 +26,9 @@ SELECT * FROM "attending"
 ORDER BY first_name, last_name
 LIMIT $1
 OFFSET $2;
+
+-- name: ListAttendingsByAttendingID :many
+SELECT * FROM "attending"
+ORDER BY attending_id
+LIMIT $1
+OFFSET $2;
