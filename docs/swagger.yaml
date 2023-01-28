@@ -1,28 +1,4 @@
 definitions:
-  api.academicCalendarEventResponse:
-    properties:
-      created_at:
-        type: string
-      end_date:
-        type: string
-      name:
-        type: string
-      start_date:
-        type: string
-      type:
-        type: string
-    type: object
-  api.academicYearResponse:
-    properties:
-      created_at:
-        type: string
-      end_date:
-        type: string
-      name:
-        type: string
-      start_date:
-        type: string
-    type: object
   api.attendingResponse:
     properties:
       attending_id:
@@ -37,30 +13,6 @@ definitions:
         type: string
       mobile:
         type: string
-    type: object
-  api.blockInfoRequest:
-    properties:
-      block_name:
-        type: string
-      group_calendar:
-        items:
-          items:
-            $ref: '#/definitions/api.specialtyInfoRequest'
-          type: array
-        type: array
-    type: object
-  api.createAcademicYearRequest:
-    properties:
-      end_date:
-        type: string
-      name:
-        type: string
-      start_date:
-        type: string
-    required:
-    - end_date
-    - name
-    - start_date
     type: object
   api.createAttendingRequest:
     properties:
@@ -112,16 +64,6 @@ definitions:
     - attending_id
     - service_id
     type: object
-  api.createSpecialtyRequest:
-    properties:
-      description:
-        type: string
-      name:
-        type: string
-    required:
-    - description
-    - name
-    type: object
   api.createStudentRequest:
     properties:
       email:
@@ -159,65 +101,22 @@ definitions:
     - group_name
     - student_id
     type: object
-  api.designRotationRequest:
+  api.periodResponse:
     properties:
-      academic_year_name:
+      academic_year_id:
+        type: integer
+      created_at:
         type: string
-      blocks:
-        items:
-          $ref: '#/definitions/api.blockInfoRequest'
-        type: array
-      groups_per_block:
-        type: integer
-      number_of_period:
-        type: integer
-      periods:
-        items:
-          $ref: '#/definitions/api.periodInfoRequest'
-        type: array
-      weeks_per_period:
-        type: integer
-    required:
-    - academic_year_name
-    - blocks
-    - groups_per_block
-    - number_of_period
-    - periods
-    - weeks_per_period
-    type: object
-  api.getAcademicCalendarResponse:
-    properties:
-      academic_calendar_events:
-        items:
-          $ref: '#/definitions/api.academicCalendarEventResponse'
-        type: array
-      academic_year:
-        $ref: '#/definitions/api.academicYearResponse'
-    type: object
-  api.hospitalInfoRequest:
-    properties:
-      hospital_name:
+      end_date:
         type: string
-      services:
-        items:
-          $ref: '#/definitions/api.serviceInfoRequest'
-        type: array
-    type: object
-  api.periodInfoRequest:
-    properties:
-      period_name:
+      name:
         type: string
       start_date:
         type: string
-    required:
-    - period_name
-    - start_date
     type: object
-  api.serviceInfoRequest:
+  api.resetRotationRequest:
     properties:
-      duration_in_week:
-        type: integer
-      service_name:
+      academic_year_name:
         type: string
     type: object
   api.serviceResponse:
@@ -241,24 +140,6 @@ definitions:
         type: string
       service_id:
         type: integer
-    type: object
-  api.specialtyInfoRequest:
-    properties:
-      hospitals:
-        items:
-          $ref: '#/definitions/api.hospitalInfoRequest'
-        type: array
-      specialty_name:
-        type: string
-    type: object
-  api.specialtyResponse:
-    properties:
-      created_at:
-        type: string
-      description:
-        type: string
-      name:
-        type: string
     type: object
   api.studentToGroupResponse:
     properties:
@@ -864,7 +745,35 @@ paths:
       summary: provide detail of an attending given email address
       tags:
       - Attendings
-  /attending/list:
+  /attending/list/attending_id:
+    get:
+      consumes:
+      - application/json
+      description: list created attending order by attending id
+      parameters:
+      - description: page number
+        in: query
+        name: pageNumber
+        required: true
+        type: string
+      - description: page size
+        in: query
+        name: pageSize
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            items:
+              $ref: '#/definitions/github.com_VinCPR_backend_api.attendingResponse'
+            type: array
+      summary: list created attending order by attending id
+      tags:
+      - Attendings
+  /attending/list/name:
     get:
       consumes:
       - application/json

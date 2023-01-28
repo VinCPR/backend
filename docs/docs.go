@@ -193,7 +193,49 @@ const docTemplate = `{
                 }
             }
         },
-        "/attending/list": {
+        "/attending/list/attending_id": {
+            "get": {
+                "description": "list created attending order by attending id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attendings"
+                ],
+                "summary": "list created attending order by attending id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page number",
+                        "name": "pageNumber",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "page size",
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github.com_VinCPR_backend_api.attendingResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/attending/list/name": {
             "get": {
                 "description": "list created attending",
                 "consumes": [
@@ -1621,43 +1663,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "api.academicCalendarEventResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "end_date": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "start_date": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.academicYearResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "end_date": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "start_date": {
-                    "type": "string"
-                }
-            }
-        },
         "api.attendingResponse": {
             "type": "object",
             "properties": {
@@ -1677,42 +1682,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "mobile": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.blockInfoRequest": {
-            "type": "object",
-            "properties": {
-                "block_name": {
-                    "type": "string"
-                },
-                "group_calendar": {
-                    "type": "array",
-                    "items": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/definitions/api.specialtyInfoRequest"
-                        }
-                    }
-                }
-            }
-        },
-        "api.createAcademicYearRequest": {
-            "type": "object",
-            "required": [
-                "end_date",
-                "name",
-                "start_date"
-            ],
-            "properties": {
-                "end_date": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "start_date": {
                     "type": "string"
                 }
             }
@@ -1788,21 +1757,6 @@ const docTemplate = `{
                 }
             }
         },
-        "api.createSpecialtyRequest": {
-            "type": "object",
-            "required": [
-                "description",
-                "name"
-            ],
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
         "api.createStudentRequest": {
             "type": "object",
             "required": [
@@ -1855,79 +1809,19 @@ const docTemplate = `{
                 }
             }
         },
-        "api.designRotationRequest": {
+        "api.periodResponse": {
             "type": "object",
-            "required": [
-                "academic_year_name",
-                "blocks",
-                "groups_per_block",
-                "number_of_period",
-                "periods",
-                "weeks_per_period"
-            ],
             "properties": {
-                "academic_year_name": {
+                "academic_year_id": {
+                    "type": "integer"
+                },
+                "created_at": {
                     "type": "string"
                 },
-                "blocks": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/api.blockInfoRequest"
-                    }
-                },
-                "groups_per_block": {
-                    "type": "integer"
-                },
-                "number_of_period": {
-                    "type": "integer"
-                },
-                "periods": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/api.periodInfoRequest"
-                    }
-                },
-                "weeks_per_period": {
-                    "type": "integer"
-                }
-            }
-        },
-        "api.getAcademicCalendarResponse": {
-            "type": "object",
-            "properties": {
-                "academic_calendar_events": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/api.academicCalendarEventResponse"
-                    }
-                },
-                "academic_year": {
-                    "$ref": "#/definitions/api.academicYearResponse"
-                }
-            }
-        },
-        "api.hospitalInfoRequest": {
-            "type": "object",
-            "properties": {
-                "hospital_name": {
+                "end_date": {
                     "type": "string"
                 },
-                "services": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/api.serviceInfoRequest"
-                    }
-                }
-            }
-        },
-        "api.periodInfoRequest": {
-            "type": "object",
-            "required": [
-                "period_name",
-                "start_date"
-            ],
-            "properties": {
-                "period_name": {
+                "name": {
                     "type": "string"
                 },
                 "start_date": {
@@ -1935,13 +1829,10 @@ const docTemplate = `{
                 }
             }
         },
-        "api.serviceInfoRequest": {
+        "api.resetRotationRequest": {
             "type": "object",
             "properties": {
-                "duration_in_week": {
-                    "type": "integer"
-                },
-                "service_name": {
+                "academic_year_name": {
                     "type": "string"
                 }
             }
@@ -1977,34 +1868,6 @@ const docTemplate = `{
                 },
                 "service_id": {
                     "type": "integer"
-                }
-            }
-        },
-        "api.specialtyInfoRequest": {
-            "type": "object",
-            "properties": {
-                "hospitals": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/api.hospitalInfoRequest"
-                    }
-                },
-                "specialty_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.specialtyResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
                 }
             }
         },
