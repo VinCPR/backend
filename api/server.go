@@ -64,6 +64,7 @@ func NewServer(config util.Config, store *db.Store) (*Server, error) {
 		routerV1.GET("/rotation/student", server.studentCalendar)
 		routerV1.GET("/rotation/attending", server.attendingCalendar)
 		routerV1.GET("/rotation/detail", server.clinicalRotationEventDetail)
+		routerV1.GET("/rotation/list/day", server.listClinicalRotationEventByDay)
 	}
 	{
 		routerV1.POST("/group", server.createGroup)

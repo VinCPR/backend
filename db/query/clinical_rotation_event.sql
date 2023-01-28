@@ -19,6 +19,11 @@ SELECT * FROM "clinical_rotation_event"
 WHERE "academic_year_id" = $1
 ORDER BY "start_date";
 
+-- name: ListRotationEventsByAcademicYearIDAndDay :many
+SELECT * FROM "clinical_rotation_event"
+WHERE "academic_year_id" = $1 AND "start_date" <= @day::date and @day::date <= "end_date"
+ORDER BY "id";
+
 -- name: ListRotationEventsByAcademicYearIDAndGroupID :many
 SELECT * FROM "clinical_rotation_event"
 WHERE "academic_year_id" = $1 AND "group_id" = ANY((@group_ids)::bigint[])

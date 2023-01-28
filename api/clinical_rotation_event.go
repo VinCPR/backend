@@ -331,3 +331,82 @@ func (server *Server) clinicalRotationEventDetail(ctx *gin.Context) {
 		Attendings:    attendings,
 	})
 }
+
+// listClinicalRotationEventByDay
+// @Summary list clinical rotation event in that day
+// @Description list clinical rotation event in that day
+// @Tags ClinicalRotation
+// @Accept	json
+// @Produce  json
+// @Param academicYearName query string true "academic year name"
+// @Param day query string true "day in format YYYY-MM-DD"
+// @Success 200 {object} []clinicalRotationEventResponse "ok"
+// @Router /rotation/list/day [get]
+func (server *Server) listClinicalRotationEventByDay(ctx *gin.Context) {
+	academicYearName := ctx.Query("academicYearName")
+	academicYear, err := server.store.GetAcademicYearByName(ctx, academicYearName)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			log.Info().Msgf("cannot find academic year %v", academicYearName)
+			ctx.JSON(http.StatusBadRequest, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	dayStr := ctx.Query("day")
+	day, err := time.Parse("2006-01-02", dayStr)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	clinicalRotationEvents, err := server.store.ListRotationEventsByAcademicYearIDAndDay(ctx,
+		db.ListRotationEventsByAcademicYearIDAndDayParams{
+			AcademicYearID: academicYear.ID,
+			Day:            day,
+		})
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	var (
+		service       db.Service
+		specialty     db.Specialty
+		hospital      db.Hospital
+		group         db.Group
+		eventResponse []clinicalRotationEventResponse
+	)
+	for _, event := range clinicalRotationEvents {
+		service, err = server.store.GetServiceByID(ctx, event.ServiceID)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return
+		}
+		specialty, err = server.store.GetSpecialtyByID(ctx, service.SpecialtyID)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return
+		}
+		hospital, err = server.store.GetHospitalByID(ctx, service.HospitalID)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return
+		}
+		group, err = server.store.GetGroupByID(ctx, event.GroupID)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return
+		}
+		eventResponse = append(eventResponse, clinicalRotationEventResponse{
+			EventId:       event.ID,
+			GroupName:     group.Name,
+			SpecialtyName: specialty.Name,
+			HospitalName:  hospital.Name,
+			ServiceName:   service.Name,
+			StartDate:     event.StartDate,
+			EndDate:       event.EndDate,
+		})
+	}
+	ctx.JSON(http.StatusOK, eventResponse)
+}

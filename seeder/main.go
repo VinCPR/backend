@@ -39,6 +39,7 @@ func main() {
 		log.Fatal().Err(err).Msg("cannot create server")
 	}
 
+	script.SeedAdminData(config.BasePath, server)
 	script.SeedStudentData(config.BasePath, server)
 	script.SeedAttendingData(config.BasePath, server)
 	script.SeedHospitalData(config.BasePath, server)
