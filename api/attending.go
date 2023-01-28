@@ -140,7 +140,7 @@ func (server *Server) getAttendingInfoByEmail(ctx *gin.Context) {
 // @Param pageNumber query string true "page number"
 // @Param pageSize query string true "page size"
 // @Success 200 {object} []attendingResponse "ok"
-// @Router /attending/list [get]
+// @Router /attending/list/name [get]
 func (server *Server) listAttendingsByName(ctx *gin.Context) {
 	pageNumber := ctx.Query("pageNumber")
 	pageSize := ctx.Query("pageSize")
@@ -160,6 +160,62 @@ func (server *Server) listAttendingsByName(ctx *gin.Context) {
 	p := InitPagination(int32(pageNumberInt), int32(pageSizeInt))
 
 	attendings, err := server.store.ListAttendingsByName(ctx, db.ListAttendingsByNameParams{
+		Limit:  p.Limit(),
+		Offset: p.Offset(),
+	})
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	attendingsResponse := make([]attendingResponse, 0)
+	for _, attending := range attendings {
+		userInfo, err := server.store.GetUserByID(ctx, attending.UserID)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return
+		}
+		attendingsResponse = append(attendingsResponse, attendingResponse{
+			Email:       userInfo.Email,
+			AttendingID: attending.AttendingID,
+			FirstName:   attending.FirstName,
+			LastName:    attending.LastName,
+			Mobile:      attending.Mobile,
+			CreatedAt:   attending.CreatedAt,
+		})
+	}
+	ctx.JSON(http.StatusOK, attendingsResponse)
+}
+
+// listAttendingsByAttendingID
+// @Summary list created attending order by attending id
+// @Description list created attending order by attending id
+// @Tags Attendings
+// @Accept	json
+// @Produce  json
+// @Param pageNumber query string true "page number"
+// @Param pageSize query string true "page size"
+// @Success 200 {object} []attendingResponse "ok"
+// @Router /attending/list/attending_id [get]
+func (server *Server) listAttendingsByAttendingID(ctx *gin.Context) {
+	pageNumber := ctx.Query("pageNumber")
+	pageSize := ctx.Query("pageSize")
+
+	// init pagination
+	pageNumberInt, err := strconv.Atoi(pageNumber)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	pageSizeInt, err := strconv.Atoi(pageSize)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	p := InitPagination(int32(pageNumberInt), int32(pageSizeInt))
+
+	attendings, err := server.store.ListAttendingsByAttendingID(ctx, db.ListAttendingsByAttendingIDParams{
 		Limit:  p.Limit(),
 		Offset: p.Offset(),
 	})

@@ -95,12 +95,13 @@ func NewServer(config util.Config, store *db.Store) (*Server, error) {
 		routerV1.POST("/student", server.createStudent)
 		routerV1.GET("/student/info", server.getStudentInfoByEmail)
 		routerV1.GET("/student/list/name", server.listStudentsByName)
-		routerV1.GET("/student/list/studentID", server.listStudentsByStudentID)
+		routerV1.GET("/student/list/student_id", server.listStudentsByStudentID)
 	}
 	{
 		routerV1.POST("/attending", server.createAttending)
 		routerV1.GET("/attending/info", server.getAttendingInfoByEmail)
-		routerV1.GET("/attending/list", server.listAttendingsByName)
+		routerV1.GET("/attending/list/name", server.listAttendingsByName)
+		routerV1.GET("/attending/list/attending_id", server.listAttendingsByAttendingID)
 	}
 	{
 		routerV1.POST("/service_to_attending", server.createServiceToAttending)
