@@ -4,9 +4,11 @@ INSERT INTO "student" (
     student_id,
     first_name ,
     last_name ,
-    mobile
+    mobile ,
+    biography ,
+    image
 ) VALUES (
-    $1 , $2 , $3, $4 , $5
+    $1 , $2 , $3, $4 , $5, $6, $7
 ) RETURNING *;
 
 -- name: GetStudentByID :one

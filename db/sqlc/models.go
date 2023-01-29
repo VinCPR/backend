@@ -35,6 +35,8 @@ type Attending struct {
 	FirstName   string    `json:"first_name"`
 	LastName    string    `json:"last_name"`
 	Mobile      string    `json:"mobile"`
+	Biography   string    `json:"biography"`
+	Image       string    `json:"image"`
 	CreatedAt   time.Time `json:"created_at"`
 }
 
@@ -129,6 +131,8 @@ type Student struct {
 	FirstName string    `json:"first_name"`
 	LastName  string    `json:"last_name"`
 	Mobile    string    `json:"mobile"`
+	Biography string    `json:"biography"`
+	Image     string    `json:"image"`
 	CreatedAt time.Time `json:"created_at"`
 }
 

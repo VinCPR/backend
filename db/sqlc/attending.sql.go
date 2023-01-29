@@ -15,10 +15,12 @@ INSERT INTO "attending" (
     attending_id,
     first_name ,
     last_name,
-    mobile
+    mobile ,
+    biography ,
+    image
 ) VALUES (
-    $1 , $2 , $3, $4 , $5
-) RETURNING id, user_id, attending_id, first_name, last_name, mobile, created_at
+    $1 , $2 , $3, $4 , $5, $6, $7
+) RETURNING id, user_id, attending_id, first_name, last_name, mobile, biography, image, created_at
 `
 
 type CreateAttendingParams struct {
@@ -27,6 +29,8 @@ type CreateAttendingParams struct {
 	FirstName   string `json:"first_name"`
 	LastName    string `json:"last_name"`
 	Mobile      string `json:"mobile"`
+	Biography   string `json:"biography"`
+	Image       string `json:"image"`
 }
 
 func (q *Queries) CreateAttending(ctx context.Context, arg CreateAttendingParams) (Attending, error) {
@@ -36,6 +40,8 @@ func (q *Queries) CreateAttending(ctx context.Context, arg CreateAttendingParams
 		arg.FirstName,
 		arg.LastName,
 		arg.Mobile,
+		arg.Biography,
+		arg.Image,
 	)
 	var i Attending
 	err := row.Scan(
@@ -45,13 +51,15 @@ func (q *Queries) CreateAttending(ctx context.Context, arg CreateAttendingParams
 		&i.FirstName,
 		&i.LastName,
 		&i.Mobile,
+		&i.Biography,
+		&i.Image,
 		&i.CreatedAt,
 	)
 	return i, err
 }
 
 const getAttendingByAttendingId = `-- name: GetAttendingByAttendingId :one
-SELECT id, user_id, attending_id, first_name, last_name, mobile, created_at FROM "attending"
+SELECT id, user_id, attending_id, first_name, last_name, mobile, biography, image, created_at FROM "attending"
 WHERE attending_id = $1 LIMIT 1
 `
 
@@ -65,13 +73,15 @@ func (q *Queries) GetAttendingByAttendingId(ctx context.Context, attendingID str
 		&i.FirstName,
 		&i.LastName,
 		&i.Mobile,
+		&i.Biography,
+		&i.Image,
 		&i.CreatedAt,
 	)
 	return i, err
 }
 
 const getAttendingByID = `-- name: GetAttendingByID :one
-SELECT id, user_id, attending_id, first_name, last_name, mobile, created_at FROM "attending"
+SELECT id, user_id, attending_id, first_name, last_name, mobile, biography, image, created_at FROM "attending"
 WHERE "id" = $1 LIMIT 1
 `
 
@@ -85,13 +95,15 @@ func (q *Queries) GetAttendingByID(ctx context.Context, id int64) (Attending, er
 		&i.FirstName,
 		&i.LastName,
 		&i.Mobile,
+		&i.Biography,
+		&i.Image,
 		&i.CreatedAt,
 	)
 	return i, err
 }
 
 const getAttendingByUserId = `-- name: GetAttendingByUserId :one
-SELECT id, user_id, attending_id, first_name, last_name, mobile, created_at FROM "attending"
+SELECT id, user_id, attending_id, first_name, last_name, mobile, biography, image, created_at FROM "attending"
 WHERE user_id = $1 LIMIT 1
 `
 
@@ -105,13 +117,15 @@ func (q *Queries) GetAttendingByUserId(ctx context.Context, userID int64) (Atten
 		&i.FirstName,
 		&i.LastName,
 		&i.Mobile,
+		&i.Biography,
+		&i.Image,
 		&i.CreatedAt,
 	)
 	return i, err
 }
 
 const listAttendingsByAttendingID = `-- name: ListAttendingsByAttendingID :many
-SELECT id, user_id, attending_id, first_name, last_name, mobile, created_at FROM "attending"
+SELECT id, user_id, attending_id, first_name, last_name, mobile, biography, image, created_at FROM "attending"
 ORDER BY attending_id
 LIMIT $1
 OFFSET $2
@@ -138,6 +152,8 @@ func (q *Queries) ListAttendingsByAttendingID(ctx context.Context, arg ListAtten
 			&i.FirstName,
 			&i.LastName,
 			&i.Mobile,
+			&i.Biography,
+			&i.Image,
 			&i.CreatedAt,
 		); err != nil {
 			return nil, err
@@ -151,7 +167,7 @@ func (q *Queries) ListAttendingsByAttendingID(ctx context.Context, arg ListAtten
 }
 
 const listAttendingsByName = `-- name: ListAttendingsByName :many
-SELECT id, user_id, attending_id, first_name, last_name, mobile, created_at FROM "attending"
+SELECT id, user_id, attending_id, first_name, last_name, mobile, biography, image, created_at FROM "attending"
 ORDER BY first_name, last_name
 LIMIT $1
 OFFSET $2
@@ -178,6 +194,8 @@ func (q *Queries) ListAttendingsByName(ctx context.Context, arg ListAttendingsBy
 			&i.FirstName,
 			&i.LastName,
 			&i.Mobile,
+			&i.Biography,
+			&i.Image,
 			&i.CreatedAt,
 		); err != nil {
 			return nil, err

@@ -20,6 +20,8 @@ type createAttendingRequest struct {
 	FirstName   string `json:"firstname" binding:"required"`
 	LastName    string `json:"lastname" binding:"required"`
 	Mobile      string `json:"mobile" binding:"required"`
+	Biography   string `json:"biography" binding:"required"`
+	Image       string `json:"image" binding:"required"`
 	Email       string `json:"email" binding:"required,email"`
 	Password    string `json:"password" binding:"required,min=8,max=64"`
 }
@@ -30,6 +32,8 @@ type attendingResponse struct {
 	FirstName   string    `json:"first_name"`
 	LastName    string    `json:"last_name"`
 	Mobile      string    `json:"mobile"`
+	Biography   string    `json:"biography"`
+	Image       string    `json:"image"`
 	CreatedAt   time.Time `json:"created_at"`
 }
 
@@ -76,6 +80,8 @@ func (server *Server) createAttending(ctx *gin.Context) {
 		FirstName:   req.FirstName,
 		LastName:    req.LastName,
 		Mobile:      req.Mobile,
+		Biography:   req.Biography,
+		Image:       req.Image,
 	})
 	if err != nil {
 		var pgErr *pgconn.PgError
@@ -92,6 +98,8 @@ func (server *Server) createAttending(ctx *gin.Context) {
 		FirstName:   attending.FirstName,
 		LastName:    attending.LastName,
 		Mobile:      attending.Mobile,
+		Biography:   attending.Biography,
+		Image:       attending.Image,
 		CreatedAt:   attending.CreatedAt,
 	})
 }
@@ -116,18 +124,20 @@ func (server *Server) getAttendingInfoByEmail(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
-	student, err := server.store.GetAttendingByUserId(ctx, user.ID)
+	attending, err := server.store.GetAttendingByUserId(ctx, user.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
 	ctx.JSON(http.StatusOK, attendingResponse{
 		Email:       email,
-		AttendingID: student.AttendingID,
-		FirstName:   student.FirstName,
-		LastName:    student.LastName,
-		Mobile:      student.Mobile,
-		CreatedAt:   student.CreatedAt,
+		AttendingID: attending.AttendingID,
+		FirstName:   attending.FirstName,
+		LastName:    attending.LastName,
+		Mobile:      attending.Mobile,
+		Biography:   attending.Biography,
+		Image:       attending.Image,
+		CreatedAt:   attending.CreatedAt,
 	})
 }
 
@@ -181,6 +191,8 @@ func (server *Server) listAttendingsByName(ctx *gin.Context) {
 			FirstName:   attending.FirstName,
 			LastName:    attending.LastName,
 			Mobile:      attending.Mobile,
+			Biography:   attending.Biography,
+			Image:       attending.Image,
 			CreatedAt:   attending.CreatedAt,
 		})
 	}
@@ -237,6 +249,8 @@ func (server *Server) listAttendingsByAttendingID(ctx *gin.Context) {
 			FirstName:   attending.FirstName,
 			LastName:    attending.LastName,
 			Mobile:      attending.Mobile,
+			Biography:   attending.Biography,
+			Image:       attending.Image,
 			CreatedAt:   attending.CreatedAt,
 		})
 	}

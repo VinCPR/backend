@@ -1367,7 +1367,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.studentResponse"
+                            "$ref": "#/definitions/api.studentResponse"
                         }
                     }
                 }
@@ -1399,7 +1399,7 @@ const docTemplate = `{
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/github.com_VinCPR_backend_api.studentResponse"
+                            "$ref": "#/definitions/api.studentResponse"
                         }
                     }
                 }
@@ -1440,7 +1440,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.studentResponse"
+                                "$ref": "#/definitions/api.studentResponse"
                             }
                         }
                     }
@@ -1482,7 +1482,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github.com_VinCPR_backend_api.studentResponse"
+                                "$ref": "#/definitions/api.studentResponse"
                             }
                         }
                     }
@@ -1705,127 +1705,151 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "api.academicCalendarEventResponse": {
+        "api.attendingResponse": {
             "type": "object",
             "properties": {
+                "attending_id": {
+                    "type": "string"
+                },
+                "biography": {
+                    "type": "string"
+                },
                 "created_at": {
                     "type": "string"
                 },
-                "end_date": {
+                "email": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "mobile": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.blockResponse": {
+            "type": "object",
+            "properties": {
+                "academic_year_id": {
+                    "type": "integer"
+                },
+                "created_at": {
                     "type": "string"
                 },
                 "name": {
                     "type": "string"
                 },
-                "start_date": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
+                "period": {
+                    "type": "integer"
                 }
             }
         },
-        "api.academicYearResponse": {
+        "api.clinicalRotationEventDetailResponse": {
             "type": "object",
             "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "end_date": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "start_date": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.blockInfoRequest": {
-            "type": "object",
-            "properties": {
-                "block_name": {
-                    "type": "string"
-                },
-                "group_calendar": {
+                "attendings": {
                     "type": "array",
                     "items": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/definitions/api.specialtyInfoRequest"
-                        }
+                        "$ref": "#/definitions/api.attendingResponse"
                     }
-                }
-            }
-        },
-        "api.createAcademicYearRequest": {
-            "type": "object",
-            "required": [
-                "end_date",
-                "name",
-                "start_date"
-            ],
-            "properties": {
+                },
                 "end_date": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "start_date": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.createGroupRequest": {
-            "type": "object",
-            "required": [
-                "academic_year_name",
-                "name"
-            ],
-            "properties": {
-                "academic_year_name": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.createGroupToBlockRequest": {
-            "type": "object",
-            "properties": {
-                "academic_year_name": {
-                    "type": "string"
-                },
-                "block_name": {
                     "type": "string"
                 },
                 "group_name": {
                     "type": "string"
                 },
-                "period_name": {
+                "hospital_name": {
+                    "type": "string"
+                },
+                "service_name": {
+                    "type": "string"
+                },
+                "specialty_name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                },
+                "students": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.studentResponse"
+                    }
+                }
+            }
+        },
+        "api.clinicalRotationEventResponse": {
+            "type": "object",
+            "properties": {
+                "end_date": {
+                    "type": "string"
+                },
+                "event_id": {
+                    "type": "integer"
+                },
+                "group_name": {
+                    "type": "string"
+                },
+                "hospital_name": {
+                    "type": "string"
+                },
+                "service_name": {
+                    "type": "string"
+                },
+                "specialty_name": {
+                    "type": "string"
+                },
+                "start_date": {
                     "type": "string"
                 }
             }
         },
-        "api.createHospitalRequest": {
+        "api.createAttendingRequest": {
             "type": "object",
             "required": [
-                "address",
-                "description",
-                "name"
+                "attending_id",
+                "biography",
+                "email",
+                "firstname",
+                "image",
+                "lastname",
+                "mobile",
+                "password"
             ],
             "properties": {
-                "address": {
+                "attending_id": {
                     "type": "string"
                 },
-                "description": {
+                "biography": {
                     "type": "string"
                 },
-                "name": {
+                "email": {
                     "type": "string"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "mobile": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 8
                 }
             }
         },
@@ -1852,27 +1876,30 @@ const docTemplate = `{
                 }
             }
         },
-        "api.createStudentRequest": {
+        "api.createServiceToAttendingRequest": {
+            "type": "object",
+            "required": [
+                "attending_id",
+                "service_id"
+            ],
+            "properties": {
+                "attending_id": {
+                    "type": "integer"
+                },
+                "service_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.createUserRequest": {
             "type": "object",
             "required": [
                 "email",
-                "firstname",
-                "lastname",
-                "mobile",
                 "password",
-                "student_id"
+                "role_name"
             ],
             "properties": {
                 "email": {
-                    "type": "string"
-                },
-                "firstname": {
-                    "type": "string"
-                },
-                "lastname": {
-                    "type": "string"
-                },
-                "mobile": {
                     "type": "string"
                 },
                 "password": {
@@ -1880,132 +1907,64 @@ const docTemplate = `{
                     "maxLength": 64,
                     "minLength": 8
                 },
-                "student_id": {
+                "role_name": {
                     "type": "string"
                 }
             }
         },
-        "api.designRotationRequest": {
+        "api.loginUserRequest": {
             "type": "object",
             "required": [
-                "academic_year_name",
-                "blocks",
-                "groups_per_block",
-                "number_of_period",
-                "periods",
-                "weeks_per_period"
+                "email",
+                "password"
             ],
             "properties": {
-                "academic_year_name": {
+                "email": {
                     "type": "string"
                 },
-                "blocks": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/api.blockInfoRequest"
-                    }
-                },
-                "groups_per_block": {
-                    "type": "integer"
-                },
-                "number_of_period": {
-                    "type": "integer"
-                },
-                "periods": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/api.periodInfoRequest"
-                    }
-                },
-                "weeks_per_period": {
-                    "type": "integer"
+                "password": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 8
                 }
             }
         },
-        "api.getAcademicCalendarResponse": {
+        "api.loginUserResponse": {
             "type": "object",
             "properties": {
-                "academic_calendar_events": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/api.academicCalendarEventResponse"
-                    }
+                "access_token": {
+                    "type": "string"
                 },
-                "academic_year": {
-                    "$ref": "#/definitions/api.academicYearResponse"
+                "access_token_expires_at": {
+                    "type": "string"
+                },
+                "refresh_token": {
+                    "type": "string"
+                },
+                "refresh_token_expires_at": {
+                    "type": "string"
+                },
+                "session_id": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/api.userResponse"
                 }
             }
         },
-        "api.groupResponse": {
+        "api.periodResponse": {
             "type": "object",
             "properties": {
-                "academic_year_name": {
-                    "type": "string"
+                "academic_year_id": {
+                    "type": "integer"
                 },
                 "created_at": {
+                    "type": "string"
+                },
+                "end_date": {
                     "type": "string"
                 },
                 "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.groupToBlockResponse": {
-            "type": "object",
-            "properties": {
-                "academic_year_name": {
-                    "type": "string"
-                },
-                "block_name": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "group_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.hospitalInfoRequest": {
-            "type": "object",
-            "properties": {
-                "hospital_name": {
-                    "type": "string"
-                },
-                "services": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/api.serviceInfoRequest"
-                    }
-                }
-            }
-        },
-        "api.hospitalResponse": {
-            "type": "object",
-            "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.periodInfoRequest": {
-            "type": "object",
-            "required": [
-                "period_name",
-                "start_date"
-            ],
-            "properties": {
-                "period_name": {
                     "type": "string"
                 },
                 "start_date": {
@@ -2013,13 +1972,10 @@ const docTemplate = `{
                 }
             }
         },
-        "api.serviceInfoRequest": {
+        "api.resetRotationRequest": {
             "type": "object",
             "properties": {
-                "duration_in_week": {
-                    "type": "integer"
-                },
-                "service_name": {
+                "academic_year_name": {
                     "type": "string"
                 }
             }
@@ -2044,16 +2000,62 @@ const docTemplate = `{
                 }
             }
         },
-        "api.specialtyInfoRequest": {
+        "api.serviceToAttendingResponse": {
             "type": "object",
             "properties": {
-                "hospitals": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/api.hospitalInfoRequest"
-                    }
+                "attending_id": {
+                    "type": "integer"
                 },
-                "specialty_name": {
+                "created_at": {
+                    "type": "string"
+                },
+                "service_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.studentResponse": {
+            "type": "object",
+            "required": [
+                "email"
+            ],
+            "properties": {
+                "biography": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "mobile": {
+                    "type": "string"
+                },
+                "student_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.userResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "role_name": {
                     "type": "string"
                 }
             }
@@ -2101,6 +2103,9 @@ const docTemplate = `{
                 "attending_id": {
                     "type": "string"
                 },
+                "biography": {
+                    "type": "string"
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -2108,6 +2113,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "first_name": {
+                    "type": "string"
+                },
+                "image": {
                     "type": "string"
                 },
                 "last_name": {
@@ -2236,8 +2244,10 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "attending_id",
+                "biography",
                 "email",
                 "firstname",
+                "image",
                 "lastname",
                 "mobile",
                 "password"
@@ -2246,10 +2256,16 @@ const docTemplate = `{
                 "attending_id": {
                     "type": "string"
                 },
+                "biography": {
+                    "type": "string"
+                },
                 "email": {
                     "type": "string"
                 },
                 "firstname": {
+                    "type": "string"
+                },
+                "image": {
                     "type": "string"
                 },
                 "lastname": {
@@ -2372,18 +2388,26 @@ const docTemplate = `{
         "github.com_VinCPR_backend_api.createStudentRequest": {
             "type": "object",
             "required": [
+                "biography",
                 "email",
                 "firstname",
+                "image",
                 "lastname",
                 "mobile",
                 "password",
                 "student_id"
             ],
             "properties": {
+                "biography": {
+                    "type": "string"
+                },
                 "email": {
                     "type": "string"
                 },
                 "firstname": {
+                    "type": "string"
+                },
+                "image": {
                     "type": "string"
                 },
                 "lastname": {
@@ -2717,6 +2741,9 @@ const docTemplate = `{
                 "email"
             ],
             "properties": {
+                "biography": {
+                    "type": "string"
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -2724,6 +2751,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "first_name": {
+                    "type": "string"
+                },
+                "image": {
                     "type": "string"
                 },
                 "last_name": {

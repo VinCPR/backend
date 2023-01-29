@@ -20,6 +20,8 @@ type createStudentRequest struct {
 	FirstName string `json:"firstname" binding:"required"`
 	LastName  string `json:"lastname" binding:"required"`
 	Mobile    string `json:"mobile" binding:"required"`
+	Biography string `json:"biography" binding:"required"`
+	Image     string `json:"image" binding:"required"`
 	Email     string `json:"email" binding:"required,email"`
 	Password  string `json:"password" binding:"required,min=8,max=64"`
 }
@@ -30,6 +32,8 @@ type studentResponse struct {
 	FirstName string    `json:"first_name"`
 	LastName  string    `json:"last_name"`
 	Mobile    string    `json:"mobile"`
+	Biography string    `json:"biography"`
+	Image     string    `json:"image"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -76,6 +80,8 @@ func (server *Server) createStudent(ctx *gin.Context) {
 		FirstName: req.FirstName,
 		LastName:  req.LastName,
 		Mobile:    req.Mobile,
+		Biography: req.Biography,
+		Image:     req.Image,
 	})
 	if err != nil {
 		var pgErr *pgconn.PgError
@@ -92,6 +98,8 @@ func (server *Server) createStudent(ctx *gin.Context) {
 		FirstName: student.FirstName,
 		LastName:  student.LastName,
 		Mobile:    student.Mobile,
+		Biography: student.Biography,
+		Image:     student.Image,
 		CreatedAt: student.CreatedAt,
 	})
 }
@@ -127,6 +135,8 @@ func (server *Server) getStudentInfoByEmail(ctx *gin.Context) {
 		FirstName: student.FirstName,
 		LastName:  student.LastName,
 		Mobile:    student.Mobile,
+		Biography: student.Biography,
+		Image:     student.Image,
 		CreatedAt: student.CreatedAt,
 	})
 }
@@ -181,6 +191,8 @@ func (server *Server) listStudentsByName(ctx *gin.Context) {
 			FirstName: student.FirstName,
 			LastName:  student.LastName,
 			Mobile:    student.Mobile,
+			Biography: student.Biography,
+			Image:     student.Image,
 			CreatedAt: student.CreatedAt,
 		})
 	}
@@ -237,6 +249,8 @@ func (server *Server) listStudentsByStudentID(ctx *gin.Context) {
 			FirstName: student.FirstName,
 			LastName:  student.LastName,
 			Mobile:    student.Mobile,
+			Biography: student.Biography,
+			Image:     student.Image,
 			CreatedAt: student.CreatedAt,
 		})
 	}

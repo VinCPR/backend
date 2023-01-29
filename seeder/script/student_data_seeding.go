@@ -23,6 +23,8 @@ func SeedStudentData(basePath string, server *api.Server) {
 		Mobile    string `json:"mobile"`
 		Email     string `json:"email"`
 		Password  string `json:"password"`
+		Biography string `json:"biography"`
+		Image     string `json:"image"`
 	}
 	var students []studentData
 	if err := json.Unmarshal([]byte(studentSrc), &students); err != nil {
