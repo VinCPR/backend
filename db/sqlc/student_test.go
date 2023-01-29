@@ -18,6 +18,8 @@ func createRandomStudent(t *testing.T, user User) Student {
 		FirstName: util.RandomName(),
 		LastName:  util.RandomName(),
 		Mobile:    util.RandomMobile(),
+		Biography: util.RandomString(100),
+		Image:     util.RandomString(100),
 	}
 
 	student, err := testQueries.CreateStudent(context.Background(), arg)
@@ -29,6 +31,8 @@ func createRandomStudent(t *testing.T, user User) Student {
 	require.Equal(t, arg.FirstName, student.FirstName)
 	require.Equal(t, arg.LastName, student.LastName)
 	require.Equal(t, arg.Mobile, student.Mobile)
+	require.Equal(t, arg.Biography, student.Biography)
+	require.Equal(t, arg.Image, student.Image)
 
 	require.NotZero(t, student.ID)
 	require.NotZero(t, student.CreatedAt)
@@ -54,6 +58,8 @@ func TestGetStudentByStudentId(t *testing.T) {
 	require.Equal(t, student1.FirstName, student2.FirstName)
 	require.Equal(t, student1.LastName, student2.LastName)
 	require.Equal(t, student1.Mobile, student2.Mobile)
+	require.Equal(t, student1.Biography, student2.Biography)
+	require.Equal(t, student1.Image, student2.Image)
 	require.WithinDuration(t, student1.CreatedAt, student2.CreatedAt, time.Second)
 }
 
@@ -70,6 +76,8 @@ func TestGetStudentByUserId(t *testing.T) {
 	require.Equal(t, student1.FirstName, student2.FirstName)
 	require.Equal(t, student1.LastName, student2.LastName)
 	require.Equal(t, student1.Mobile, student2.Mobile)
+	require.Equal(t, student1.Biography, student2.Biography)
+	require.Equal(t, student1.Image, student2.Image)
 	require.WithinDuration(t, student1.CreatedAt, student2.CreatedAt, time.Second)
 }
 

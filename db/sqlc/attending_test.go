@@ -18,6 +18,8 @@ func createRandomAttending(t *testing.T, user User) Attending {
 		FirstName:   util.RandomName(),
 		LastName:    util.RandomName(),
 		Mobile:      util.RandomMobile(),
+		Biography:   util.RandomString(100),
+		Image:       util.RandomString(100),
 	}
 
 	attending, err := testQueries.CreateAttending(context.Background(), arg)
@@ -28,6 +30,8 @@ func createRandomAttending(t *testing.T, user User) Attending {
 	require.Equal(t, arg.FirstName, attending.FirstName)
 	require.Equal(t, arg.LastName, attending.LastName)
 	require.Equal(t, arg.Mobile, attending.Mobile)
+	require.Equal(t, arg.Biography, attending.Biography)
+	require.Equal(t, arg.Image, attending.Image)
 
 	require.NotZero(t, attending.ID)
 	require.NotZero(t, attending.CreatedAt)
@@ -52,6 +56,8 @@ func TestGetAttendingByUserId(t *testing.T) {
 	require.Equal(t, attending1.FirstName, attending2.FirstName)
 	require.Equal(t, attending1.LastName, attending2.LastName)
 	require.Equal(t, attending1.Mobile, attending2.Mobile)
+	require.Equal(t, attending1.Biography, attending2.Biography)
+	require.Equal(t, attending1.Image, attending2.Image)
 	require.WithinDuration(t, attending1.CreatedAt, attending2.CreatedAt, time.Second)
 }
 

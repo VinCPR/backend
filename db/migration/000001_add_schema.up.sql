@@ -13,6 +13,8 @@ CREATE TABLE "student" (
   "first_name" varchar(100) NOT NULL,
   "last_name" varchar(100) NOT NULL,
   "mobile" varchar(20) NOT NULL,
+  "biography" varchar NOT NULL,
+  "image" varchar NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
@@ -23,6 +25,8 @@ CREATE TABLE "attending" (
   "first_name" varchar(50) NOT NULL,
   "last_name" varchar(50) NOT NULL,
   "mobile" varchar(20) NOT NULL,
+  "biography" varchar NOT NULL,
+  "image" varchar NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 

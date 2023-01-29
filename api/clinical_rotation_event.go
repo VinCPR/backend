@@ -290,6 +290,8 @@ func (server *Server) clinicalRotationEventDetail(ctx *gin.Context) {
 			FirstName: student.FirstName,
 			LastName:  student.LastName,
 			Mobile:    student.Mobile,
+			Biography: student.Biography,
+			Image:     student.Image,
 			CreatedAt: student.CreatedAt,
 		})
 	}
@@ -317,6 +319,8 @@ func (server *Server) clinicalRotationEventDetail(ctx *gin.Context) {
 			FirstName:   attending.FirstName,
 			LastName:    attending.LastName,
 			Mobile:      attending.Mobile,
+			Biography:   attending.Biography,
+			Image:       attending.Image,
 			CreatedAt:   attending.CreatedAt,
 		})
 	}

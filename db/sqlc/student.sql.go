@@ -15,10 +15,12 @@ INSERT INTO "student" (
     student_id,
     first_name ,
     last_name ,
-    mobile
+    mobile ,
+    biography ,
+    image
 ) VALUES (
-    $1 , $2 , $3, $4 , $5
-) RETURNING id, user_id, student_id, first_name, last_name, mobile, created_at
+    $1 , $2 , $3, $4 , $5, $6, $7
+) RETURNING id, user_id, student_id, first_name, last_name, mobile, biography, image, created_at
 `
 
 type CreateStudentParams struct {
@@ -27,6 +29,8 @@ type CreateStudentParams struct {
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
 	Mobile    string `json:"mobile"`
+	Biography string `json:"biography"`
+	Image     string `json:"image"`
 }
 
 func (q *Queries) CreateStudent(ctx context.Context, arg CreateStudentParams) (Student, error) {
@@ -36,6 +40,8 @@ func (q *Queries) CreateStudent(ctx context.Context, arg CreateStudentParams) (S
 		arg.FirstName,
 		arg.LastName,
 		arg.Mobile,
+		arg.Biography,
+		arg.Image,
 	)
 	var i Student
 	err := row.Scan(
@@ -45,13 +51,15 @@ func (q *Queries) CreateStudent(ctx context.Context, arg CreateStudentParams) (S
 		&i.FirstName,
 		&i.LastName,
 		&i.Mobile,
+		&i.Biography,
+		&i.Image,
 		&i.CreatedAt,
 	)
 	return i, err
 }
 
 const getStudentByID = `-- name: GetStudentByID :one
-SELECT id, user_id, student_id, first_name, last_name, mobile, created_at FROM "student"
+SELECT id, user_id, student_id, first_name, last_name, mobile, biography, image, created_at FROM "student"
 WHERE id = $1 LIMIT 1
 `
 
@@ -65,13 +73,15 @@ func (q *Queries) GetStudentByID(ctx context.Context, id int64) (Student, error)
 		&i.FirstName,
 		&i.LastName,
 		&i.Mobile,
+		&i.Biography,
+		&i.Image,
 		&i.CreatedAt,
 	)
 	return i, err
 }
 
 const getStudentByStudentId = `-- name: GetStudentByStudentId :one
-SELECT id, user_id, student_id, first_name, last_name, mobile, created_at FROM "student"
+SELECT id, user_id, student_id, first_name, last_name, mobile, biography, image, created_at FROM "student"
 WHERE student_id = $1 LIMIT 1
 `
 
@@ -85,13 +95,15 @@ func (q *Queries) GetStudentByStudentId(ctx context.Context, studentID string) (
 		&i.FirstName,
 		&i.LastName,
 		&i.Mobile,
+		&i.Biography,
+		&i.Image,
 		&i.CreatedAt,
 	)
 	return i, err
 }
 
 const getStudentByUserId = `-- name: GetStudentByUserId :one
-SELECT id, user_id, student_id, first_name, last_name, mobile, created_at FROM "student"
+SELECT id, user_id, student_id, first_name, last_name, mobile, biography, image, created_at FROM "student"
 WHERE user_id = $1 LIMIT 1
 `
 
@@ -105,13 +117,15 @@ func (q *Queries) GetStudentByUserId(ctx context.Context, userID int64) (Student
 		&i.FirstName,
 		&i.LastName,
 		&i.Mobile,
+		&i.Biography,
+		&i.Image,
 		&i.CreatedAt,
 	)
 	return i, err
 }
 
 const listStudentsByName = `-- name: ListStudentsByName :many
-SELECT id, user_id, student_id, first_name, last_name, mobile, created_at FROM "student"
+SELECT id, user_id, student_id, first_name, last_name, mobile, biography, image, created_at FROM "student"
 ORDER BY first_name, last_name
 LIMIT $1
 OFFSET $2
@@ -138,6 +152,8 @@ func (q *Queries) ListStudentsByName(ctx context.Context, arg ListStudentsByName
 			&i.FirstName,
 			&i.LastName,
 			&i.Mobile,
+			&i.Biography,
+			&i.Image,
 			&i.CreatedAt,
 		); err != nil {
 			return nil, err
@@ -151,7 +167,7 @@ func (q *Queries) ListStudentsByName(ctx context.Context, arg ListStudentsByName
 }
 
 const listStudentsByStudentID = `-- name: ListStudentsByStudentID :many
-SELECT id, user_id, student_id, first_name, last_name, mobile, created_at FROM "student"
+SELECT id, user_id, student_id, first_name, last_name, mobile, biography, image, created_at FROM "student"
 ORDER BY student_id
 LIMIT $1
 OFFSET $2
@@ -178,6 +194,8 @@ func (q *Queries) ListStudentsByStudentID(ctx context.Context, arg ListStudentsB
 			&i.FirstName,
 			&i.LastName,
 			&i.Mobile,
+			&i.Biography,
+			&i.Image,
 			&i.CreatedAt,
 		); err != nil {
 			return nil, err
