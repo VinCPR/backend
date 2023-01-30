@@ -31,6 +31,7 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot connect to db")
 	}
+	defer conn.Close(context.Background())
 
 	store := db.NewStore(conn)
 

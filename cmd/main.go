@@ -38,6 +38,7 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot connect to db")
 	}
+	defer conn.Close(context.Background())
 
 	exitOnDisconnectDB(conn)
 
@@ -69,9 +70,10 @@ func runDBMigration(migrationURL string, dbUrl string) {
 
 func exitOnDisconnectDB(conn *pgx.Conn) {
 	c := cron.New()
-	c.AddFunc("@every 1m", func() {
+	c.AddFunc("@every 5s", func() {
 		if err := conn.Ping(context.Background()); err != nil {
-			log.Panic().Msg("connection to db failed, restarting api")
+			log.Fatal().Err(err).Msg("connection to db failed, restarting api")
+			os.Exit(1)
 		}
 	})
 	c.Start()
