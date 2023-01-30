@@ -71,7 +71,7 @@ func exitOnDisconnectDB(conn *pgx.Conn) {
 	c := cron.New()
 	c.AddFunc("@every 1m", func() {
 		if err := conn.Ping(context.Background()); err != nil {
-			log.Fatal().Msg("connection to db failed, restarting api")
+			log.Panic().Msg("connection to db failed, restarting api")
 		}
 	})
 	c.Start()
