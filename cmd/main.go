@@ -8,6 +8,7 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/jackc/pgx/v4"
+	"github.com/robfig/cron/v3"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
@@ -38,6 +39,8 @@ func main() {
 		log.Fatal().Err(err).Msg("cannot connect to db")
 	}
 
+	exitOnDisconnectDB(conn)
+
 	store := db.NewStore(conn)
 
 	server, err := api.NewServer(config, store)
@@ -62,4 +65,14 @@ func runDBMigration(migrationURL string, dbUrl string) {
 	}
 
 	log.Info().Msg("db migrated successfully")
+}
+
+func exitOnDisconnectDB(conn *pgx.Conn) {
+	c := cron.New()
+	c.AddFunc("@every 1m", func() {
+		if err := conn.Ping(context.Background()); err != nil {
+			log.Fatal().Msg("connection to db failed, restarting api")
+		}
+	})
+	c.Start()
 }
