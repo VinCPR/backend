@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/rs/zerolog/log"
 
 	"github.com/VinCPR/backend/api"
@@ -22,10 +22,11 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot load config")
 	}
-	conn, err := pgx.Connect(context.Background(), config.DBUrl)
+	conn, err := pgxpool.Connect(context.Background(), config.DBUrl)
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot connect to db")
 	}
+	defer conn.Close()
 
 	store := db.NewStore(conn)
 
