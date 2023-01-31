@@ -4,7 +4,7 @@ import (
 	"context"
 	"os"
 
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
@@ -27,11 +27,11 @@ func main() {
 	// clear data
 	script.ClearDataDBMigration(config.MigrationURL, config.DBUrl)
 
-	conn, err := pgx.Connect(context.Background(), config.DBUrl)
+	conn, err := pgxpool.Connect(context.Background(), config.DBUrl)
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot connect to db")
 	}
-	defer conn.Close(context.Background())
+	defer conn.Close()
 
 	store := db.NewStore(conn)
 

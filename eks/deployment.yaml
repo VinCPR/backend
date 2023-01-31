@@ -5,7 +5,7 @@ metadata:
   labels:
     app: vincpr-api
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: vincpr-api

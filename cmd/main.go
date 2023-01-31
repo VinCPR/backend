@@ -7,7 +7,7 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/robfig/cron/v3"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -34,11 +34,11 @@ func main() {
 
 	runDBMigration(config.MigrationURL, config.DBUrl)
 
-	conn, err := pgx.Connect(context.Background(), config.DBUrl)
+	conn, err := pgxpool.Connect(context.Background(), config.DBUrl)
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot connect to db")
 	}
-	defer conn.Close(context.Background())
+	defer conn.Close()
 
 	exitOnDisconnectDB(conn)
 
@@ -68,7 +68,7 @@ func runDBMigration(migrationURL string, dbUrl string) {
 	log.Info().Msg("db migrated successfully")
 }
 
-func exitOnDisconnectDB(conn *pgx.Conn) {
+func exitOnDisconnectDB(conn *pgxpool.Pool) {
 	c := cron.New()
 	c.AddFunc("@every 5s", func() {
 		if err := conn.Ping(context.Background()); err != nil {
