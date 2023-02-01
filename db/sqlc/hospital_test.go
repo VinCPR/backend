@@ -48,6 +48,19 @@ func TestGetHospitalByName(t *testing.T) {
 	require.WithinDuration(t, hospital1.CreatedAt, hospital2.CreatedAt, time.Second)
 }
 
+func TestGetHospitalByID(t *testing.T) {
+	hospital1 := createRandomHospital(t)
+	hospital2, err := testQueries.GetHospitalByID(context.Background(), hospital1.ID)
+	require.NoError(t, err)
+	require.NotEmpty(t, hospital2)
+
+	require.Equal(t, hospital1.ID, hospital2.ID)
+	require.Equal(t, hospital1.Name, hospital2.Name)
+	require.Equal(t, hospital1.Description, hospital2.Description)
+	require.Equal(t, hospital1.Address, hospital2.Address)
+	require.WithinDuration(t, hospital1.CreatedAt, hospital2.CreatedAt, time.Second)
+}
+
 func TestListHospitals(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		createRandomHospital(t)
