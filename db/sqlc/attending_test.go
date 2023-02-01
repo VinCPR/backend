@@ -81,7 +81,7 @@ func TestGetAttendingByID(t *testing.T) {
 func TestGetAttendingByAttendingId(t *testing.T) {
 	user := createRandomUser(t)
 	attending1 := createRandomAttending(t, user)
-	attending2, err := testQueries.GetAttendingByUserId(context.Background(), attending1.ID)
+	attending2, err := testQueries.GetAttendingByAttendingId(context.Background(), attending1.AttendingID)
 	require.NoError(t, err)
 	require.NotEmpty(t, attending2)
 
