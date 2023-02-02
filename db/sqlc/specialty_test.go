@@ -33,6 +33,18 @@ func TestCreateSpecialty(t *testing.T) {
 
 }
 
+func TestGetSpecialtyByID(t *testing.T) {
+	specialty1 := createRandomSpecialty(t)
+	specialty2, err := testQueries.GetSpecialtyByID(context.Background(), specialty1.ID)
+	require.NoError(t, err)
+	require.NotEmpty(t, specialty2)
+
+	require.Equal(t, specialty1.ID, specialty2.ID)
+	require.Equal(t, specialty1.Name, specialty2.Name)
+	require.Equal(t, specialty1.Description, specialty2.Description)
+	require.WithinDuration(t, specialty1.CreatedAt, specialty2.CreatedAt, time.Second)
+}
+
 func TestGetSpecialtyByName(t *testing.T) {
 	specialty1 := createRandomSpecialty(t)
 	specialty2, err := testQueries.GetSpecialtyByName(context.Background(), specialty1.Name)

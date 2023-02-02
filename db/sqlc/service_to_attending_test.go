@@ -40,6 +40,17 @@ func TestCreateServiceToAttending(t *testing.T) {
 
 }
 
+func TestGetServiceToAttendingByServiceID(t *testing.T) {
+	hospital := createRandomHospital(t)
+	specialty := createRandomSpecialty(t)
+	service := createRandomService(t, hospital, specialty)
+	serviceToAttendings, err := testQueries.GetServiceToAttendingByServiceID(context.Background(), service.ID)
+	require.NoError(t, err)
+	for _, serviceToAttending := range serviceToAttendings {
+		require.Equal(t, service.ID, serviceToAttending.ServiceID)
+	}
+}
+
 // Test for ListServicesToAttendingsByServiceID
 func TestListServicesToAttendingsByServiceID(t *testing.T) {
 	for i := 0; i < 10; i++ {

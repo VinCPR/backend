@@ -56,6 +56,55 @@ func TestGetService(t *testing.T) {
 	require.WithinDuration(t, service1.CreatedAt, service2.CreatedAt, time.Second)
 }
 
+func TestGetServiceByID(t *testing.T) {
+	hospital := createRandomHospital(t)
+	specialty := createRandomSpecialty(t)
+	service1 := createRandomService(t, hospital, specialty)
+	service2, err := testQueries.GetServiceByID(context.Background(), service1.ID)
+	require.NoError(t, err)
+	require.NotEmpty(t, service2)
+	require.Equal(t, service1.SpecialtyID, service2.SpecialtyID)
+	require.Equal(t, service1.HospitalID, service2.HospitalID)
+	require.Equal(t, service1.Name, service2.Name)
+	require.Equal(t, service1.Description, service2.Description)
+	require.WithinDuration(t, service1.CreatedAt, service2.CreatedAt, time.Second)
+}
+
+func TestGetServiceByIndex(t *testing.T) {
+	hospital := createRandomHospital(t)
+	specialty := createRandomSpecialty(t)
+	service1 := createRandomService(t, hospital, specialty)
+	arg := GetServiceByIndexParams{
+		SpecialtyID: specialty.ID,
+		HospitalID:  hospital.ID,
+		Name:        service1.Name,
+	}
+	service2, err := testQueries.GetServiceByIndex(context.Background(), arg)
+	require.NoError(t, err)
+	require.NotEmpty(t, service2)
+	require.Equal(t, service1.SpecialtyID, service2.SpecialtyID)
+	require.Equal(t, service1.HospitalID, service2.HospitalID)
+	require.Equal(t, service1.Name, service2.Name)
+	require.Equal(t, service1.Description, service2.Description)
+	require.WithinDuration(t, service1.CreatedAt, service2.CreatedAt, time.Second)
+
+}
+
+func TestGetServiceByHospitalAndSpecialty(t *testing.T) {
+	hospital := createRandomHospital(t)
+	specialty := createRandomSpecialty(t)
+	arg := GetServiceByHospitalAndSpecialtyParams{
+		SpecialtyID: specialty.ID,
+		HospitalID:  hospital.ID,
+	}
+	service2, err := testQueries.GetServiceByHospitalAndSpecialty(context.Background(), arg)
+	require.NoError(t, err)
+	for _, service := range service2 {
+		require.Equal(t, arg.SpecialtyID, service.SpecialtyID)
+		require.Equal(t, arg.HospitalID, service.HospitalID)
+	}
+}
+
 // TODO refactor test for list queries
 
 func TestListServicesBySpecialID(t *testing.T) {
@@ -184,4 +233,24 @@ func TestListServicesBySpecialtyIDAndHospitalID(t *testing.T) {
 		require.Equal(t, service.HospitalID, listServicesbySpecialtyIDAndHospitalID[i].HospitalID)
 		i++
 	}
+}
+
+func TestListAllServicesBySpecialtyIDAndHospitalID(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		hospital := createRandomHospital(t)
+		specialty := createRandomSpecialty(t)
+		createRandomService(t, hospital, specialty)
+	}
+
+	listAllServicesbySpecialtyIDAndHospitalID, err := testQueries.ListAllServicesBySpecialtyIDAndHospitalID(context.Background())
+	require.NoError(t, err)
+
+	sort.Slice(listAllServicesbySpecialtyIDAndHospitalID, func(i, j int) bool {
+		return listAllServicesbySpecialtyIDAndHospitalID[i].SpecialtyID < listAllServicesbySpecialtyIDAndHospitalID[j].SpecialtyID ||
+			(listAllServicesbySpecialtyIDAndHospitalID[i].SpecialtyID == listAllServicesbySpecialtyIDAndHospitalID[j].SpecialtyID && listAllServicesbySpecialtyIDAndHospitalID[i].HospitalID < listAllServicesbySpecialtyIDAndHospitalID[j].HospitalID)
+	})
+	services, err := testQueries.ListAllServicesBySpecialtyIDAndHospitalID(context.Background())
+
+	require.NoError(t, err)
+	require.EqualValues(t, services, listAllServicesbySpecialtyIDAndHospitalID)
 }

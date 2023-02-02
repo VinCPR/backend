@@ -37,6 +37,24 @@ func TestCreatePeriod(t *testing.T) {
 	createRandomPeriod(t, academicYear.ID)
 }
 
+func TestGetPeriodByIndex(t *testing.T) {
+	academicYear := createRandomAcademicYear(t)
+	period1 := createRandomPeriod(t, academicYear.ID)
+	arg := GetPeriodByIndexParams{
+		AcademicYearID: academicYear.ID,
+		Name:           period1.Name,
+	}
+	period2, err := testQueries.GetPeriodByIndex(context.Background(), arg)
+	require.NoError(t, err)
+	require.NotEmpty(t, period2)
+
+	require.Equal(t, period1.ID, period2.ID)
+	require.Equal(t, period1.AcademicYearID, period2.AcademicYearID)
+	require.Equal(t, period1.Name, period2.Name)
+	require.Equal(t, period1.StartDate, period2.StartDate)
+	require.Equal(t, period1.EndDate, period2.EndDate)
+}
+
 func TestGetPeriodByID(t *testing.T) {
 	academicYear := createRandomAcademicYear(t)
 	period1 := createRandomPeriod(t, academicYear.ID)
@@ -75,4 +93,17 @@ func TestListPeriodsByStartDate(t *testing.T) {
 		require.Equal(t, periods[i].EndDate, createdPeriods[i].EndDate)
 		require.Equal(t, periods[i].StartDate, createdPeriods[i].StartDate)
 	}
+}
+
+func TestDeletePeriodsByAcademicYear(t *testing.T) {
+	var (
+		academicYear   = createRandomAcademicYear(t)
+		createdPeriods = make([]Period, 0)
+		n              = 5
+	)
+	for i := 0; i < n; i++ {
+		createdPeriods = append(createdPeriods, createRandomPeriod(t, academicYear.ID))
+	}
+	periods := testQueries.DeletePeriodsByAcademicYear(context.Background(), academicYear.ID)
+	require.Empty(t, periods)
 }
